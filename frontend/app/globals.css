@@ -5,11 +5,26 @@
   --foreground: #171717;
 }
 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sage-50: #f3f7f1;
+  --color-sage-300: #aecba0;
+  --color-sage-600: #6b8e5a;
+  --color-sage-700: #56704a;
+  --color-ink: #1f2a24;
+  --color-ivory: #f7f5ef;
 }
 
 @media (prefers-color-scheme: dark) {
