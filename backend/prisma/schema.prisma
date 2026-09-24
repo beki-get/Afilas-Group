@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model Doctor {
+  id         String   @id @default(uuid())
+  name       String
+  department String
+  isActive   Boolean  @default(true)
+  bookings   HospitalBooking[]
+  createdAt  DateTime @default(now())
+}
+
+model HospitalBooking {
+  id              String        @id @default(uuid())
+  fullName        String
+  phone           String
+  email           String
+  department      String
+  doctorId        String
+  doctor          Doctor        @relation(fields: [doctorId], references: [id])
+  preferredDate   DateTime      @db.Date
+  preferredTime   String
+  notes           String?
+  status          BookingStatus @default(PENDING)
+  idempotencyKey  String        @unique
+  createdAt       DateTime      @default(now())
+}
+
+model DiagnosisBooking {
+  id              String        @id @default(uuid())
+  fullName        String
+  phone           String
+  email           String
+  testType        String
+  preferredDate   DateTime      @db.Date
+  preferredTime   String
+  notes           String?
+  status          BookingStatus @default(PENDING)
+  idempotencyKey  String        @unique
+  createdAt       DateTime      @default(now())
+}
+
+model PharmaInquiry {
+  id                String        @id @default(uuid())
+  companyName       String
+  contactPerson     String
+  businessEmail     String
+  phone             String
+  interestArea      String
+  estimatedQuantity String?
+  message           String
+  status            InquiryStatus @default(NEW)
+  idempotencyKey    String        @unique
+  createdAt         DateTime      @default(now())
+}
