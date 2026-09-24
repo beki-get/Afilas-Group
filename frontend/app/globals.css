@@ -1,28 +1,87 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f9fc;
+  --foreground: #071f46;
+
+  --surface: #ffffff;
+  --surface-soft: #f3f7f1;
+  --border: #e2e8f0;
+
+  --primary: #071f46;
+  --accent: #18a999;
+  --accent-light: #35d0bd;
+
+  --muted: #64748b;
+}
+
+.dark {
+  --background: #071f46;
+  --foreground: #ffffff;
+
+  --surface: #0b2a55;
+  --surface-soft: #092348;
+  --border: rgba(255, 255, 255, 0.1);
+
+  --primary: #ffffff;
+  --accent: #18a999;
+  --accent-light: #35d0bd;
+
+  --muted: rgba(255, 255, 255, 0.6);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-sage-50: #f3f7f1;
+  --color-sage-300: #aecba0;
+  --color-sage-600: #6b8e5a;
+  --color-sage-700: #56704a;
+
+  --color-ink: #1f2a24;
+  --color-ivory: #f7f5ef;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ================================
+   Global Body
+================================ */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================================
+   Animations
+================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes float {
@@ -33,5 +92,22 @@ body {
 
   50% {
     transform: translateY(-25px) translateX(15px);
+  }
+}
+.trust-marquee {
+  animation: trustMarquee 20s linear infinite;
+}
+
+.trust-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes trustMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
   }
 }

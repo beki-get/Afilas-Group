@@ -1,0 +1,1407 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "hospital": "Afilas General Hospital",
+    "diagnosis": "Afilas Diagnosis Center",
+    "manufacturing": "Afilas Drug Manufacturing",
+    "services": "Services",
+    "careers": "Careers",
+    "about": "About Us",
+    "contact": "Contact",
+    "search": "Search",
+    "login": "Login",
+    "appointment": "Book Appointment"
+  },
+"About": {
+  "hero": {
+    "badge": "About Afilas Group",
+    "titleLine1": "One Group.",
+    "titleLine2": "Three Healthcare",
+    "titleLine3": "Directions.",
+    "description": "Afilas Group brings together healthcare services, diagnostic capabilities, and pharmaceutical manufacturing under one connected vision for the future of healthcare.",
+    "storyButton": "Discover Our Story",
+    "contactButton": "Connect With Us",
+    "imageAlt": "Afilas Group healthcare environment",
+    "stats": {
+      "pillars": "Healthcare Pillars",
+      "vision": "Connected Vision",
+      "future": "Future Possibilities"
+    },
+    "card": {
+      "connected": "Connected Healthcare",
+      "titleLine1": "Connecting",
+      "titleLine2": "Healthcare",
+      "titleLine3": "With Purpose.",
+      "footer": "Healthcare • Diagnostics • Manufacturing"
+    }
+  },
+
+  "story": {
+    "badge": "Who We Are",
+    "titleBefore": "Building a more",
+    "titleHighlight": "connected healthcare",
+    "titleAfter": " experience.",
+    "paragraph1": "Afilas Group is envisioned as an integrated healthcare organization bringing together different areas of the healthcare ecosystem within one broader group.",
+    "paragraph2": "Our three core directions — hospital services, diagnostic services, and pharmaceutical manufacturing — represent different but connected parts of healthcare. Together, they create a foundation for collaboration, innovation, and long-term development.",
+    "imageAlt": "Afilas Group healthcare vision",
+    "imageCard": {
+      "title": "Healthcare With Purpose",
+      "subtitle": "People • Innovation • Responsibility"
+    },
+    "direction": {
+      "label": "OUR DIRECTION",
+      "value": "Future Focused"
+    },
+    "features": {
+      "integrated": "Integrated healthcare vision",
+      "innovation": "Innovation-oriented thinking",
+      "quality": "Quality-conscious approach",
+      "longTerm": "Long-term healthcare development"
+    }
+  },
+
+  "ecosystem": {
+    "badge": "Our Healthcare Ecosystem",
+    "titleLine1": "Three Pillars.",
+    "titleLine2": "One Connected Vision.",
+    "description": "Each Afilas Group pillar has its own role while contributing to a broader healthcare ecosystem."
+  },
+
+  "pillars": {
+    "hospital": {
+      "label": "Pillar One",
+      "title": "Afilas General Hospital",
+      "description": "A healthcare service direction focused on patient-centered care, clinical services, and a supportive healthcare experience.",
+      "button": "Explore Hospital"
+    },
+    "diagnosis": {
+      "label": "Pillar Two",
+      "title": "Afilas Diagnosis Center",
+      "description": "A diagnostic direction focused on supporting healthcare decisions through structured laboratory and diagnostic services.",
+      "button": "Explore Diagnostics"
+    },
+    "manufacturing": {
+      "label": "Pillar Three",
+      "title": "Afilas Drug Manufacturing",
+      "description": "A pharmaceutical development and manufacturing direction focused on responsible innovation and future healthcare solutions.",
+      "button": "Explore Manufacturing"
+    }
+  },
+
+  "mission": {
+    "label": "Our Mission",
+    "title": "Supporting better healthcare through connected thinking.",
+    "description": "Our mission is to develop healthcare capabilities that connect services, diagnostics, innovation, and manufacturing around a responsible and patient-focused approach."
+  },
+
+  "vision": {
+    "label": "Our Vision",
+    "title": "Building an integrated future for healthcare.",
+    "description": "Our vision is to contribute to a healthcare ecosystem where care, diagnosis, pharmaceutical development, technology, and innovation can grow together."
+  },
+
+  "valuesSection": {
+    "badge": "What Guides Us",
+    "titleBefore": "Principles behind",
+    "titleHighlight": "our direction.",
+    "description": "Our approach is shaped by principles that encourage responsibility, collaboration, continuous learning, and thoughtful healthcare development."
+  },
+
+  "values": {
+    "quality": {
+      "title": "Quality",
+      "text": "Maintaining a strong awareness of quality across our activities."
+    },
+    "responsibility": {
+      "title": "Responsibility",
+      "text": "Keeping people, healthcare needs, and responsible development at the center."
+    },
+    "innovation": {
+      "title": "Innovation",
+      "text": "Exploring new ideas, technologies, and better ways of working."
+    },
+    "collaboration": {
+      "title": "Collaboration",
+      "text": "Encouraging teamwork across people, disciplines, and healthcare areas."
+    }
+  },
+
+  "connected": {
+    "badge": "One Group, Multiple Capabilities",
+    "titleBefore": "Healthcare becomes",
+    "titleHighlight": "stronger when capabilities connect.",
+    "description": "Afilas Group brings different healthcare directions together with the goal of creating opportunities for collaboration, knowledge sharing, and long-term development.",
+    "circleDescription": "Connecting healthcare services, diagnostics, and pharmaceutical innovation.",
+    "cards": {
+      "healthcare": "Healthcare",
+      "diagnostics": "Diagnostics",
+      "manufacturing": "Manufacturing"
+    }
+  },
+
+  "capabilities": {
+    "care": {
+      "title": "Care",
+      "text": "Healthcare services focused on people and their needs."
+    },
+    "diagnosis": {
+      "title": "Diagnosis",
+      "text": "Diagnostic capabilities supporting informed healthcare decisions."
+    },
+    "innovation": {
+      "title": "Innovation",
+      "text": "Development and manufacturing thinking supporting future solutions."
+    }
+  },
+
+  "future": {
+    "badge": "Looking Ahead",
+    "titleBefore": "The future of Afilas is still",
+    "titleHighlight": "being built.",
+    "description": "As the group develops, new capabilities, technologies, partnerships, and healthcare initiatives can become part of the wider Afilas vision.",
+    "contactButton": "Connect With Afilas",
+    "exploreButton": "Explore Afilas Group",
+    "items": {
+      "innovation": "Innovation",
+      "growth": "Growth",
+      "collaboration": "Collaboration",
+      "healthcare": "Healthcare"
+    }
+  },
+
+  "cta": {
+    "badge": "Let's Build Better Healthcare",
+    "titleBefore": "Discover the Afilas",
+    "titleHighlight": "Group ecosystem.",
+    "description": "Explore our healthcare pillars, learn more about our direction, or connect with the Afilas Group team.",
+    "healthcareButton": "Explore Healthcare",
+    "contactButton": "Contact Us"
+  }
+},
+"Contact": {
+  "hero": {
+    "badge": "Let's Connect",
+    "titleBefore": "Let's Connect &",
+    "titleHighlight": "Move Healthcare Forward",
+    "description": "Whether you have a healthcare question, appointment request, diagnostic inquiry, partnership idea, or manufacturing opportunity, we are ready to hear from you.",
+    "imageAlt": "Afilas Group healthcare environment",
+    "sendButton": "Send an Inquiry",
+    "appointmentButton": "Book Appointment",
+    "trust": {
+      "patient": {
+        "title": "Patient Focus",
+        "description": "People-centered communication"
+      },
+      "professional": {
+        "title": "Professional",
+        "description": "Clear and purposeful support"
+      },
+      "connected": {
+        "title": "Connected",
+        "description": "Three healthcare directions"
+      }
+    },
+    "card": {
+      "title": "One Contact Point",
+      "description": "Choose the area that best matches your needs and send us your inquiry.",
+      "divisionLabel": "Healthcare division",
+      "divisions": {
+        "hospital": "Hospital",
+        "diagnosis": "Diagnosis Center",
+        "manufacturing": "Drug Manufacturing"
+      },
+      "question": {
+        "title": "Have a specific question?",
+        "description": "Use the inquiry form below and provide as much relevant information as possible."
+      }
+    }
+  },
+
+  "areasSection": {
+    "badge": "Connect With the Right Team",
+    "titleBefore": "One Group.",
+    "titleHighlight": "Three Ways to Connect.",
+    "description": "Choose the Afilas Group division that best matches your question, request, or opportunity."
+  },
+
+  "areas": {
+    "hospital": {
+      "title": "General Hospital",
+      "description": "Questions about healthcare services, departments, doctors, and appointments.",
+      "label": "Visit Hospital"
+    },
+    "diagnosis": {
+      "title": "Diagnosis Center",
+      "description": "Questions about diagnostic services, laboratory testing, and related information.",
+      "label": "Explore Diagnostics"
+    },
+    "manufacturing": {
+      "title": "Drug Manufacturing",
+      "description": "Connect with the pharmaceutical development and manufacturing division.",
+      "label": "Explore Manufacturing"
+    }
+  },
+
+  "formSection": {
+    "badge": "Send an Inquiry",
+    "titleBefore": "Tell Us How",
+    "titleHighlight": "We Can Help",
+    "description": "Whether you need information about our healthcare services, diagnostics, manufacturing, or partnerships, our team is ready to connect with you.",
+    "info": {
+      "clear": {
+        "title": "Clear Communication",
+        "description": "Tell us what you need so your inquiry can be understood clearly and directed to the right team."
+      },
+      "people": {
+        "title": "People-Centered",
+        "description": "Our communication approach is designed around people, healthcare needs, and meaningful support."
+      },
+      "connected": {
+        "title": "One Connected Group",
+        "description": "Hospital, diagnostics, and pharmaceutical manufacturing connected under one group."
+      }
+    },
+    "responseMessage": "Your message will be directed to the appropriate team."
+  },
+
+  "form": {
+    "title": "Contact Form",
+    "heading": "Start a Conversation",
+    "description": "Complete the form below and we will make sure your inquiry reaches the right team.",
+
+    "fields": {
+      "name": {
+        "label": "Full Name",
+        "placeholder": "Your full name"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "you@example.com"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "+251 ..."
+      },
+      "inquiry": {
+        "label": "Inquiry Type",
+        "options": {
+          "general": "General Inquiry",
+          "hospital": "General Hospital",
+          "diagnosis": "Diagnosis Center",
+          "manufacturing": "Drug Manufacturing",
+          "partnership": "Partnership",
+          "career": "Career"
+        },
+        "display": {
+          "general_inquiry": "General Inquiry",
+          "general_hospital": "General Hospital",
+          "diagnosis_center": "Diagnosis Center",
+          "drug_manufacturing": "Drug Manufacturing",
+          "partnership": "Partnership",
+          "career": "Career"
+        }
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "What would you like to discuss?"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us more about your request..."
+      }
+    },
+
+    "selectedInquiry": {
+      "before": "Your inquiry is currently categorized as",
+      "after": "."
+    },
+
+    "submit": "Send Your Inquiry",
+    "reviewNote": "Your inquiry will be reviewed by the appropriate Afilas team."
+  },
+
+  "why": {
+    "badge": "Why Connect With Afilas",
+    "title": "More Than a Contact Form",
+    "description": "Every inquiry is an opportunity to understand a need, connect the right direction, and support meaningful healthcare conversations.",
+    "cards": {
+      "conversation": {
+        "title": "Start a Conversation",
+        "text": "Have a question or idea? Tell us what you are looking for."
+      },
+      "direction": {
+        "title": "Find the Right Direction",
+        "text": "Connect your inquiry with the healthcare division that fits your needs."
+      },
+      "connections": {
+        "title": "Build Meaningful Connections",
+        "text": "Explore opportunities for healthcare, diagnostics, and collaboration."
+      }
+    }
+  },
+
+  "information": {
+    "badge": "Contact Information",
+    "titleBefore": "We're Here to",
+    "titleHighlight": "Hear From You",
+    "description": "Official contact details can be connected here as the organization's confirmed communication channels are finalized.",
+
+    "email": {
+      "label": "Email",
+      "value": "Official email to be added"
+    },
+
+    "phone": {
+      "label": "Phone",
+      "value": "Official phone number to be added"
+    },
+
+    "location": {
+      "label": "Location",
+      "value": "Official address to be added"
+    },
+
+    "map": {
+      "hospital": "Hospital",
+      "diagnostics": "Diagnostics",
+      "manufacturing": "Manufacturing",
+      "subtitle": "Healthcare • Diagnostics • Manufacturing"
+    }
+  },
+
+  "faq": {
+    "badge": "Frequently Asked Questions",
+    "title": "Before You Contact Us",
+    "description": "A few quick answers to common questions about connecting with the different Afilas Group divisions.",
+
+    "items": {
+      "contact": {
+        "question": "How can I contact Afilas Group?",
+        "answer": "Use the inquiry form on this page to send your message. You can also select the healthcare division that best matches your request so your inquiry can be directed appropriately."
+      },
+      "appointment": {
+        "question": "Can I request a hospital appointment?",
+        "answer": "Yes. For hospital-related requests, you can use the appointment pathway to provide the information needed for an appointment request."
+      },
+      "diagnosis": {
+        "question": "Can I ask about diagnostic services?",
+        "answer": "Yes. Select Diagnosis Center in the inquiry form and describe the service or information you are looking for."
+      },
+      "manufacturing": {
+        "question": "Can I contact the pharmaceutical manufacturing division?",
+        "answer": "Yes. Select Drug Manufacturing as your inquiry type and provide details about your request, partnership interest, or information need."
+      }
+    }
+  },
+
+  "cta": {
+    "badge": "Let's Build Better Connections",
+    "titleBefore": "Your Question Could Be",
+    "titleHighlight": "the Start of Something Meaningful",
+    "description": "Connect with Afilas Group and explore healthcare, diagnostics, pharmaceutical innovation, and opportunities for collaboration.",
+    "contactButton": "Contact Afilas Group",
+    "aboutButton": "Learn About Afilas",
+    "features": {
+      "healthcare": "Healthcare Focus",
+      "connected": "Connected Services",
+      "future": "Future Focused"
+    }
+  }
+},
+"Hospital": {
+  "hero": {
+    "badge": "AFILAS GENERAL HOSPITAL",
+    "imageAlt": "Afilas General Hospital",
+    "titleLine1": "Your Health,",
+    "titleLine2": "Our Priority.",
+    "description": "Compassionate healthcare, experienced professionals, and modern medical services designed around you and your family.",
+    "bookAppointment": "Book Appointment",
+    "exploreDepartments": "Explore Departments",
+    "goToSlide": "Go to slide",
+    "trust": {
+      "trustedCare": "Trusted Care",
+      "trustedCareDescription": "Patient-centered service",
+      "emergency": "24/7 Emergency",
+      "emergencyDescription": "Care when you need it",
+      "expertDoctors": "Expert Doctors",
+      "expertDoctorsDescription": "Professional medical care"
+    }
+  },
+
+  "quickLinks": {
+    "departments": {
+      "title": "Departments",
+      "description": "Explore our specialties"
+    },
+    "doctors": {
+      "title": "Doctors",
+      "description": "Meet our specialists"
+    },
+    "services": {
+      "title": "Services",
+      "description": "Healthcare services"
+    },
+    "appointments": {
+      "title": "Appointments",
+      "description": "Book your visit"
+    },
+    "emergency": {
+      "title": "Emergency",
+      "description": "24/7 urgent care"
+    }
+  },
+
+  "about": {
+    "badge": "ABOUT AFILAS GENERAL HOSPITAL",
+    "titleLine1": "Healthcare built around",
+    "titleHighlight": " people.",
+    "paragraph1": "Afilas General Hospital is committed to delivering accessible, compassionate and quality healthcare for individuals and families. Our approach combines experienced healthcare professionals, modern medical facilities and patient-centered care.",
+    "paragraph2": "From routine consultations to specialized treatment and emergency care, our goal is to create a healthcare experience where every patient feels respected, supported and cared for.",
+    "features": {
+      "patient": {
+        "title": "Patient-Centered Care",
+        "description": "We put every patient’s comfort, safety, and wellbeing first."
+      },
+      "professionals": {
+        "title": "Trusted Professionals",
+        "description": "Dedicated healthcare professionals focused on quality service."
+      },
+      "facilities": {
+        "title": "Modern Facilities",
+        "description": "A comfortable environment supported by medical facilities."
+      },
+      "support": {
+        "title": "Continuous Support",
+        "description": "Support and assistance when you need healthcare services."
+      }
+    },
+    "learnMore": "Learn More About Us",
+    "patientFocused": "Patient-focused",
+    "patientExperience": "healthcare experience",
+    "imageLabel": "Quality Healthcare",
+    "imageHospital": "Afilas General Hospital",
+    "imageTitle": "Caring for you and your family"
+  },
+
+  "departments": {
+    "badge": "Our Medical Departments",
+    "titleLine1": "Specialized care for",
+    "titleHighlight": " every need.",
+    "description": "Explore our medical departments and discover healthcare services designed to support your health and wellbeing.",
+    "specialty": "Medical Specialty",
+    "explore": "Explore Department",
+    "items": {
+      "internalMedicine": {
+        "title": "Internal Medicine",
+        "description": "Comprehensive diagnosis and treatment for adult health conditions."
+      },
+      "surgery": {
+        "title": "Surgery",
+        "description": "Professional surgical care supported by patient-focused services."
+      },
+      "pediatrics": {
+        "title": "Pediatrics",
+        "description": "Compassionate healthcare designed for infants, children, and adolescents."
+      },
+      "gynecology": {
+        "title": "Gynecology & Obstetrics",
+        "description": "Women's health and maternity care throughout important life stages."
+      },
+      "cardiology": {
+        "title": "Cardiology",
+        "description": "Heart health assessment, consultation, and ongoing medical support."
+      },
+      "orthopedics": {
+        "title": "Orthopedics",
+        "description": "Care focused on bones, joints, muscles, and movement."
+      }
+    },
+    "cta": {
+      "title": "Need help finding the right department?",
+      "description": "Our team can help guide you toward the appropriate care.",
+      "button": "Book Appointment"
+    }
+  },
+
+  "services": {
+    "badge": "Healthcare Services",
+    "titleLine1": "Comprehensive Care",
+    "titleLine2": "For Every Patient",
+    "description": "From routine consultations to specialized medical support, our services are designed to provide safe, accessible, and patient-centered healthcare.",
+    "emergencySupport": "Emergency Support",
+    "coreServices": "Core Services",
+    "learnMore": "Learn More",
+    "exploreAll": "Explore All Afilas General Hospital Services",
+    "items": {
+      "outpatient": {
+        "title": "Outpatient Care",
+        "description": "Professional consultations, diagnosis, treatment, and follow-up care without hospital admission."
+      },
+      "inpatient": {
+        "title": "Inpatient Care",
+        "description": "Comfortable hospital admission and continuous medical support for patients who need extended care."
+      },
+      "emergency": {
+        "title": "Emergency Care",
+        "description": "Rapid medical attention for urgent health conditions and emergency situations."
+      },
+      "consultation": {
+        "title": "Medical Consultation",
+        "description": "Expert medical advice, health assessments, and personalized treatment recommendations."
+      },
+      "laboratory": {
+        "title": "Laboratory Services",
+        "description": "Reliable laboratory testing to support accurate diagnosis and effective treatment."
+      },
+      "pharmacy": {
+        "title": "Pharmacy Services",
+        "description": "Access to prescribed medicines and professional medication-related support."
+      }
+    },
+    "emergency": {
+      "badge": "Immediate Assistance",
+      "title": "Need Emergency Medical Care?",
+      "description": "Contact our emergency team for urgent medical assistance. Do not delay seeking emergency care when needed.",
+      "button": "Emergency Call"
+    }
+  },
+
+  "doctors": {
+    "badge": "Our Medical Team",
+    "titleLine1": "Meet Our",
+    "titleLine2": "Medical Specialists",
+    "description": "Our medical team is committed to providing professional, compassionate, and patient-centered healthcare.",
+    "viewAll": "View All Doctors",
+    "viewProfile": "View Profile",
+    "bookAppointment": "Book Appointment",
+    "items": {
+      "abebe": {
+        "specialization": "Internal Medicine Specialist",
+        "experience": "10+ Years Experience",
+        "description": "Experienced in adult healthcare, diagnosis, and long-term disease management."
+      },
+      "hana": {
+        "specialization": "Pediatrician",
+        "experience": "8+ Years Experience",
+        "description": "Dedicated to providing compassionate healthcare for children and families."
+      },
+      "dawit": {
+        "specialization": "Cardiologist",
+        "experience": "12+ Years Experience",
+        "description": "Focused on cardiovascular assessment, prevention, and treatment."
+      },
+      "selamawit": {
+        "specialization": "Gynecologist & Obstetrician",
+        "experience": "9+ Years Experience",
+        "description": "Providing women's healthcare, maternity services, and professional support."
+      }
+    },
+    "cta": {
+      "title": "Need Help Choosing a Specialist?",
+      "description": "Our team can help guide you toward the appropriate department and appointment service.",
+      "button": "Find the Right Care"
+    }
+  },
+
+  "emergency": {
+    "badge": "Emergency Medical Care",
+    "titleLine1": "Your Emergency",
+    "titleLine2": "Is Our Priority",
+    "description": "When every second matters, our emergency care team is prepared to provide timely medical assistance and support.",
+    "support": {
+      "title": "Emergency Support",
+      "description": "Available according to hospital emergency hours"
+    },
+    "patient": {
+      "title": "Patient-Focused Care",
+      "description": "Professional support during urgent situations"
+    },
+    "callButton": "Call Emergency",
+    "appointmentButton": "Book Appointment",
+    "contactLabel": "Emergency Contact",
+    "immediateTitle": "Need Immediate Help?",
+    "immediateDescription": "For life-threatening emergencies, seek immediate medical assistance or contact the appropriate emergency service.",
+    "telephoneLabel": "Emergency Telephone"
+  },
+
+  "appointment": {
+    "titleLine1": "Your Health Deserves",
+    "titleLine2": "The Right Care",
+    "description": "Schedule your appointment with our healthcare team and take the next step toward better health.",
+    "bookButton": "Book an Appointment",
+    "contactButton": "Contact Hospital",
+    "points": {
+      "patient": "Patient-Centered Care",
+      "professional": "Professional Healthcare",
+      "facilities": "Modern Facilities"
+    }
+  }
+},
+"Diagnosis": {
+  "hero": {
+    "imageAlt": "Afilas Diagnosis Center",
+    "badge": "Afilas Diagnosis Center",
+    "titleLine1": "Clarity Through",
+    "titleLine2": "Better Diagnostics",
+    "description": "Diagnostic services designed to support healthcare professionals and patients with organized, accessible, and quality-focused diagnostic care.",
+    "bookAppointment": "Book Diagnostic Appointment",
+    "exploreServices": "Explore Services",
+    "highlights": {
+      "quality": "Quality Focus",
+      "modern": "Modern Approach",
+      "patient": "Patient Focus",
+      "results": "Clear Results"
+    },
+    "card": {
+      "eyebrow": "Diagnostic Center",
+      "title": "Diagnostic Care",
+      "services": {
+        "laboratory": "Laboratory",
+        "radiology": "Radiology & Imaging",
+        "cardiac": "Cardiac Diagnostics",
+        "checkups": "Health Checkups"
+      },
+      "messageTitle": "Your health starts with understanding.",
+      "messageDescription": "Explore diagnostic services designed around your healthcare journey."
+    },
+    "miniCard": {
+      "label": "Diagnostic Focus",
+      "title": "Clearer Healthcare Decisions"
+    }
+  },
+
+  "intro": {
+    "badge": "Diagnostic Excellence",
+    "titleLine1": "More Than Testing.",
+    "titleLine2": "Supporting Better Care.",
+    "description": "Diagnostic services play an important role in understanding health conditions and supporting clinical decisions. Our platform brings diagnostic services together in one accessible experience.",
+    "appointment": "Start Your Appointment",
+    "highlights": {
+      "services": {
+        "title": "Diagnostic Services",
+        "description": "Multiple diagnostic areas"
+      },
+      "patient": {
+        "title": "Patient Focus",
+        "description": "Designed around patient needs"
+      },
+      "connected": {
+        "title": "Connected Care",
+        "description": "Supporting healthcare teams"
+      },
+      "future": {
+        "title": "Future Ready",
+        "description": "Built for digital healthcare"
+      }
+    }
+  },
+
+  "services": {
+    "badge": "Diagnostic Services",
+    "titleLine1": "Comprehensive Diagnostics,",
+    "titleLine2": "One Connected Experience",
+    "description": "Explore our diagnostic service areas designed to support patients, healthcare professionals, and better-informed healthcare decisions.",
+    "category": "Diagnostic Service",
+    "explore": "Explore Service",
+    "items": {
+      "laboratory": {
+        "title": "Laboratory Services",
+        "description": "Supporting clinical decision-making through organized laboratory diagnostic services."
+      },
+      "radiology": {
+        "title": "Radiology & Imaging",
+        "description": "Diagnostic imaging services designed to support medical assessment and clinical care."
+      },
+      "cardiac": {
+        "title": "Cardiac Diagnostics",
+        "description": "Diagnostic support focused on cardiovascular health assessment."
+      },
+      "specialized": {
+        "title": "Specialized Diagnostics",
+        "description": "Supporting specialized diagnostic needs across different healthcare areas."
+      },
+      "checkups": {
+        "title": "Health Checkups",
+        "description": "Diagnostic services that can support routine and preventive health assessments."
+      },
+      "reports": {
+        "title": "Diagnostic Reports",
+        "description": "Organized diagnostic information to support communication between patients and healthcare professionals."
+      }
+    },
+    "banner": {
+      "title": "Need help choosing a diagnostic service?",
+      "description": "Contact our team to learn more about the appropriate diagnostic service for your needs.",
+      "button": "Talk to Our Team"
+    }
+  },
+
+  "whyChoose": {
+    "imageAlt": "Diagnostic laboratory",
+    "badge": "Why Choose Afilas",
+    "titleLine1": "A Diagnostic Experience",
+    "titleLine2": "Designed Around People",
+    "description": "We want the diagnostic journey to feel organized, accessible, and connected to the broader healthcare experience.",
+    "imageCard": {
+      "title": "Quality-Focused Diagnostics",
+      "description": "Supporting informed healthcare decisions"
+    },
+    "items": {
+      "quality": {
+        "title": "Quality-Focused Approach",
+        "description": "A focus on organized processes and responsible diagnostic service delivery."
+      },
+      "patient": {
+        "title": "Patient-Centered Experience",
+        "description": "A digital experience designed to make accessing diagnostic services easier."
+      },
+      "connected": {
+        "title": "Connected Healthcare",
+        "description": "Diagnostic services designed to support communication and healthcare decisions."
+      },
+      "digital": {
+        "title": "Modern Digital Experience",
+        "description": "Online appointment and information access designed for today's users."
+      }
+    }
+  },
+
+  "process": {
+    "badge": "Your Diagnostic Journey",
+    "titleLine1": "Simple Steps.",
+    "titleLine2": "Better Organization.",
+    "description": "The platform is designed to make the journey from appointment to diagnostic information easier to understand.",
+    "stepLabel": "STEP",
+    "steps": {
+      "book": {
+        "title": "Book Your Visit",
+        "description": "Choose the diagnostic service you need and request an appointment."
+      },
+      "visit": {
+        "title": "Visit the Center",
+        "description": "Meet the appropriate team and complete the required registration."
+      },
+      "assessment": {
+        "title": "Diagnostic Assessment",
+        "description": "Receive the relevant diagnostic service based on your request."
+      },
+      "results": {
+        "title": "Receive Results",
+        "description": "Diagnostic information is prepared for review and further care."
+      }
+    }
+  },
+
+  "technology": {
+    "titleLine1": "Diagnostics Meets",
+    "titleLine2": "Digital Healthcare",
+    "description": "The Afilas platform is designed to connect patients with diagnostic services through a modern digital experience.",
+    "imageAlt": "Modern diagnostic environment",
+    "approachLabel": "Our Approach",
+    "approachText": "Technology should make healthcare easier to access, understand, and navigate.",
+    "features": {
+      "appointment": "Online appointment access",
+      "discovery": "Service discovery",
+      "journey": "Organized diagnostic journey",
+      "connected": "Connected healthcare experience"
+    }
+  },
+
+  "faq": {
+    "badge": "Frequently Asked Questions",
+    "titleLine1": "Questions About",
+    "titleLine2": "Diagnostics?",
+    "items": {
+      "appointment": {
+        "question": "Do I need an appointment?",
+        "answer": "Appointment requirements can vary depending on the diagnostic service. The appointment system will provide the appropriate option for your selected service."
+      },
+      "services": {
+        "question": "What diagnostic services are available?",
+        "answer": "The center is designed around laboratory, imaging, health-check, cardiac, and specialized diagnostic services. Specific services and availability should be confirmed with Afilas Group."
+      },
+      "online": {
+        "question": "Can I request a diagnostic appointment online?",
+        "answer": "Yes. The website is designed to allow users to start the appointment process online without requiring an account at the initial stage."
+      },
+      "results": {
+        "question": "Will I receive my diagnostic results online?",
+        "answer": "Online result delivery can be implemented as part of the platform. The exact availability and process should be confirmed with the Afilas team."
+      }
+    }
+  },
+
+  "cta": {
+    "titleLine1": "Ready to Start Your",
+    "titleLine2": "Diagnostic Journey?",
+    "description": "Explore available diagnostic services or start an appointment request through the Afilas healthcare platform.",
+    "bookAppointment": "Book Appointment",
+    "contact": "Contact Us"
+  }
+} ,
+"Pharma": {
+  "hero": {
+    "imageAlt": "Afilas pharmaceutical manufacturing",
+    "badge": "Afilas Drug Manufacturing",
+    "titleLine1": "Advancing Pharmaceutical",
+    "titleLine2": "Manufacturing",
+    "description": "Delivering quality pharmaceutical products through modern manufacturing, scientific innovation, and a commitment to improving healthcare.",
+    "exploreProducts": "Explore Our Products",
+    "learnMore": "Learn More",
+    "slide": "Go to slide {number}",
+    "trust": {
+      "quality": {
+        "title": "Quality",
+        "description": "Quality-focused"
+      },
+      "modern": {
+        "title": "Modern",
+        "description": "Modern manufacturing"
+      },
+      "trusted": {
+        "title": "Trusted",
+        "description": "Healthcare focused"
+      }
+    }
+  },
+
+  "about": {
+    "imageAlt": "Pharmaceutical laboratory",
+    "imageCard": {
+      "title": "Quality-Oriented",
+      "description": "Pharmaceutical manufacturing"
+    },
+    "visionCard": {
+      "title": "Manufacturing Vision",
+      "description": "Building reliable pharmaceutical solutions for a healthier future."
+    },
+    "badge": "About Our Manufacturing Division",
+    "title": "Building a Healthier Future Through Pharmaceutical Innovation",
+    "description": "Our manufacturing division is designed to support the Afilas Group healthcare ecosystem through responsible pharmaceutical production, modern processes, quality systems, and continuous innovation.",
+    "whoWeAre": {
+      "title": "Who We Are",
+      "description": "We are developing a pharmaceutical manufacturing capability centered around healthcare needs, scientific thinking, product quality, and sustainable growth."
+    },
+    "mission": {
+      "title": "Mission",
+      "description": "Support better healthcare through quality-focused pharmaceutical manufacturing."
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "Build a modern and innovative pharmaceutical manufacturing ecosystem."
+    },
+    "focus": {
+      "healthcare": "Healthcare Focus",
+      "innovation": "Innovation Driven"
+    },
+    "exploreCapabilities": "Explore Our Capabilities"
+  },
+
+  "capabilities": {
+    "badge": "Our Capabilities",
+    "title": "Manufacturing Built Around Quality",
+    "description": "Our capabilities bring together scientific research, manufacturing discipline, quality assurance, packaging, and continuous improvement.",
+    "items": {
+      "research": {
+        "title": "Research & Development",
+        "description": "Exploring healthcare needs and developing research-based pharmaceutical solutions."
+      },
+      "production": {
+        "title": "Production & Manufacturing",
+        "description": "Supporting structured production processes with modern manufacturing principles."
+      },
+      "quality": {
+        "title": "Quality Control",
+        "description": "Maintaining quality-focused testing, inspection, documentation, and monitoring."
+      },
+      "packaging": {
+        "title": "Packaging & Safety",
+        "description": "Supporting safe, organized, and traceable pharmaceutical packaging processes."
+      },
+      "improvement": {
+        "title": "Process Improvement",
+        "description": "Continuously improving processes through evaluation, learning, and innovation."
+      },
+      "innovation": {
+        "title": "Innovation & Development",
+        "description": "Creating opportunities for future products, technologies, and healthcare solutions."
+      }
+    },
+    "commitment": {
+      "title": "Our Commitment to Healthcare",
+      "description": "Every capability is designed with quality, safety, responsibility, and healthcare impact in mind.",
+      "button": "Contact Us"
+    }
+  },
+
+  "quality": {
+    "badge": "Quality & Safety",
+    "title": "Quality Is at the Center of Everything We Do",
+    "description": "Our manufacturing approach is built around consistency, documentation, inspection, responsibility, and continuous improvement.",
+    "imageAlt": "Quality control in pharmaceutical manufacturing",
+    "imageCard": {
+      "eyebrow": "Quality Focus",
+      "title": "Safe. Consistent. Responsible."
+    },
+    "qualityFirst": "Quality First",
+    "points": {
+      "documentation": {
+        "title": "Documentation & Traceability",
+        "description": "Maintaining organized records and traceable processes throughout manufacturing."
+      },
+      "inspection": {
+        "title": "Inspection & Testing",
+        "description": "Supporting structured inspection and testing throughout relevant production stages."
+      },
+      "improvement": {
+        "title": "Continuous Improvement",
+        "description": "Learning from processes and continuously improving quality and operational performance."
+      },
+      "responsibility": {
+        "title": "Healthcare Responsibility",
+        "description": "Keeping patient safety, healthcare needs, and responsible manufacturing at the center."
+      }
+    },
+    "principles": {
+      "consistency": {
+        "title": "Consistency",
+        "description": "Reliable processes and standards support dependable manufacturing."
+      },
+      "responsibility": {
+        "title": "Responsibility",
+        "description": "Healthcare impact and patient safety remain central to our approach."
+      },
+      "continuous": {
+        "title": "Continuous Focus",
+        "description": "We continuously evaluate opportunities to improve quality and performance."
+      }
+    },
+    "button": "Discuss Quality & Manufacturing"
+  },
+
+  "products": {
+    "badge": "Product Focus",
+    "title": "Pharmaceutical Products With a Healthcare Purpose",
+    "description": "Our product direction is focused on addressing real healthcare needs through quality-oriented development and responsible manufacturing.",
+    "imageAlt": "Afilas pharmaceutical manufacturing",
+    "feature": {
+      "eyebrow": "Our Product Vision",
+      "title": "Developing Solutions Around Real Healthcare Needs",
+      "description": "Afilas aims to build a product portfolio that supports healthcare delivery while maintaining a strong focus on quality, innovation, and responsible development.",
+      "points": {
+        "healthcare": "Healthcare-centered development",
+        "quality": "Quality-focused thinking",
+        "continuous": "Continuous development"
+      }
+    },
+    "categories": {
+      "essential": {
+        "title": "Essential Healthcare Solutions",
+        "description": "Products designed around important healthcare requirements and everyday medical needs."
+      },
+      "research": {
+        "title": "Research-Based Products",
+        "description": "Future products supported by scientific research, development, and evidence-based thinking."
+      },
+      "future": {
+        "title": "Future Innovation",
+        "description": "Exploring opportunities for innovative pharmaceutical products and healthcare technologies."
+      }
+    },
+    "notice": {
+      "title": "Important Information",
+      "description": "Product names, formulations, regulatory information, and availability will be communicated through official Afilas channels as products progress through the appropriate development and regulatory processes.",
+      "tags": {
+        "productNames": "Product Names",
+        "formulations": "Formulations",
+        "regulatory": "Regulatory Information",
+        "availability": "Availability"
+      }
+    }
+  },
+
+  "process": {
+    "badge": "Manufacturing Process",
+    "title": "From Research to Production",
+    "description": "A structured process helps transform ideas and research into quality-focused pharmaceutical manufacturing.",
+    "stages": {
+      "research": {
+        "title": "Research",
+        "description": "Identify healthcare needs and research opportunities."
+      },
+      "development": {
+        "title": "Development",
+        "description": "Develop and evaluate product and manufacturing concepts."
+      },
+      "testing": {
+        "title": "Testing",
+        "description": "Conduct appropriate testing and quality evaluation."
+      },
+      "manufacturing": {
+        "title": "Manufacturing",
+        "description": "Transform approved processes into structured production."
+      },
+      "packaging": {
+        "title": "Packaging & Distribution",
+        "description": "Prepare products for safe handling and distribution."
+      }
+    },
+    "feature": {
+      "imageAlt": "Pharmaceutical manufacturing process",
+      "eyebrow": "Process Excellence",
+      "title": "Precision at Every Stage",
+      "description": "Each stage of the manufacturing journey requires attention to process control, quality, documentation, safety, and continuous improvement.",
+      "precision": {
+        "title": "Precision",
+        "description": "Structured processes"
+      },
+      "quality": {
+        "title": "Quality Focus",
+        "description": "Quality-driven thinking"
+      }
+    },
+    "closing": "From the first research question to the final distribution stage, our approach is designed around quality, responsibility, and healthcare impact."
+  },
+
+  "whyAfilas": {
+    "badge": "Why Afilas",
+    "title": "A Healthcare Group With a Bigger Vision",
+    "description": "Afilas connects healthcare services, diagnostics, pharmaceutical manufacturing, technology, and innovation under one broader healthcare vision.",
+    "quality": {
+      "title": "Quality-Focused Vision",
+      "description": "Our manufacturing direction is part of a larger commitment to building stronger and more accessible healthcare solutions."
+    },
+    "drives": {
+      "eyebrow": "What Drives Us",
+      "title": "Built Around Five Principles"
+    },
+    "principles": {
+      "innovation": {
+        "title": "Innovation",
+        "description": "Exploring new ideas and better healthcare solutions."
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "Maintaining quality-focused thinking throughout our work."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Working together across healthcare and technical disciplines."
+      },
+      "continuous": {
+        "title": "Continuous Improvement",
+        "description": "Learning, evaluating, and improving our processes."
+      },
+      "responsibility": {
+        "title": "Healthcare Responsibility",
+        "description": "Keeping healthcare impact and responsibility at the center."
+      }
+    },
+    "visionCard": {
+      "title": "One Healthcare Vision",
+      "description": "Connected by purpose"
+    },
+    "discover": "Discover the Afilas Group"
+  },
+
+  "innovation": {
+    "badge": "Innovation & Future Vision",
+    "title": "Preparing for the Future of Healthcare Manufacturing",
+    "description": "Innovation is a continuous journey. We are exploring opportunities to strengthen pharmaceutical manufacturing and create meaningful healthcare impact.",
+    "innovation": {
+      "title": "Innovation Built Around Real Healthcare Needs",
+      "description": "We believe meaningful innovation begins with understanding healthcare challenges and creating practical, responsible solutions.",
+      "items": {
+        "research": {
+          "title": "Research & Development",
+          "description": "Exploring research opportunities that can support future healthcare products."
+        },
+        "technology": {
+          "title": "Technology & Innovation",
+          "description": "Using modern technology and new approaches to improve manufacturing."
+        },
+        "continuous": {
+          "title": "Continuous Improvement",
+          "description": "Learning from experience and continuously strengthening our capabilities."
+        }
+      }
+    },
+    "future": {
+      "eyebrow": "Future Directions",
+      "title": "Building Opportunities for Tomorrow",
+      "items": {
+        "research": "Research Opportunities",
+        "collaboration": "Collaboration",
+        "impact": "Healthcare Impact"
+      },
+      "description": "Future initiatives will continue to evolve as our manufacturing capabilities, research partnerships, and healthcare priorities develop."
+    }
+  },
+
+  "cta": {
+    "badge": "Let’s Build a Healthier Future",
+    "title": "Building the Future of Healthcare Together",
+    "description": "Afilas Group is working toward a connected healthcare ecosystem where medical services, diagnostics, pharmaceutical manufacturing, technology, and innovation work together.",
+    "contact": "Contact Afilas",
+    "explore": "Explore Afilas Group",
+    "trust": {
+      "healthcare": "Healthcare Focus",
+      "innovation": "Innovation Driven",
+      "future": "Future Focused"
+    }
+  }
+},
+"Footer": {
+  "newsletter": {
+    "badge": "Stay Connected",
+    "title": "Stay in the loop with Afilas",
+    "description": "Receive health tips, appointment reminders, service updates, and important news from Afilas Group.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe"
+  },
+  "brand": {
+    "logoAlt": "Afilas Group",
+    "description": "One group, complete care — bringing healthcare, diagnostics, and pharmaceutical manufacturing together under one umbrella.",
+    "trust": "Patient-first care"
+  },
+  "quickLinks": {
+    "title": "Quick Links",
+    "items": {
+      "home": "Home",
+      "about": "About Us",
+      "contact": "Contact"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "items": {
+      "hospital": "Afilas General Hospital",
+      "diagnosis": "Afilas Diagnosis Center",
+      "pharma": "Afilas Drug Manufacturing",
+      "appointment": "Book Appointment"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "address": "Bahir Dar, Amhara, Ethiopia",
+    "hours": "Mon–Sat: 7:00 AM – 9:00 PM",
+    "emergency": "Emergency",
+    "privacy": "Your health information is protected and confidential."
+  },
+  "bottom": {
+    "copyright": "© {year} Afilas Group. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+},
+"Home": {
+  "hero": {
+    "badge": "Integrated Healthcare Services",
+    "titleLine1": "Complete Healthcare Solutions,",
+    "titleLine2": "Under One Umbrella",
+    "description": "From advanced clinical care and precision diagnostics to local pharmaceutical manufacturing, Afilas is dedicated to elevating health standards and creating a more connected healthcare experience.",
+    "bookAppointment": "Book an Appointment",
+    "exploreServices": "Explore our services",
+    "imageAlt": "Healthcare professional caring for a patient",
+    "services": {
+      "hospital": "Hospital Care",
+      "diagnostics": "Diagnostics",
+      "pharmaceuticals": "Pharmaceuticals"
+    },
+    "floatingCard": {
+      "eyebrow": "Need medical care?",
+      "title": "Book an appointment"
+    }
+  },
+  "trust": {
+  "stats": {
+    "experience": "Years of Experience",
+    "patients": "Patients Served",
+    "rating": "Average Rating",
+    "support": "Support Available"
+  },
+  "trustBadge": "Connected Healthcare",
+  "title": "Healthcare built around your needs",
+  "description": "Afilas Group brings clinical care, diagnostic services, and pharmaceutical manufacturing together to create a connected healthcare ecosystem.",
+  "pillars": {
+    "hospital": "General Hospital",
+    "diagnostics": "Diagnosis Center",
+    "manufacturing": "Drug Manufacturing"
+  }
+},
+"services": {
+  "badge": "Our Healthcare Ecosystem",
+  "title": "Integrated Excellence Across Healthcare",
+  "description": "Discover how our three dedicated divisions work together to deliver comprehensive care, reliable diagnostics, and pharmaceutical solutions.",
+  "bookAppointment": "Book an Appointment",
+  "bottomMessage": "One connected healthcare ecosystem, designed around your needs.",
+  "items": {
+    "hospital": {
+      "shortLabel": "Clinical Care",
+      "title": "Afilas General Hospital",
+      "tagline": "Compassionate, specialized patient care.",
+      "description": "Delivering patient-centered care with modern medical technology and qualified healthcare professionals.",
+      "highlights": [
+        "Inpatient & Outpatient Care",
+        "Emergency & Surgical Services",
+        "Maternal & Child Health Care"
+      ],
+      "cta": "Explore Hospital Services"
+    },
+    "diagnosis": {
+      "shortLabel": "Diagnostics",
+      "title": "Afilas Diagnosis Center",
+      "tagline": "Accurate insights for better decisions.",
+      "description": "Providing timely diagnostic services that support early detection, informed decisions, and targeted treatment.",
+      "highlights": [
+        "Advanced Imaging & Digital X-Ray",
+        "Laboratory & Pathology Services",
+        "Specialized Diagnostic Testing"
+      ],
+      "cta": "Explore Diagnosis Center"
+    },
+    "pharma": {
+      "shortLabel": "Manufacturing",
+      "title": "Afilas Drug Manufacturing",
+      "tagline": "Quality-driven pharmaceutical production.",
+      "description": "Supporting healthcare through safe, effective, and accessible pharmaceutical manufacturing.",
+      "highlights": [
+        "Formulation & Pharmaceutical Packaging",
+        "Quality Control & GMP-Focused Processes",
+        "Institutional & Wholesale Supply"
+      ],
+      "cta": "Explore Manufacturing"
+    }
+  }
+},
+"whyChooseUs": {
+  "badge": "Why Afilas",
+  "titleLine1": "Healthcare connected",
+  "titleLine2": "around you",
+  "description": "Afilas Group brings clinical care, diagnostics, and pharmaceutical expertise together to create a more connected healthcare experience.",
+  "endToEnd": {
+    "badge": "Connected Care",
+    "title": "End-to-End Healthcare",
+    "description": "From diagnosis and clinical care to follow-up and pharmaceutical solutions, our connected ecosystem is designed to support the complete care journey.",
+    "imageAlt": "Doctor caring for a patient"
+  },
+  "stats": {
+    "emergency": "Emergency support available around the clock",
+    "patients": "Patients served"
+  },
+  "technology": {
+    "title": "Modern Technology",
+    "description": "Modern diagnostic tools, clinical technologies, and pharmaceutical systems support accurate, efficient, and reliable healthcare services."
+  },
+  "quality": {
+    "title": "Quality & Safety",
+    "description": "We focus on quality, patient safety, responsible clinical practices, and strong standards across our healthcare ecosystem."
+  },
+  "cta": {
+    "title": "Ready to take the next step?",
+    "button": "Book an appointment"
+  }
+},
+"howItWorks": {
+  "badge": "Getting Started",
+  "titleLine1": "Simple steps.",
+  "titleLine2": "Connected care.",
+  "description": "Getting the care you need should be simple. Follow four easy steps from booking your appointment to receiving personalized treatment and follow-up care.",
+  "stepLabel": "Step",
+  "steps": {
+    "appointment": {
+      "title": "Book Appointment",
+      "description": "Choose a doctor or service and pick a time that works for you.",
+      "tag": "Takes 2 minutes"
+    },
+    "visit": {
+      "title": "Visit Clinic",
+      "description": "Arrive at the nearest Afilas facility, or connect virtually."
+    },
+    "diagnosis": {
+      "title": "Diagnosis & Tests",
+      "description": "Get accurate lab work and imaging, with fast digital results.",
+      "tag": "Same-day results"
+    },
+    "treatment": {
+      "title": "Treatment & Follow-up",
+      "description": "Receive personalized care and ongoing support after your visit."
+     }
+   },
+     "cta": {
+     "title": "Ready to take the next step?",
+     "description": "Book your appointment with Afilas today.",
+     "button": "Book Appointment"
+    }
+  },
+  "testimonials": {
+  "badge": "Patient Experiences",
+  "titleLine1": "Stories from",
+  "titleLine2": "our patients",
+  "description": "Hear from people who have experienced Afilas healthcare services and care.",
+  "moreTitle": "More experiences from the Afilas community",
+  "bottomStatement": "Every patient experience helps us improve the care we provide.",
+  "controls": {
+    "previous": "Previous testimonial",
+    "next": "Next testimonial",
+    "showTestimonial": "Show testimonial {number}"
+  },
+  "featured": {
+    "selamawit": {
+      "name": "Selamawit Bekele",
+      "role": "Cardiology Patient",
+      "quote": "The team walked me through every step of my treatment with patience and honesty. I never once felt like just another appointment."
+    },
+    "daniel": {
+      "name": "Daniel Tesfaye",
+      "role": "Diagnostics Patient",
+      "quote": "I had lab results back the same afternoon, explained clearly by a real doctor. That made all the difference."
+    },
+    "marta": {
+      "name": "Marta Alemu",
+      "role": "Maternity Patient",
+      "quote": "From my first prenatal visit to delivery, the same team was with me the whole way. It felt like being cared for by family."
+    },
+    "yonas": {
+      "name": "Yonas Girma",
+      "role": "Orthopedics Patient",
+      "quote": "Booking was simple, the clinic was on time, and my recovery plan was clear from day one."
+    }
+  },
+  "mini": {
+    "hana": {
+      "name": "Hana Tadesse",
+      "quote": "Fast, kind, and thorough every time."
+    },
+    "abel": {
+      "name": "Abel Kebede",
+      "quote": "Best diagnostic turnaround I've had."
+    },
+    "ruth": {
+      "name": "Ruth Mekonnen",
+      "quote": "My kids actually don't mind check-ups now."
+    },
+    "samuel": {
+      "name": "Samuel Wolde",
+      "quote": "Clear pricing, no surprises at all."
+    },
+    "bethlehem": {
+      "name": "Bethlehem Assefa",
+      "quote": "Felt heard from the very first visit."
+    },
+    "kalkidan": {
+      "name": "Kalkidan Fikru",
+      "quote": "Follow-up calls made me feel cared for."
+    },
+    "nathnael": {
+      "name": "Nathnael Yohannes",
+      "quote": "Modern equipment, zero long waits."
+    },
+    "eden": {
+      "name": "Eden Getachew",
+      "quote": "Booking online took under a minute."
+    }
+  }
+}
+}
+}
