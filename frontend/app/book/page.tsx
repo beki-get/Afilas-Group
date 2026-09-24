@@ -20,8 +20,8 @@ import {
 } from "lucide-react";
 
 // Flip to false once your Express endpoints below are live.
-const USE_MOCK_SUBMIT = true;
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const USE_MOCK_SUBMIT = false;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 type ServiceKey = "hospital" | "diagnosis" | "pharma";
 
@@ -32,17 +32,17 @@ const SERVICE_META: Record<
   hospital: {
     label: "General Hospital",
     icon: Building2,
-    endpoint: "/api/bookings/hospital",
+    endpoint: "/api/book/hospital",
   },
   diagnosis: {
     label: "Diagnosis Center",
     icon: Microscope,
-    endpoint: "/api/bookings/diagnosis",
+    endpoint: "/api/book/diagnoses",
   },
   pharma: {
     label: "Drug Manufacturing",
     icon: FlaskConical,
-    endpoint: "/api/inquiries/pharma",
+    endpoint: "/api/book/pharma",
   },
 };
 
@@ -71,9 +71,16 @@ function BookPageInner() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [referenceId, setReferenceId] = useState("");
+  const [idempotencyKey, setIdempotencyKey] = useState(() =>
+    crypto.randomUUID(),
+  );
 
   useEffect(() => {
     setStatus("idle");
+  }, [active]);
+
+  useEffect(() => {
+    setIdempotencyKey(crypto.randomUUID());
   }, [active]);
 
   const handleSubmit = async (payload: Record<string, string>) => {
@@ -84,9 +91,13 @@ function BookPageInner() {
       } else {
         const res = await fetch(`${API_BASE}${SERVICE_META[active].endpoint}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Idempotency-Key": idempotencyKey, // ← add this line
+          },
           body: JSON.stringify(payload),
         });
+
         if (!res.ok) throw new Error("Request failed");
       }
       setReferenceId(`AFL-${Date.now().toString(36).toUpperCase()}`);
@@ -94,6 +105,11 @@ function BookPageInner() {
     } catch {
       setStatus("error");
     }
+  };
+
+  const onBookAnother = () => {
+    setIdempotencyKey(crypto.randomUUID());
+    setStatus("idle");
   };
 
   return (
@@ -139,7 +155,7 @@ function BookPageInner() {
             <ConfirmationPanel
               service={SERVICE_META[active].label}
               referenceId={referenceId}
-              onBookAnother={() => setStatus("idle")}
+              onBookAnother={onBookAnother}
             />
           ) : (
             <>
@@ -202,15 +218,6 @@ function SubmitButton({
   );
 }
 
-const MOCK_DOCTORS: Record<string, string[]> = {
-  "General Medicine": ["Dr. Abel Kebede", "Dr. Ruth Mekonnen"],
-  Cardiology: ["Dr. Samuel Wolde"],
-  Pediatrics: ["Dr. Bethlehem Assefa"],
-  Orthopedics: ["Dr. Yonas Girma"],
-  Maternity: ["Dr. Marta Alemu"],
-  Surgery: ["Dr. Nathnael Yohannes"],
-};
-
 //Hospital form
 function HospitalForm({
   status,
@@ -220,21 +227,32 @@ function HospitalForm({
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   const [department, setDepartment] = useState("");
-  const [doctors, setDoctors] = useState<string[]>([]);
+  const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
 
   useEffect(() => {
-    if (!department) {
-      setDoctors([]);
-      return;
-    }
+    if (!department) return;
+
     setLoadingDoctors(true);
-    // Replace this block with: fetch(`${API_BASE}/api/doctors?department=${department}`)
-    const timer = setTimeout(() => {
-      setDoctors(MOCK_DOCTORS[department] || []);
-      setLoadingDoctors(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    const controller = new AbortController();
+
+    fetch(
+      `${API_BASE}/api/doctors?department=${encodeURIComponent(department)}`,
+      {
+        signal: controller.signal,
+      },
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load doctors");
+        return res.json();
+      })
+      .then((json) => setDoctors(json.data)) // now an array of { id, name, department }
+      .catch((err) => {
+        if (err.name !== "AbortError") setDoctors([]);
+      })
+      .finally(() => setLoadingDoctors(false));
+
+    return () => controller.abort();
   }, [department]);
   return (
     <form
@@ -275,7 +293,13 @@ function HospitalForm({
       </Field>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label="Department">
-          <select name="department" required className={inputClass}>
+          <select
+            name="department"
+            required
+            className={inputClass}
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
             <option value="">Select department</option>
             <option>General Medicine</option>
             <option>Cardiology</option>
@@ -287,7 +311,7 @@ function HospitalForm({
         </Field>
         <Field label="Preferred Doctor">
           <select
-            name="preferredDoctor"
+            name="doctorId"
             required
             disabled={!department || loadingDoctors}
             className={inputClass}
@@ -299,8 +323,10 @@ function HospitalForm({
                   ? "Loading..."
                   : "Select a doctor"}
             </option>
-            {doctors.map((doc) => (
-              <option key={doc}>{doc}</option>
+            {doctors.map((doc: { id: string; name: string }) => (
+              <option key={doc.id} value={doc.id}>
+                {doc.name}
+              </option>
             ))}
           </select>
         </Field>
