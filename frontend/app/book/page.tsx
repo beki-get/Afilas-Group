@@ -1,15 +1,10 @@
 // app/book/page.tsx
 "use client";
 
-import {
-  Suspense,
-  useEffect,
-  useState,
-  type ElementType,
-  type ReactNode,
-} from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { toEthiopianDate } from "../../lib/ethiopianDate";
 import {
   Building2,
   Microscope,
@@ -17,13 +12,21 @@ import {
   CheckCircle2,
   Loader2,
   ArrowLeft,
+  ShieldCheck,
 } from "lucide-react";
 
-// Flip to false once your Express endpoints below are live.
 const USE_MOCK_SUBMIT = false;
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 type ServiceKey = "hospital" | "diagnosis" | "pharma";
+type Status =
+  | "idle"
+  | "sending-otp"
+  | "otp-pending"
+  | "verifying-otp"
+  | "submitting"
+  | "success"
+  | "error";
 
 const SERVICE_META: Record<
   ServiceKey,
@@ -47,12 +50,44 @@ const SERVICE_META: Record<
 };
 
 const TIME_SLOTS = [
-  "Morning (9AM–12PM)",
-  "Afternoon (12PM–4PM)",
-  "Evening (4PM–7PM)",
+  {
+    value: "Morning (9AM–12PM)",
+    label: "Morning (9AM–12PM) — 3:00–6:00 day",
+  },
+  {
+    value: "Afternoon (12PM–4PM)",
+    label: "Afternoon (12PM–4PM) — 6:00–10:00 day",
+  },
+  {
+    value: "Evening (4PM–7PM)",
+    label: "Evening (4PM–7PM) — 10:00 day–1:00 night",
+  },
 ];
 
-// ── Page wrapper (Suspense required for useSearchParams) ───────────────────
+async function getApiError(response: Response, fallback: string) {
+  try {
+    const body = (await response.json()) as { error?: string };
+    return body.error || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function getErrorMessage(error: unknown) {
+  return error instanceof Error
+    ? error.message
+    : "Something went wrong. Please try again.";
+}
+
+function formatGregorianDate(dateValue: string) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(year, month - 1, day));
+}
+
 export default function BookPage() {
   return (
     <Suspense fallback={null}>
@@ -67,48 +102,148 @@ function BookPageInner() {
   const [active, setActive] = useState<ServiceKey>(
     initial in SERVICE_META ? initial : "hospital",
   );
-  const [status, setStatus] = useState<
-    "idle" | "submitting" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [referenceId, setReferenceId] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() =>
     crypto.randomUUID(),
   );
 
+  // OTP-related state
+  const [pendingPayload, setPendingPayload] = useState<Record<
+    string,
+    string
+  > | null>(null);
+  const [phone, setPhone] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [formError, setFormError] = useState("");
+
   useEffect(() => {
     setStatus("idle");
+    setPendingPayload(null);
+    setOtpCode("");
+    setOtpError("");
+    setFormError("");
   }, [active]);
 
   useEffect(() => {
     setIdempotencyKey(crypto.randomUUID());
   }, [active]);
 
-  const handleSubmit = async (payload: Record<string, string>) => {
-    setStatus("submitting");
+  // Step 1: form submitted → send OTP, hold the form data until verified
+  const handleFormSubmit = async (payload: Record<string, string>) => {
+    setStatus("sending-otp");
+    setPendingPayload(payload);
+    setPhone(payload.phone);
+    setFormError("");
+
     try {
       if (USE_MOCK_SUBMIT) {
-        await new Promise((res) => setTimeout(res, 1200)); // simulate network delay
+        await new Promise((res) => setTimeout(res, 800));
+      } else {
+        const res = await fetch(`${API_BASE}/api/otp/send`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: payload.phone, purpose: active }),
+        });
+        if (!res.ok)
+          throw new Error(
+            await getApiError(res, "Failed to send verification code"),
+          );
+      }
+      setStatus("otp-pending");
+    } catch (error) {
+      setFormError(getErrorMessage(error));
+      setStatus("error");
+    }
+  };
+
+  // Step 2: user enters the code → verify, then create the actual booking
+  const handleVerifyOtp = async () => {
+    if (!pendingPayload) return;
+    setStatus("verifying-otp");
+    setOtpError("");
+    setFormError("");
+
+    try {
+      if (!USE_MOCK_SUBMIT) {
+        const verifyRes = await fetch(`${API_BASE}/api/otp/verify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, purpose: active, code: otpCode }),
+        });
+        if (!verifyRes.ok) {
+          setOtpError(
+            await getApiError(
+              verifyRes,
+              "Invalid or expired code. Please try again.",
+            ),
+          );
+          setStatus("otp-pending");
+          return;
+        }
+      }
+
+      // OTP confirmed — now actually create the booking
+      setStatus("submitting");
+      if (USE_MOCK_SUBMIT) {
+        await new Promise((res) => setTimeout(res, 1200));
       } else {
         const res = await fetch(`${API_BASE}${SERVICE_META[active].endpoint}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Idempotency-Key": idempotencyKey, // ← add this line
+            "Idempotency-Key": idempotencyKey,
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(pendingPayload),
         });
+        if (!res.ok)
+          throw new Error(await getApiError(res, "Booking request failed"));
 
-        if (!res.ok) throw new Error("Request failed");
+        const data = await res.json();
+        if (active === "pharma") {
+          setReferenceId(data.data.referenceId);
+        }
       }
-      setReferenceId(`AFL-${Date.now().toString(36).toUpperCase()}`);
+      if (active !== "pharma") {
+        setReferenceId(`AFL-${Date.now().toString(36).toUpperCase()}`);
+      }
       setStatus("success");
-    } catch {
+    } catch (error) {
+      setFormError(getErrorMessage(error));
       setStatus("error");
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (!pendingPayload) return;
+    setOtpError("");
+    try {
+      if (!USE_MOCK_SUBMIT) {
+        const res = await fetch(`${API_BASE}/api/otp/send`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, purpose: active }),
+        });
+        if (!res.ok) {
+          throw new Error(
+            await getApiError(
+              res,
+              "Couldn't resend the code. Please try again.",
+            ),
+          );
+        }
+      }
+    } catch (error) {
+      setOtpError(getErrorMessage(error));
     }
   };
 
   const onBookAnother = () => {
     setIdempotencyKey(crypto.randomUUID());
+    setPendingPayload(null);
+    setOtpCode("");
+    setFormError("");
     setStatus("idle");
   };
 
@@ -125,7 +260,6 @@ function BookPageInner() {
           </p>
         </div>
 
-        {/* Segmented toggle — all 3 always visible */}
         <div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)]">
           {(Object.keys(SERVICE_META) as ServiceKey[]).map((key) => {
             const { label, icon: Icon } = SERVICE_META[key];
@@ -149,28 +283,39 @@ function BookPageInner() {
           })}
         </div>
 
-        {/* Form card */}
         <div className="mt-6 rounded-3xl bg-white p-8 shadow-[0_2px_16px_rgba(15,23,18,0.06)] sm:p-10">
           {status === "success" ? (
             <ConfirmationPanel
               service={SERVICE_META[active].label}
               referenceId={referenceId}
+              showReferenceId={active === "pharma"}
               onBookAnother={onBookAnother}
+            />
+          ) : status === "otp-pending" || status === "verifying-otp" ? (
+            <OtpPanel
+              phone={phone}
+              otpCode={otpCode}
+              setOtpCode={setOtpCode}
+              onVerify={handleVerifyOtp}
+              onResend={handleResendOtp}
+              verifying={status === "verifying-otp"}
+              error={otpError}
             />
           ) : (
             <>
               {active === "hospital" && (
-                <HospitalForm status={status} onSubmit={handleSubmit} />
+                <HospitalForm status={status} onSubmit={handleFormSubmit} />
               )}
               {active === "diagnosis" && (
-                <DiagnosisForm status={status} onSubmit={handleSubmit} />
+                <DiagnosisForm status={status} onSubmit={handleFormSubmit} />
               )}
               {active === "pharma" && (
-                <PharmaForm status={status} onSubmit={handleSubmit} />
+                <PharmaForm status={status} onSubmit={handleFormSubmit} />
               )}
               {status === "error" && (
                 <p className="mt-4 text-center text-sm text-red-600">
-                  Something went wrong. Please try again, or contact us directly
+                  {formError ||
+                    "Something went wrong. Please try again, or contact us directly at +251 911 000 000."}
                   at +251 911 000 000.
                 </p>
               )}
@@ -182,7 +327,71 @@ function BookPageInner() {
   );
 }
 
-//Shared field primitives
+// ── OTP verification panel ──────────────────────────────────────────────
+function OtpPanel({
+  phone,
+  otpCode,
+  setOtpCode,
+  onVerify,
+  onResend,
+  verifying,
+  error,
+}: {
+  phone: string;
+  otpCode: string;
+  setOtpCode: (v: string) => void;
+  onVerify: () => void;
+  onResend: () => void;
+  verifying: boolean;
+  error: string;
+}) {
+  return (
+    <div className="flex flex-col items-center py-4 text-center">
+      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-sage-50">
+        <ShieldCheck className="h-6 w-6 text-sage-600" strokeWidth={1.75} />
+      </span>
+      <h2 className="mt-4 text-xl font-semibold text-ink">
+        Verify Your Phone Number
+      </h2>
+      <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/65">
+        We sent a 6-digit code to <strong>{phone}</strong>. Enter it below to
+        confirm your booking.
+      </p>
+
+      <input
+        value={otpCode}
+        onChange={(e) =>
+          setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+        }
+        inputMode="numeric"
+        placeholder="000000"
+        className="mt-6 w-40 rounded-xl border border-sage-200 bg-ivory px-4 py-3 text-center text-2xl tracking-[0.5em] text-ink outline-none focus:border-sage-500 focus:bg-white"
+      />
+
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+
+      <button
+        type="button"
+        onClick={onVerify}
+        disabled={otpCode.length !== 6 || verifying}
+        className="mt-6 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-sage-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-sage-700 disabled:cursor-not-allowed disabled:opacity-70"
+      >
+        {verifying && <Loader2 className="h-4 w-4 animate-spin" />}
+        {verifying ? "Verifying..." : "Verify & Confirm Booking"}
+      </button>
+
+      <button
+        type="button"
+        onClick={onResend}
+        className="mt-4 text-sm font-medium text-sage-700 hover:text-sage-600"
+      >
+        Resend code
+      </button>
+    </div>
+  );
+}
+
+// ── Shared field primitives ─────────────────────────────────────────────
 function Field({
   label,
   children,
@@ -201,38 +410,35 @@ function Field({
 const inputClass =
   "w-full rounded-xl border border-sage-200 bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-sage-500 focus:bg-white";
 
-function SubmitButton({
-  status,
-}: {
-  status: "idle" | "submitting" | "success" | "error";
-}) {
+function SubmitButton({ status }: { status: Status }) {
+  const busy = status === "sending-otp";
   return (
     <button
       type="submit"
-      disabled={status === "submitting"}
+      disabled={busy}
       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sage-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-sage-700 disabled:cursor-not-allowed disabled:opacity-70"
     >
-      {status === "submitting" && <Loader2 className="h-4 w-4 animate-spin" />}
-      {status === "submitting" ? "Submitting..." : "Confirm Booking"}
+      {busy && <Loader2 className="h-4 w-4 animate-spin" />}
+      {busy ? "Sending code..." : "Confirm Booking"}
     </button>
   );
 }
 
-//Hospital form
+// ── Hospital form ─────────────────────────────────────────────────────────
 function HospitalForm({
   status,
   onSubmit,
 }: {
-  status: "idle" | "submitting" | "success" | "error";
+  status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   const [department, setDepartment] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
   const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
 
   useEffect(() => {
     if (!department) return;
-
     setLoadingDoctors(true);
     const controller = new AbortController();
 
@@ -246,7 +452,7 @@ function HospitalForm({
         if (!res.ok) throw new Error("Failed to load doctors");
         return res.json();
       })
-      .then((json) => setDoctors(json.data)) // now an array of { id, name, department }
+      .then((json) => setDoctors(json.data))
       .catch((err) => {
         if (err.name !== "AbortError") setDoctors([]);
       })
@@ -254,6 +460,7 @@ function HospitalForm({
 
     return () => controller.abort();
   }, [department]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -298,7 +505,10 @@ function HospitalForm({
             required
             className={inputClass}
             value={department}
-            onChange={(e) => setDepartment(e.target.value)}
+            onChange={(e) => {
+              setDepartment(e.target.value);
+              setDoctors([]);
+            }}
           >
             <option value="">Select department</option>
             <option>General Medicine</option>
@@ -323,7 +533,7 @@ function HospitalForm({
                   ? "Loading..."
                   : "Select a doctor"}
             </option>
-            {doctors.map((doc: { id: string; name: string }) => (
+            {doctors.map((doc) => (
               <option key={doc.id} value={doc.id}>
                 {doc.name}
               </option>
@@ -338,13 +548,28 @@ function HospitalForm({
             type="date"
             required
             className={inputClass}
+            value={preferredDate}
+            onChange={(event) => setPreferredDate(event.target.value)}
           />
+          {preferredDate && (
+            <span className="text-xs text-ink/55">
+              Selected:{" "}
+              <span className="text-ink/75">
+                {formatGregorianDate(preferredDate)}
+              </span>{" "}
+              <span className="text-ink/45">
+                ({toEthiopianDate(preferredDate)})
+              </span>
+            </span>
+          )}
         </Field>
         <Field label="Preferred Time">
           <select name="preferredTime" required className={inputClass}>
             <option value="">Select a time slot</option>
             {TIME_SLOTS.map((slot) => (
-              <option key={slot}>{slot}</option>
+              <option key={slot.value} value={slot.value}>
+                {slot.label}
+              </option>
             ))}
           </select>
         </Field>
@@ -362,14 +587,16 @@ function HospitalForm({
   );
 }
 
-//Diagnosis form
+// ── Diagnosis form ───────────────────────────────────────────────────────
 function DiagnosisForm({
   status,
   onSubmit,
 }: {
-  status: "idle" | "submitting" | "success" | "error";
+  status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
+  const [preferredDate, setPreferredDate] = useState("");
+
   return (
     <form
       onSubmit={(e) => {
@@ -425,13 +652,28 @@ function DiagnosisForm({
             type="date"
             required
             className={inputClass}
+            value={preferredDate}
+            onChange={(event) => setPreferredDate(event.target.value)}
           />
+          {preferredDate && (
+            <span className="text-xs text-ink/55">
+              Selected:{" "}
+              <span className="text-ink/75">
+                {formatGregorianDate(preferredDate)}
+              </span>{" "}
+              <span className="text-ink/45">
+                ({toEthiopianDate(preferredDate)})
+              </span>
+            </span>
+          )}
         </Field>
         <Field label="Preferred Time">
           <select name="preferredTime" required className={inputClass}>
             <option value="">Select a time slot</option>
             {TIME_SLOTS.map((slot) => (
-              <option key={slot}>{slot}</option>
+              <option key={slot.value} value={slot.value}>
+                {slot.label}
+              </option>
             ))}
           </select>
         </Field>
@@ -449,12 +691,12 @@ function DiagnosisForm({
   );
 }
 
-//Pharma inquiry form
+// ── Pharma inquiry form ──────────────────────────────────────────────────
 function PharmaForm({
   status,
   onSubmit,
 }: {
-  status: "idle" | "submitting" | "success" | "error";
+  status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   return (
@@ -534,14 +776,16 @@ function PharmaForm({
   );
 }
 
-//Confirmation panel
+// ── Confirmation panel ───────────────────────────────────────────────────
 function ConfirmationPanel({
   service,
   referenceId,
+  showReferenceId,
   onBookAnother,
 }: {
   service: string;
   referenceId: string;
+  showReferenceId: boolean;
   onBookAnother: () => void;
 }) {
   return (
@@ -554,9 +798,11 @@ function ConfirmationPanel({
         Thank you for reaching out to <strong>{service}</strong>. Our team will
         contact you within 24 hours to confirm the details.
       </p>
-      <p className="mt-4 rounded-full bg-sage-50 px-4 py-1.5 text-sm font-medium text-sage-700">
-        Reference ID: {referenceId}
-      </p>
+      {showReferenceId && (
+        <p className="mt-4 rounded-full bg-sage-50 px-4 py-1.5 text-sm font-medium text-sage-700">
+          Reference ID: {referenceId}
+        </p>
+      )}
       <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
         <button
           type="button"
