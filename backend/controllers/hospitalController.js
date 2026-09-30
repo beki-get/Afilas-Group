@@ -1,8 +1,17 @@
-import  { PrismaClient } from "@prisma/client";
-import  AppError from "../utils/AppError.js";
-import  {asyncHandler} from "../utils/asyncHandler.js";
+import Kenat, { monthNames } from "kenat";
+import AppError from "../utils/AppError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendSms } from "../utils/sendSms.js";
+import { prisma } from "../utils/prisma.js";
 
-const prisma = new PrismaClient();
+const getEthiopianDate = (dateValue) => {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  const ethiopianDate = new Kenat(
+    new Date(year, month - 1, day),
+  ).getEthiopian();
+
+  return `${monthNames.english[ethiopianDate.month - 1]} ${ethiopianDate.day}, ${ethiopianDate.year} E.C.`;
+};
 
 export const createHospitalBooking = asyncHandler(async (req, res, next) => {
   const {
@@ -16,7 +25,15 @@ export const createHospitalBooking = asyncHandler(async (req, res, next) => {
     notes,
   } = req.body;
 
-  if (!fullName || !phone || !email || !department || !doctorId || !preferredDate || !preferredTime) {
+  if (
+    !fullName ||
+    !phone ||
+    !email ||
+    !department ||
+    !doctorId ||
+    !preferredDate ||
+    !preferredTime
+  ) {
     return next(new AppError("Missing required fields", 400));
   }
 
@@ -25,9 +42,27 @@ export const createHospitalBooking = asyncHandler(async (req, res, next) => {
     return next(new AppError("Missing Idempotency-Key header", 400));
   }
 
-  const existing = await prisma.hospitalBooking.findUnique({ where: { idempotencyKey } });
+  const existing = await prisma.hospitalBooking.findUnique({
+    where: { idempotencyKey },
+  });
   if (existing) {
-    return res.status(200).json({ success: true, data: existing, idempotent: true });
+    return res
+      .status(200)
+      .json({ success: true, data: existing, idempotent: true });
+  }
+
+  const verification = await prisma.otpVerification.findFirst({
+    where: {
+      phone,
+      purpose: "hospital",
+      verified: true,
+      createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!verification) {
+    return next(new AppError("Phone number not verified", 403));
   }
 
   const doctor = await prisma.doctor.findUnique({ where: { id: doctorId } });
@@ -46,7 +81,10 @@ export const createHospitalBooking = asyncHandler(async (req, res, next) => {
     });
 
     if (conflict) {
-      throw new AppError("This doctor is already booked for the selected date and time", 409);
+      throw new AppError(
+        "This doctor is already booked for the selected date and time",
+        409,
+      );
     }
 
     return tx.hospitalBooking.create({
@@ -64,6 +102,16 @@ export const createHospitalBooking = asyncHandler(async (req, res, next) => {
     });
   });
 
+  try {
+    const date = new Date(preferredDate).toISOString().split("T")[0];
+    const ethiopianDate = getEthiopianDate(preferredDate);
+    await sendSms(
+      phone,
+      `Your appointment with Afilas General Hospital (${department}) on ${date} (${ethiopianDate}) at ${preferredTime} has been received. We'll contact you to confirm.`,
+    );
+  } catch (error) {
+    console.error("Hospital booking confirmation SMS failed:", error);
+  }
+
   res.status(201).json({ success: true, data: booking });
 });
-
