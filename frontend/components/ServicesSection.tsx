@@ -21,21 +21,21 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
-    image: "/images/hero-image.jpg",
+    image: "/images/hospital/hospital-hero1.jpg",
     key: "hospital",
     href: "/hospital",
     bookingKey: "hospital",
     accent: "from-[#18a999] to-[#35d0bd]",
   },
   {
-    image: "/images/diagnostic-center.jpg",
+    image: "/images/diagnosis/diagnosis-hero1.jpg",
     key: "diagnosis",
     href: "/diagnosis",
     bookingKey: "diagnosis",
     accent: "from-[#2563eb] to-[#38bdf8]",
   },
   {
-    image: "/images/drug-manufacturing.jpg",
+    image: "/images/manufacturing/manufacture11.jpg",
     key: "pharma",
     href: "/pharma",
     bookingKey: "pharma",
@@ -470,7 +470,7 @@ export default function ServicesSection() {
 
                     <Link
                       href={{
-                        pathname: "/appointment",
+                        pathname: "/book",
                         query: {
                           service: service.bookingKey,
                         },

@@ -1,17 +1,32 @@
 {
-  "Navbar": {
-    "home": "Home",
-    "hospital": "Afilas General Hospital",
-    "diagnosis": "Afilas Diagnosis Center",
-    "manufacturing": "Afilas Drug Manufacturing",
-    "services": "Services",
-    "careers": "Careers",
-    "about": "About Us",
-    "contact": "Contact",
-    "search": "Search",
-    "login": "Login",
-    "appointment": "Book Appointment"
-  },
+   "Navbar": {
+       "home": "Home",
+       "hospital": "Afilas General Hospital",
+       "hospitalShort1": "Afilas General",
+       "hospitalShort2": "Hospital",
+       "diagnosis": "Afilas Diagnosis Center",
+       "diagnosisShort1": "Afilas Diagnosis",
+       "diagnosisShort2": "Center",
+       "manufacturing": "Afilas Drug Manufacturing",
+       "manufacturingShort1": "Afilas Drug",
+       "manufacturingShort2": "Manufacturing",
+       "blog": "Blog",
+       "about": "About Us",
+       "contact": "Contact",
+       "search": "Search",
+       "desktopSearchPlaceholder": "Search Afilas Group...",
+       "mobileSearchPlaceholder": "Search Afilas...",
+       "login": "Login",
+       "appointment": "Book Appointment",
+       "language": "Language",
+       "appearance": "Appearance",
+       "emergency": "Emergency",
+       "emergencyLine": "Emergency Line",
+       "openMenu": "Open menu",
+       "closeMenu": "Close menu",
+       "logoAlt": "Afilas Group",
+       "homeAriaLabel": "Afilas Group Home"
+     },
 "About": {
   "hero": {
     "badge": "About Afilas Group",
@@ -451,191 +466,198 @@
     }
   },
 
-  "about": {
-    "badge": "ABOUT AFILAS GENERAL HOSPITAL",
-    "titleLine1": "Healthcare built around",
-    "titleHighlight": " people.",
-    "paragraph1": "Afilas General Hospital is committed to delivering accessible, compassionate and quality healthcare for individuals and families. Our approach combines experienced healthcare professionals, modern medical facilities and patient-centered care.",
-    "paragraph2": "From routine consultations to specialized treatment and emergency care, our goal is to create a healthcare experience where every patient feels respected, supported and cared for.",
-    "features": {
-      "patient": {
-        "title": "Patient-Centered Care",
-        "description": "We put every patient’s comfort, safety, and wellbeing first."
-      },
-      "professionals": {
-        "title": "Trusted Professionals",
-        "description": "Dedicated healthcare professionals focused on quality service."
-      },
-      "facilities": {
-        "title": "Modern Facilities",
-        "description": "A comfortable environment supported by medical facilities."
-      },
-      "support": {
-        "title": "Continuous Support",
-        "description": "Support and assistance when you need healthcare services."
-      }
+  "intro": {
+  "label": "ABOUT AFILAS GENERAL HOSPITAL",
+  "titleLine1": "Healthcare built around",
+  "titleLine2": "people.",
+  "paragraph1": "Afilas General Hospital is committed to delivering accessible, compassionate and quality healthcare for individuals and families. Our approach combines experienced healthcare professionals, modern medical facilities and patient-centered care.",
+  "paragraph2": "From routine consultations to specialized treatment and emergency care, our goal is to create a healthcare experience where every patient feels respected, supported and cared for.",
+  "features": {
+    "patient": {
+      "title": "Patient-Centered Care",
+      "description": "We put every patient's comfort, safety, and wellbeing first."
     },
-    "learnMore": "Learn More About Us",
-    "patientFocused": "Patient-focused",
-    "patientExperience": "healthcare experience",
-    "imageLabel": "Quality Healthcare",
-    "imageHospital": "Afilas General Hospital",
-    "imageTitle": "Caring for you and your family"
+    "professionals": {
+      "title": "Trusted Professionals",
+      "description": "Dedicated healthcare professionals focused on quality service."
+    },
+    "facilities": {
+      "title": "Modern Facilities",
+      "description": "A comfortable environment supported by modern medical facilities."
+    },
+    "support": {
+      "title": "Continuous Support",
+      "description": "Support and assistance when you need healthcare services."
+    }
   },
+  "learnMore": "Learn More About Us",
+  "patientFocused": "Patient-focused",
+  "healthcareExperience": "healthcare experience",
+  "qualityHealthcare": "Quality Healthcare",
+  "imageLabel": "Afilas General Hospital",
+  "imageTitle": "Caring for you and your family",
+  "emergencySupport": "Emergency Support"
+},
 
   "departments": {
-    "badge": "Our Medical Departments",
-    "titleLine1": "Specialized care for",
-    "titleHighlight": " every need.",
-    "description": "Explore our medical departments and discover healthcare services designed to support your health and wellbeing.",
-    "specialty": "Medical Specialty",
-    "explore": "Explore Department",
-    "items": {
-      "internalMedicine": {
-        "title": "Internal Medicine",
-        "description": "Comprehensive diagnosis and treatment for adult health conditions."
-      },
-      "surgery": {
-        "title": "Surgery",
-        "description": "Professional surgical care supported by patient-focused services."
-      },
-      "pediatrics": {
-        "title": "Pediatrics",
-        "description": "Compassionate healthcare designed for infants, children, and adolescents."
-      },
-      "gynecology": {
-        "title": "Gynecology & Obstetrics",
-        "description": "Women's health and maternity care throughout important life stages."
-      },
-      "cardiology": {
-        "title": "Cardiology",
-        "description": "Heart health assessment, consultation, and ongoing medical support."
-      },
-      "orthopedics": {
-        "title": "Orthopedics",
-        "description": "Care focused on bones, joints, muscles, and movement."
-      }
+  "badge": "Our Medical Departments",
+  "titleLine1": "Specialized care for",
+  "titleLine2": "every need.",
+  "description": "Explore our medical departments and discover healthcare services designed to support your health and wellbeing.",
+  "specialty": "Medical Specialty",
+  "explore": "Explore Department",
+
+  "items": {
+    "internalMedicine": {
+      "title": "Internal Medicine",
+      "description": "Comprehensive diagnosis and treatment for adult health conditions."
     },
-    "cta": {
-      "title": "Need help finding the right department?",
-      "description": "Our team can help guide you toward the appropriate care.",
-      "button": "Book Appointment"
+    "surgery": {
+      "title": "Surgery",
+      "description": "Professional surgical care supported by patient-focused services."
+    },
+    "pediatrics": {
+      "title": "Pediatrics",
+      "description": "Compassionate healthcare designed for infants, children, and adolescents."
+    },
+    "gynecology": {
+      "title": "Gynecology & Obstetrics",
+      "description": "Women's health and maternity care throughout important life stages."
+    },
+    "cardiology": {
+      "title": "Cardiology",
+      "description": "Heart health assessment, consultation, and ongoing medical support."
+    },
+    "orthopedics": {
+      "title": "Orthopedics",
+      "description": "Care focused on bones, joints, muscles, and movement."
     }
   },
+
+  "helpTitle": "Need help finding the right department?",
+  "helpDescription": "Our team can help guide you toward the appropriate care.",
+  "bookAppointment": "Book Appointment"
+},
 
   "services": {
-    "badge": "Healthcare Services",
-    "titleLine1": "Comprehensive Care",
-    "titleLine2": "For Every Patient",
-    "description": "From routine consultations to specialized medical support, our services are designed to provide safe, accessible, and patient-centered healthcare.",
-    "emergencySupport": "Emergency Support",
-    "coreServices": "Core Services",
-    "learnMore": "Learn More",
-    "exploreAll": "Explore All Afilas General Hospital Services",
-    "items": {
-      "outpatient": {
-        "title": "Outpatient Care",
-        "description": "Professional consultations, diagnosis, treatment, and follow-up care without hospital admission."
-      },
-      "inpatient": {
-        "title": "Inpatient Care",
-        "description": "Comfortable hospital admission and continuous medical support for patients who need extended care."
-      },
-      "emergency": {
-        "title": "Emergency Care",
-        "description": "Rapid medical attention for urgent health conditions and emergency situations."
-      },
-      "consultation": {
-        "title": "Medical Consultation",
-        "description": "Expert medical advice, health assessments, and personalized treatment recommendations."
-      },
-      "laboratory": {
-        "title": "Laboratory Services",
-        "description": "Reliable laboratory testing to support accurate diagnosis and effective treatment."
-      },
-      "pharmacy": {
-        "title": "Pharmacy Services",
-        "description": "Access to prescribed medicines and professional medication-related support."
-      }
+  "badge": "Healthcare Services",
+  "titleLine1": "Comprehensive Care",
+  "titleLine2": "For Every Patient",
+  "description": "From routine consultations to specialized medical support, our services are designed to provide safe, accessible, and patient-centered healthcare.",
+  "emergencySupport": "Emergency Support",
+  "coreServices": "Core Services",
+  "learnMore": "Learn More",
+  "exploreAll": "Explore All Afilas General Hospital Services",
+
+  "items": {
+    "outpatient": {
+      "title": "Outpatient Care",
+      "description": "Professional consultations, diagnosis, treatment, and follow-up care without hospital admission."
+    },
+    "inpatient": {
+      "title": "Inpatient Care",
+      "description": "Comfortable hospital admission and continuous medical support for patients who need extended care."
     },
     "emergency": {
-      "badge": "Immediate Assistance",
-      "title": "Need Emergency Medical Care?",
-      "description": "Contact our emergency team for urgent medical assistance. Do not delay seeking emergency care when needed.",
-      "button": "Emergency Call"
+      "title": "Emergency Care",
+      "description": "Rapid medical attention for urgent health conditions and emergency situations."
+    },
+    "consultation": {
+      "title": "Medical Consultation",
+      "description": "Expert medical advice, health assessments, and personalized treatment recommendations."
+    },
+    "laboratory": {
+      "title": "Laboratory Services",
+      "description": "Reliable laboratory testing to support accurate diagnosis and effective treatment."
+    },
+    "pharmacy": {
+      "title": "Pharmacy Services",
+      "description": "Access to prescribed medicines and professional medication-related support."
     }
   },
+
+  "emergencyBanner": {
+    "label": "Immediate Assistance",
+    "title": "Need Emergency Medical Care?",
+    "description": "Contact our emergency team for urgent medical assistance. Do not delay seeking emergency care when needed.",
+    "button": "Emergency Call"
+  }
+},
 
   "doctors": {
-    "badge": "Our Medical Team",
-    "titleLine1": "Meet Our",
-    "titleLine2": "Medical Specialists",
-    "description": "Our medical team is committed to providing professional, compassionate, and patient-centered healthcare.",
-    "viewAll": "View All Doctors",
-    "viewProfile": "View Profile",
-    "bookAppointment": "Book Appointment",
-    "items": {
-      "abebe": {
-        "specialization": "Internal Medicine Specialist",
-        "experience": "10+ Years Experience",
-        "description": "Experienced in adult healthcare, diagnosis, and long-term disease management."
-      },
-      "hana": {
-        "specialization": "Pediatrician",
-        "experience": "8+ Years Experience",
-        "description": "Dedicated to providing compassionate healthcare for children and families."
-      },
-      "dawit": {
-        "specialization": "Cardiologist",
-        "experience": "12+ Years Experience",
-        "description": "Focused on cardiovascular assessment, prevention, and treatment."
-      },
-      "selamawit": {
-        "specialization": "Gynecologist & Obstetrician",
-        "experience": "9+ Years Experience",
-        "description": "Providing women's healthcare, maternity services, and professional support."
-      }
+  "badge": "Our Medical Team",
+  "titleLine1": "Meet Our",
+  "titleLine2": "Medical Specialists",
+  "description": "Our medical team is committed to providing professional, compassionate, and patient-centered healthcare.",
+  "viewAll": "View All Doctors",
+
+  "specialists": {
+    "internalMedicine": {
+      "name": "Dr. Abebe Kebede",
+      "specialization": "Internal Medicine Specialist",
+      "experience": "10+ Years Experience",
+      "description": "Experienced in adult healthcare, diagnosis, and long-term disease management.",
+      "department": "Internal Medicine"
     },
-    "cta": {
-      "title": "Need Help Choosing a Specialist?",
-      "description": "Our team can help guide you toward the appropriate department and appointment service.",
-      "button": "Find the Right Care"
+    "pediatrics": {
+      "name": "Dr. Hana Tesfaye",
+      "specialization": "Pediatrician",
+      "experience": "8+ Years Experience",
+      "description": "Dedicated to providing compassionate healthcare for children and families.",
+      "department": "Pediatrics"
+    },
+    "cardiology": {
+      "name": "Dr. Dawit Alemu",
+      "specialization": "Cardiologist",
+      "experience": "12+ Years Experience",
+      "description": "Focused on cardiovascular assessment, prevention, and treatment.",
+      "department": "Cardiology"
+    },
+    "gynecology": {
+      "name": "Dr. Selamawit Mekonnen",
+      "specialization": "Gynecologist & Obstetrician",
+      "experience": "9+ Years Experience",
+      "description": "Providing women's healthcare, maternity services, and professional support.",
+      "department": "Gynecology & Obstetrics"
     }
   },
 
-  "emergency": {
-    "badge": "Emergency Medical Care",
-    "titleLine1": "Your Emergency",
-    "titleLine2": "Is Our Priority",
-    "description": "When every second matters, our emergency care team is prepared to provide timely medical assistance and support.",
-    "support": {
-      "title": "Emergency Support",
-      "description": "Available according to hospital emergency hours"
-    },
-    "patient": {
-      "title": "Patient-Focused Care",
-      "description": "Professional support during urgent situations"
-    },
-    "callButton": "Call Emergency",
-    "appointmentButton": "Book Appointment",
-    "contactLabel": "Emergency Contact",
-    "immediateTitle": "Need Immediate Help?",
-    "immediateDescription": "For life-threatening emergencies, seek immediate medical assistance or contact the appropriate emergency service.",
-    "telephoneLabel": "Emergency Telephone"
-  },
+  "viewProfile": "View Profile",
+  "bookAppointment": "Book Appointment",
 
-  "appointment": {
-    "titleLine1": "Your Health Deserves",
-    "titleLine2": "The Right Care",
-    "description": "Schedule your appointment with our healthcare team and take the next step toward better health.",
-    "bookButton": "Book an Appointment",
-    "contactButton": "Contact Hospital",
-    "points": {
-      "patient": "Patient-Centered Care",
-      "professional": "Professional Healthcare",
-      "facilities": "Modern Facilities"
-    }
-  }
+  "helpTitle": "Need Help Choosing a Specialist?",
+  "helpDescription": "Our team can help guide you toward the appropriate department and appointment service.",
+  "findCare": "Find the Right Care"
+},
+
+  "emergencyCare": {
+  "badge": "Emergency Medical Care",
+  "titleLine1": "Your Emergency",
+  "titleLine2": "Is Our Priority",
+  "description": "Our emergency team is ready to provide timely medical assistance and support when every second matters.",
+  "supportTitle": "Emergency Support",
+  "supportDescription": "Available according to hospital emergency hours",
+  "patientTitle": "Patient-Focused Care",
+  "patientDescription": "Professional support during urgent situations",
+  "callButton": "Call Emergency",
+  "appointmentButton": "Book Appointment",
+  "cardLabel": "Emergency Contact",
+  "cardTitle": "Need Immediate Help?",
+  "cardDescription": "For life-threatening emergencies, seek immediate medical assistance or contact the appropriate emergency service.",
+  "telephone": "Emergency Telephone",
+  "number": "+251 00 000 0000"
+},
+
+  "appointmentCta": {
+  "titleLine1": "Your Health Deserves",
+  "titleLine2": "The Right Care",
+  "description": "Schedule your appointment with our healthcare team and take the next step toward better health.",
+  "appointmentButton": "Book an Appointment",
+  "contactButton": "Contact Hospital",
+  "patientCare": "Patient-Centered Care",
+  "professional": "Professional Healthcare",
+  "facilities": "Modern Facilities"
+}
 },
 "Diagnosis": {
   "hero": {
@@ -848,6 +870,7 @@
     "description": "Delivering quality pharmaceutical products through modern manufacturing, scientific innovation, and a commitment to improving healthcare.",
     "exploreProducts": "Explore Our Products",
     "learnMore": "Learn More",
+    "bookAppointment": "Book an Appointment",
     "slide": "Go to slide {number}",
     "trust": {
       "quality": {
@@ -1403,5 +1426,296 @@
     }
   }
 }
+},
+"Booking": {
+  "title": "Book an Appointment",
+  "description": "Choose a service below, then fill in your details — we'll confirm within 24 hours.",
+
+  "services": {
+    "hospital": "General Hospital",
+    "diagnosis": "Diagnosis Center",
+    "pharma": "Drug Manufacturing"
+  },
+
+  "form": {
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "department": "Department",
+    "doctor": "Preferred Doctor",
+    "date": "Preferred Date",
+    "time": "Preferred Time",
+    "reason": "Reason for Visit (optional)",
+    "testType": "Test / Scan Type",
+    "notes": "Notes (optional)",
+    "companyName": "Company Name",
+    "contactPerson": "Contact Person",
+    "businessEmail": "Business Email",
+    "interestArea": "Area of Interest",
+    "estimatedQuantity": "Estimated Quantity (optional)",
+    "message": "Message"
+  },
+
+  "options": {
+    "selectDepartment": "Select department",
+    "selectDepartmentFirst": "Select department first",
+    "loading": "Loading...",
+    "selectDoctor": "Select a doctor",
+    "selectTime": "Select a time slot",
+    "selectTest": "Select a test",
+    "selectOption": "Select an option"
+  },
+
+  "submit": {
+    "submitting": "Submitting...",
+    "confirm": "Confirm Booking"
+  },
+
+  "error": "Something went wrong. Please try again, or contact us directly at +251 911 000 000.",
+
+  "confirmation": {
+    "title": "Request Received",
+    "description": "Thank you for reaching out to {service}. Our team will contact you within 24 hours to confirm the details.",
+    "reference": "Reference ID: {referenceId}",
+    "bookAnother": "Book Another",
+    "returnHome": "Return to Homepage"
+  },
+
+  "placeholders": {
+    "fullNameHospital": "e.g. Selamawit Bekele",
+    "fullNameDiagnosis": "e.g. Daniel Tesfaye",
+    "phone": "+251 9xx xxx xxx",
+    "email": "you@example.com",
+    "reason": "Briefly describe your symptoms or reason for the visit",
+    "notes": "Any relevant details for the lab team",
+    "companyName": "e.g. Nile Pharma Distributors",
+    "contactPerson": "Full name",
+    "businessEmail": "you@company.com",
+    "estimatedQuantity": "e.g. 5,000 units / month",
+    "message": "Tell us about your request"
+  },
+
+  "departments": {
+    "generalMedicine": "General Medicine",
+    "cardiology": "Cardiology",
+    "pediatrics": "Pediatrics",
+    "orthopedics": "Orthopedics",
+    "maternity": "Maternity",
+    "surgery": "Surgery"
+  },
+
+  "tests": {
+    "bloodTest": "Blood Test",
+    "xray": "Digital X-Ray",
+    "ctScan": "CT Scan",
+    "mri": "MRI",
+    "ultrasound": "Ultrasound",
+    "other": "Other"
+  },
+
+  "interests": {
+    "bulk": "Bulk / Wholesale Order",
+    "distribution": "Distribution Partnership",
+    "formulation": "Formulation Partnership",
+    "other": "Other"
+  },
+
+  "timeSlots": {
+    "morning": "Morning (9AM–12PM)",
+    "afternoon": "Afternoon (12PM–4PM)",
+    "evening": "Evening (4PM–7PM)"
+  }
+},
+"Login": {
+  "secureAccess": "Secure Access",
+  "welcomeTitle": "Your healthcare journey starts here.",
+  "welcomeDescription": "Access your Afilas Group account to manage appointments, view your healthcare information, and stay connected with our services.",
+  "secureAndPrivate": "Secure & Private",
+  "secureDescription": "Your account information is protected.",
+  "title": "Welcome back",
+  "description": "Sign in to your Afilas Group account to continue.",
+  "email": "Email address",
+  "emailPlaceholder": "Enter your email address",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "forgotPassword": "Forgot password?",
+  "invalidEmail": "Please enter a valid email address.",
+  "invalidPassword": "Please enter your password.",
+  "loginError": "Unable to sign in. Please try again.",
+  "rememberMe": "Remember me",
+  "login": "Login",
+  "loggingIn": "Logging in...",
+  "noAccount": "Don't have an account?",
+  "createAccount": "Create account",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "securityNote": "By signing in, you agree to Afilas Group's terms and privacy policy."
+},
+
+"Register": {
+  "secureAccess": "CREATE YOUR ACCOUNT",
+  "welcomeTitle": "Your Health Journey Starts Here",
+  "welcomeDescription": "Create your Afilas account to access healthcare services, manage appointments, and stay connected with your care team.",
+  "secureAndPrivate": "Your information matters",
+  "secureDescription": "Your account and personal information should be protected and handled securely.",
+  "title": "Create Your Account",
+  "description": "Register to access Afilas Group healthcare services.",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "Enter your full name",
+  "email": "Email Address",
+  "emailPlaceholder": "you@example.com",
+  "phone": "Phone Number",
+  "phonePlaceholder": "+251 9xx xxx xxx",
+  "password": "Password",
+  "passwordPlaceholder": "Create a password",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordPlaceholder": "Re-enter your password",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "invalidFullName": "Please enter your full name.",
+  "invalidEmail": "Please enter a valid email address.",
+  "invalidPhone": "Please enter a valid phone number.",
+  "passwordTooShort": "Password must be at least 8 characters.",
+  "registrationError": "Registration failed. Please try again.",
+  "registrationSuccess": "Registration information is valid. Your account is ready to be created.",
+  "registering": "Creating account...",
+  "registerButton": "Create Account",
+  "alreadyHaveAccount": "Already have an account?",
+  "login": "Sign in",
+  "passwordMismatch": "Passwords do not match."
+},
+"ForgotPassword": {
+  "accountRecovery": "ACCOUNT RECOVERY",
+  "healthJourney": "Your Health Journey Matters to Us",
+  "recoveryDescription": "Regain access to your Afilas account securely. Choose SMS or email to receive instructions for resetting your password.",
+  "privacyTitle": "Your Privacy Matters",
+  "privacyDescription": "We take the security of your account and personal information seriously.",
+  "title": "Forgot Password?",
+  "description": "No worries! Choose how you would like to receive your password recovery instructions.",
+  "sms": "SMS",
+  "email": "Email",
+  "registeredPhone": "Registered Phone Number",
+  "registeredEmail": "Registered Email Address",
+  "invalidEmail": "Please enter a valid email address.",
+  "invalidPhone": "Please enter a valid phone number.",
+  "phoneHelp": "Enter the mobile number associated with your Afilas account.",
+  "emailHelp": "Enter the email address associated with your Afilas account.",
+  "sendSmsCode": "Send SMS Code",
+  "sendResetLink": "Send Reset Link",
+  "sending": "Please wait...",
+  "backToLogin": "Back to Login",
+  "securityNote": "Your personal information is protected.",
+  "requestSubmitted": "Request Submitted",
+  "requestDescription": "Your recovery request has been submitted. Once connected to the authentication backend, a verification code or reset link will be sent if the account details match.",
+  "recoveryMethod": "Recovery method",
+  "tryAnotherMethod": "Try another method",
+  "returnToLogin": "Return to Login"
+},
+"ResetPassword": {
+  "secureAccount": "SECURE ACCOUNT",
+  "healthJourney": "Your Health Journey Matters to Us",
+  "recoveryDescription": "Create a new secure password and regain full access to your Afilas account.",
+  "privacyTitle": "Your Privacy Matters",
+  "privacyDescription": "We take the security of your account and personal information seriously.",
+  "title": "Reset Your Password",
+  "description": "Create a strong new password for your Afilas account.",
+  "newPassword": "New Password",
+  "newPasswordPlaceholder": "Enter your new password",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordPlaceholder": "Confirm your new password",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "passwordRequirements": "Password requirements",
+  "minimumCharacters": "At least 8 characters",
+  "uppercaseLetter": "At least one uppercase letter",
+  "number": "At least one number",
+  "specialCharacter": "At least one special character",
+  "weakPassword": "Weak password",
+  "mediumPassword": "Medium password",
+  "strongPassword": "Strong password",
+  "passwordTooShort": "Your password must contain at least 8 characters.",
+  "passwordMismatch": "The passwords do not match.",
+  "resetPassword": "Reset Password",
+  "resetting": "Resetting...",
+  "successTitle": "Password Reset Successfully",
+  "successDescription": "Your password has been updated successfully. You can now sign in to your Afilas account using your new password.",
+  "returnToLogin": "Return to Login",
+  "resetAgain": "Reset Again",
+  "backToLogin": "Back to Login",
+  "securityNote": "Your personal information is protected."
+},
+"Verify": {
+  "secureVerification": "SECURE VERIFICATION",
+  "healthJourney": "Your Health Journey Matters to Us",
+  "verificationMessage": "We sent a verification code to help protect your Afilas account. Enter the code to continue securely.",
+  "privacyTitle": "Your Privacy Matters",
+  "privacyDescription": "We take the security of your account and personal information seriously.",
+  "title": "Verify Your Account",
+  "description": "Enter the 6-digit verification code we sent to you.",
+  "emailDescription": "Enter the 6-digit verification code we sent to your email address.",
+  "smsDescription": "Enter the 6-digit verification code we sent to your phone number.",
+  "verificationCode": "Verification Code",
+  "codeExpires": "Code expires in",
+  "codeExpired": "Verification code has expired.",
+  "verifyCode": "Verify Code",
+  "verifying": "Verifying...",
+  "didNotReceive": "Didn't receive the code?",
+  "resendCode": "Resend Code",
+  "resending": "Resending...",
+  "invalidCode": "Please enter the complete 6-digit verification code.",
+  "verificationSuccessful": "Verification Successful",
+  "verificationDescription": "Your account has been verified successfully. You can now create a new password.",
+  "continueToReset": "Continue to Reset Password",
+  "backToForgotPassword": "Back to Forgot Password",
+  "securityNote": "Your personal information is protected."
+},
+"Blog": {
+  "title": "Afilas Blog & Articles",
+  "subtitle": "Health insights, medical information, diagnostic updates, and pharmaceutical news from Afilas Group.",
+  "all": "All",
+  "hospital": "Hospital",
+  "diagnosis": "Diagnosis",
+  "manufacturing": "Manufacturing",
+  "readArticle": "Read Article",
+  "latestArticles": "Latest Articles",
+  "noArticles": "No articles available yet.",
+  "backToBlog": "Back to Blog",
+  "articleNotFound": "Article Not Found",
+  "articleNotFoundDescription": "The article you are looking for does not exist."
+},
+"Search": {
+  "title": "Search Afilas Group",
+  "titleWithQuery": "Search results for \"{query}\"",
+  "description": "Find information about Afilas Group healthcare services.",
+  "descriptionWithQuery": "Here are the pages that match your search.",
+  "viewPage": "View page",
+  "noResults": "No results found",
+  "tryAgain": "Try searching for another term such as hospital, diagnosis, appointment, or pharmacy.",
+  "results": {
+    "hospital": {
+      "title": "Afilas General Hospital",
+      "description": "Comprehensive healthcare services delivered by experienced medical professionals."
+    },
+    "diagnosis": {
+      "title": "Afilas Diagnosis Center",
+      "description": "Diagnostic and laboratory services to support accurate and timely medical care."
+    },
+    "manufacturing": {
+      "title": "Drug Manufacturing",
+      "description": "Learn about Afilas Group pharmaceutical manufacturing and healthcare products."
+    },
+    "appointment": {
+      "title": "Book an Appointment",
+      "description": "Schedule an appointment with Afilas Group healthcare services."
+    },
+    "about": {
+      "title": "About Afilas Group",
+      "description": "Learn more about Afilas Group and its healthcare, diagnostics, and manufacturing services."
+    },
+    "contact": {
+      "title": "Contact Afilas Group",
+      "description": "Find contact information and ways to get in touch with Afilas Group."
+    }
+  }
 }
 }

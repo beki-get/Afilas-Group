@@ -266,7 +266,7 @@ export default function DiagnosisPage() {
                 <div className="mt-9 flex flex-wrap gap-4">
 
                   <Link
-                    href="/appointment?service=diagnosis"
+                    href="/book?service=diagnosis"
                     className="group inline-flex items-center gap-2 rounded-xl bg-[#18a999] px-7 py-4 font-semibold text-white shadow-xl shadow-[#18a999]/20 transition-all duration-300 hover:-translate-y-1 hover:bg-[#20bbaa]"
                   >
                     {t("hero.bookAppointment")}
@@ -450,7 +450,7 @@ export default function DiagnosisPage() {
               </div>
 
               <Link
-                href="/appointment?service=diagnosis"
+                href="/book?service=diagnosis"
                 className="group inline-flex items-center gap-2 font-semibold text-[#18a999]"
               >
 
@@ -1098,7 +1098,7 @@ export default function DiagnosisPage() {
             <div className="mt-9 flex flex-wrap justify-center gap-4">
 
               <Link
-                href="/appointment?service=diagnosis"
+                href="/book?service=diagnosis"
                 className="group inline-flex items-center gap-2 rounded-xl bg-[#18a999] px-8 py-4 font-semibold text-white shadow-xl shadow-[#18a999]/20 transition-all duration-300 hover:-translate-y-1 hover:bg-[#20bbaa]"
               >
 

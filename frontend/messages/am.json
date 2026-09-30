@@ -1,17 +1,41 @@
 {
-  "Navbar": {
-    "home": "መነሻ",
-    "hospital": "አፊላስ አጠቃላይ ሆስፒታል",
-    "diagnosis": "አፊላስ የምርመራ ማዕከል",
-    "manufacturing": "አፊላስ የመድኃኒት ማምረቻ",
-    "services": "አገልግሎቶች",
-    "careers": "የሥራ ዕድሎች",
-    "about": "ስለ እኛ",
-    "contact": "ያግኙን",
-    "search": "ፈልግ",
-    "login": "ግባ",
-    "appointment": "ቀጠሮ ይያዙ"
-  },
+   "Navbar": {
+        "home": "መነሻ",
+        "hospital": "አፊላስ አጠቃላይ ሆስፒታል",
+        "hospitalShort1": "አፊላስ አጠቃላይ",
+        "hospitalShort2": "ሆስፒታል",
+
+        "diagnosis": "አፊላስ የምርመራ ማዕከል",
+        "diagnosisShort1": "አፊላስ የምርመራ",
+        "diagnosisShort2": "ማዕከል",
+
+        "manufacturing": "አፊላስ የመድኃኒት ማምረቻ",
+        "manufacturingShort1": "አፊላስ የመድኃኒት",
+        "manufacturingShort2": "ማምረቻ",
+
+        "blog": "ብሎግ",
+        "about": "ስለ እኛ",
+        "contact": "ያግኙን",
+
+        "search": "ፈልግ",
+        "desktopSearchPlaceholder": "አፊላስ ግሩፕን ይፈልጉ...",
+        "mobileSearchPlaceholder": "አፊላስን ይፈልጉ...",
+
+        "login": "ግባ",
+        "appointment": "ቀጠሮ ይያዙ",
+
+        "language": "ቋንቋ",
+        "appearance": "ገጽታ",
+
+        "emergency": "የአደጋ ጊዜ",
+        "emergencyLine": "የአደጋ ጊዜ መስመር",
+
+        "openMenu": "ምናሌን ክፈት",
+        "closeMenu": "ምናሌን ዝጋ",
+
+        "logoAlt": "አፊላስ ግሩፕ",
+        "homeAriaLabel": "የአፊላስ ግሩፕ መነሻ"
+   },
 
   "About": {
   "hero": {
@@ -441,6 +465,7 @@
     "description": "ርኅራኄ ያለው የጤና አገልግሎት፣ ልምድ ያላቸው ባለሙያዎች እና ዘመናዊ የሕክምና አገልግሎቶች ለእርስዎና ለቤተሰብዎ ተብለው የተዘጋጁ።",
     "bookAppointment": "ቀጠሮ ይያዙ",
     "exploreDepartments": "የሕክምና ክፍሎችን ይመልከቱ",
+    "goToSlide": "ወደ ስላይድ ይሂዱ",
     "trust": {
       "trustedCare": "የታመነ እንክብካቤ",
       "trustedCareDescription": "ታካሚን በማዕከል ያደረገ አገልግሎት",
@@ -881,6 +906,7 @@
     "description": "በዘመናዊ የማምረቻ ሂደት፣ በሳይንሳዊ ፈጠራ እና በጥራት ቁርጠኝነት ላይ በመመስረት ጥራት ያላቸውን የመድኃኒት ምርቶች በማቅረብ የጤና አገልግሎትን ለማሻሻል እንሰራለን።",
     "exploreProducts": "ምርቶቻችንን ይመልከቱ",
     "learnMore": "ተጨማሪ ይወቁ",
+     "bookAppointment": "ቀጠሮ ይያዙ",
     "trust": {
       "quality": {
         "title": "ጥራት",
@@ -1436,5 +1462,296 @@
     }
   }
 }
- }
+ },
+ "Booking": {
+  "title": "ቀጠሮ ይያዙ",
+  "description": "ከታች አንድ አገልግሎት ይምረጡ፣ ከዚያ ዝርዝርዎን ይሙሉ። በ24 ሰዓት ውስጥ እናረጋግጥልዎታለን።",
+
+  "services": {
+    "hospital": "አፊላስ ጄኔራል ሆስፒታል",
+    "diagnosis": "የምርመራ ማዕከል",
+    "pharma": "የመድኃኒት ማምረቻ"
+  },
+
+  "form": {
+    "fullName": "ሙሉ ስም",
+    "phone": "ስልክ ቁጥር",
+    "email": "የኢሜይል አድራሻ",
+    "department": "የሕክምና ክፍል",
+    "doctor": "የሚፈልጉት ሐኪም",
+    "date": "የሚፈልጉት ቀን",
+    "time": "የሚፈልጉት ሰዓት",
+    "reason": "የጉብኝት ምክንያት (አማራጭ)",
+    "testType": "የምርመራ / ስካን አይነት",
+    "notes": "ማስታወሻ (አማራጭ)",
+    "companyName": "የድርጅት ስም",
+    "contactPerson": "የግንኙነት ሰው ስም",
+    "businessEmail": "የንግድ ኢሜይል",
+    "interestArea": "የፍላጎት አካባቢ",
+    "estimatedQuantity": "የሚገመተው መጠን (አማራጭ)",
+    "message": "መልዕክት"
+  },
+
+  "options": {
+    "selectDepartment": "የሕክምና ክፍል ይምረጡ",
+    "selectDepartmentFirst": "መጀመሪያ የሕክምና ክፍል ይምረጡ",
+    "loading": "በመጫን ላይ...",
+    "selectDoctor": "ሐኪም ይምረጡ",
+    "selectTime": "የሰዓት ክፍተት ይምረጡ",
+    "selectTest": "ምርመራ ይምረጡ",
+    "selectOption": "አማራጭ ይምረጡ"
+  },
+
+  "submit": {
+    "submitting": "በመላክ ላይ...",
+    "confirm": "ቀጠሮውን ያረጋግጡ"
+  },
+
+  "error": "የሆነ ችግር ተፈጥሯል። እባክዎ እንደገና ይሞክሩ ወይም በ +251 911 000 000 በቀጥታ ያግኙን።",
+
+  "confirmation": {
+    "title": "ጥያቄዎ ደርሶናል",
+    "description": "{service}ን ስለመረጡ እናመሰግናለን። ዝርዝሩን ለማረጋገጥ ቡድናችን በ24 ሰዓት ውስጥ ያነጋግርዎታል።",
+    "reference": "የማጣቀሻ መለያ፦ {referenceId}",
+    "bookAnother": "ሌላ ቀጠሮ ይያዙ",
+    "returnHome": "ወደ መነሻ ገጽ ይመለሱ"
+  },
+
+  "placeholders": {
+    "fullNameHospital": "ለምሳሌ፦ ሰላማዊት በቀለ",
+    "fullNameDiagnosis": "ለምሳሌ፦ ዳንኤል ተስፋዬ",
+    "phone": "+251 9xx xxx xxx",
+    "email": "you@example.com",
+    "reason": "የምልክቶችዎን ወይም የጉብኝቱን ምክንያት በአጭሩ ይግለጹ",
+    "notes": "ለምርመራ ቡድኑ ተጨማሪ መረጃ",
+    "companyName": "ለምሳሌ፦ ናይል ፋርማ አከፋፋዮች",
+    "contactPerson": "ሙሉ ስም",
+    "businessEmail": "you@company.com",
+    "estimatedQuantity": "ለምሳሌ፦ 5,000 ክፍሎች / ወር",
+    "message": "ስለጥያቄዎ ዝርዝር ይንገሩን"
+  },
+
+  "departments": {
+    "generalMedicine": "አጠቃላይ ሕክምና",
+    "cardiology": "የልብ ሕክምና",
+    "pediatrics": "የሕፃናት ሕክምና",
+    "orthopedics": "የአጥንትና መገጣጠሚያ ሕክምና",
+    "maternity": "የእናቶች ክፍል",
+    "surgery": "ቀዶ ሕክምና"
+  },
+
+  "tests": {
+    "bloodTest": "የደም ምርመራ",
+    "xray": "ዲጂታል ኤክስሬይ",
+    "ctScan": "ሲቲ ስካን",
+    "mri": "ኤምአርአይ",
+    "ultrasound": "አልትራሳውንድ",
+    "other": "ሌላ"
+  },
+
+  "interests": {
+    "bulk": "የጅምላ / የጅምላ ንግድ ትዕዛዝ",
+    "distribution": "የስርጭት አጋርነት",
+    "formulation": "የመድኃኒት አዘገጃጀት አጋርነት",
+    "other": "ሌላ"
+  },
+
+  "timeSlots": {
+    "morning": "ጠዋት (9AM–12PM)",
+    "afternoon": "ከሰዓት (12PM–4PM)",
+    "evening": "ምሽት (4PM–7PM)"
+  }
+},
+"Login": {
+  "secureAccess": "የተጠበቀ መግቢያ",
+  "welcomeTitle": "የጤና እንክብካቤ ጉዞዎ እዚህ ይጀምራል።",
+  "welcomeDescription": "የቀጠሮዎችዎን ለማስተዳደር፣ የጤና መረጃዎን ለማየት እና ከአገልግሎቶቻችን ጋር ለመገናኘት ወደ Afilas Group መለያዎ ይግቡ።",
+  "secureAndPrivate": "የተጠበቀ እና የግል",
+  "secureDescription": "የመለያዎ መረጃ በጥንቃቄ ይጠበቃል።",
+  "title": "እንኳን ደህና መጡ",
+  "description": "ለመቀጠል ወደ Afilas Group መለያዎ ይግቡ።",
+  "email": "የኢሜይል አድራሻ",
+  "emailPlaceholder": "የኢሜይል አድራሻዎን ያስገቡ",
+  "password": "የይለፍ ቃል",
+  "passwordPlaceholder": "የይለፍ ቃልዎን ያስገቡ",
+  "forgotPassword": "የይለፍ ቃል ረሱ?",
+  "invalidEmail": "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ።",
+  "invalidPassword": "እባክዎ የይለፍ ቃልዎን ያስገቡ።",
+  "loginError": "መግባት አልተቻለም። እባክዎ እንደገና ይሞክሩ።",
+  "rememberMe": "አስታውሰኝ",
+  "login": "ግባ",
+  "loggingIn": "በመግባት ላይ...",
+  "noAccount": "መለያ የለዎትም?",
+  "createAccount": "መለያ ይፍጠሩ",
+  "showPassword": "የይለፍ ቃሉን አሳይ",
+  "hidePassword": "የይለፍ ቃሉን ደብቅ",
+  "securityNote": "በመግባትዎ የAfilas Group የአጠቃቀም ደንቦችን እና የግላዊነት ፖሊሲን ተቀብለዋል።"
+},
+
+"Register": {
+  "secureAccess": "መለያዎን ይፍጠሩ",
+  "welcomeTitle": "የጤና ጉዞዎ እዚህ ይጀምራል",
+  "welcomeDescription": "የአፊላስ መለያ በመፍጠር የጤና አገልግሎቶችን ያግኙ፣ ቀጠሮዎችዎን ያስተዳድሩ እና ከሕክምና ቡድንዎ ጋር ይገናኙ።",
+  "secureAndPrivate": "መረጃዎ ለእኛ አስፈላጊ ነው",
+  "secureDescription": "የመለያዎ እና የግል መረጃዎ በደህንነት መጠበቅ አለበት።",
+  "title": "መለያዎን ይፍጠሩ",
+  "description": "የአፊላስ ግሩፕ የጤና አገልግሎቶችን ለማግኘት ይመዝገቡ።",
+  "fullName": "ሙሉ ስም",
+  "fullNamePlaceholder": "ሙሉ ስምዎን ያስገቡ",
+  "email": "የኢሜይል አድራሻ",
+  "emailPlaceholder": "you@example.com",
+  "phone": "ስልክ ቁጥር",
+  "phonePlaceholder": "+251 9xx xxx xxx",
+  "password": "የይለፍ ቃል",
+  "passwordPlaceholder": "የይለፍ ቃል ይፍጠሩ",
+  "confirmPassword": "የይለፍ ቃሉን ያረጋግጡ",
+  "confirmPasswordPlaceholder": "የይለፍ ቃሉን እንደገና ያስገቡ",
+  "showPassword": "የይለፍ ቃሉን አሳይ",
+  "hidePassword": "የይለፍ ቃሉን ደብቅ",
+  "invalidFullName": "እባክዎ ሙሉ ስምዎን ያስገቡ።",
+  "invalidEmail": "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ።",
+  "invalidPhone": "እባክዎ ትክክለኛ የስልክ ቁጥር ያስገቡ።",
+  "passwordTooShort": "የይለፍ ቃሉ ቢያንስ 8 ቁምፊዎች መሆን አለበት።",
+  "registrationError": "ምዝገባው አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
+  "registrationSuccess": "የምዝገባ መረጃዎ ትክክል ነው። መለያዎ ለመፍጠር ዝግጁ ነው።",
+  "registering": "መለያ በመፍጠር ላይ..." ,
+  "registerButton": "መለያ ይፍጠሩ",
+  "alreadyHaveAccount": "አስቀድመው መለያ አለዎት?",
+  "login": "ይግቡ",
+  "passwordMismatch": "የይለፍ ቃሎቹ አይዛመዱም።"
+},
+"ForgotPassword": {
+  "accountRecovery": "የመለያ መልሶ ማግኛ",
+  "healthJourney": "የጤና ጉዞዎ ለእኛ ወሳኝ ነው",
+  "recoveryDescription": "ወደ Afilas መለያዎ በደህና እንደገና ይግቡ። የይለፍ ቃልዎን ለመቀየር መመሪያ ለመቀበል SMS ወይም ኢሜይል ይምረጡ።",
+  "privacyTitle": "ግላዊነትዎ ለእኛ ወሳኝ ነው",
+  "privacyDescription": "የመለያዎን ደህንነት እና የግል መረጃዎን በከፍተኛ ጥንቃቄ እንጠብቃለን።",
+  "title": "የይለፍ ቃልዎን ረሱ?",
+  "description": "ምንም አይደለም! የይለፍ ቃል መልሶ ማግኛ መመሪያዎችን እንዴት መቀበል እንደሚፈልጉ ይምረጡ።",
+  "sms": "SMS",
+  "email": "ኢሜይል",
+  "registeredPhone": "የተመዘገበ ስልክ ቁጥር",
+  "registeredEmail": "የተመዘገበ የኢሜይል አድራሻ",
+  "invalidEmail": "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ።",
+  "invalidPhone": "እባክዎ ትክክለኛ የስልክ ቁጥር ያስገቡ።",
+  "phoneHelp": "ከ Afilas መለያዎ ጋር የተያያዘውን የሞባይል ቁጥር ያስገቡ።",
+  "emailHelp": "ከ Afilas መለያዎ ጋር የተያያዘውን የኢሜይል አድራሻ ያስገቡ።",
+  "sendSmsCode": "የSMS ኮድ ላክ",
+  "sendResetLink": "የመቀየሪያ ሊንክ ላክ",
+  "sending": "እባክዎ ይጠብቁ...",
+  "backToLogin": "ወደ መግቢያ ተመለስ",
+  "securityNote": "የግል መረጃዎ የተጠበቀ ነው።",
+  "requestSubmitted": "ጥያቄዎ ተልኳል",
+  "requestDescription": "የመልሶ ማግኛ ጥያቄዎ ተልኳል። ከማረጋገጫ ስርዓቱ ጋር ከተገናኘ በኋላ፣ የመለያ መረጃው ከተስማማ የማረጋገጫ ኮድ ወይም የይለፍ ቃል መቀየሪያ ሊንክ ይላካል።",
+  "recoveryMethod": "የመልሶ ማግኛ ዘዴ",
+  "tryAnotherMethod": "ሌላ ዘዴ ይሞክሩ",
+  "returnToLogin": "ወደ መግቢያ ተመለስ"
+},
+"ResetPassword": {
+  "secureAccount": "የተጠበቀ መለያ",
+  "healthJourney": "የጤና ጉዞዎ ለእኛ ወሳኝ ነው",
+  "recoveryDescription": "አዲስ የተጠበቀ የይለፍ ቃል ይፍጠሩ እና ወደ Afilas መለያዎ ሙሉ በሙሉ ይመለሱ።",
+  "privacyTitle": "ግላዊነትዎ ለእኛ ወሳኝ ነው",
+  "privacyDescription": "የመለያዎን ደህንነት እና የግል መረጃዎን በከፍተኛ ጥንቃቄ እንጠብቃለን።",
+  "title": "የይለፍ ቃልዎን ይቀይሩ",
+  "description": "ለ Afilas መለያዎ ጠንካራ አዲስ የይለፍ ቃል ይፍጠሩ።",
+  "newPassword": "አዲስ የይለፍ ቃል",
+  "newPasswordPlaceholder": "አዲሱን የይለፍ ቃል ያስገቡ",
+  "confirmPassword": "የይለፍ ቃል ያረጋግጡ",
+  "confirmPasswordPlaceholder": "አዲሱን የይለፍ ቃል እንደገና ያስገቡ",
+  "showPassword": "የይለፍ ቃል አሳይ",
+  "hidePassword": "የይለፍ ቃል ደብቅ",
+  "passwordRequirements": "የይለፍ ቃል መስፈርቶች",
+  "minimumCharacters": "ቢያንስ 8 ቁምፊዎች",
+  "uppercaseLetter": "ቢያንስ አንድ ትልቅ ፊደል",
+  "number": "ቢያንስ አንድ ቁጥር",
+  "specialCharacter": "ቢያንስ አንድ ልዩ ምልክት",
+  "weakPassword": "ደካማ የይለፍ ቃል",
+  "mediumPassword": "መካከለኛ የይለፍ ቃል",
+  "strongPassword": "ጠንካራ የይለፍ ቃል",
+  "passwordTooShort": "የይለፍ ቃልዎ ቢያንስ 8 ቁምፊዎች ሊኖሩት ይገባል።",
+  "passwordMismatch": "የይለፍ ቃሎቹ አይመሳሰሉም።",
+  "resetPassword": "የይለፍ ቃል ቀይር",
+  "resetting": "በመቀየር ላይ...",
+  "successTitle": "የይለፍ ቃል በተሳካ ሁኔታ ተቀይሯል",
+  "successDescription": "የይለፍ ቃልዎ በተሳካ ሁኔታ ተቀይሯል። አሁን አዲሱን የይለፍ ቃልዎን በመጠቀም ወደ Afilas መለያዎ መግባት ይችላሉ።",
+  "returnToLogin": "ወደ መግቢያ ተመለስ",
+  "resetAgain": "እንደገና ይቀይሩ",
+  "backToLogin": "ወደ መግቢያ ተመለስ",
+  "securityNote": "የግል መረጃዎ የተጠበቀ ነው።"
+},
+"Verify": {
+  "secureVerification": "የተጠበቀ ማረጋገጫ",
+  "healthJourney": "የጤና ጉዞዎ ለእኛ ወሳኝ ነው",
+  "verificationMessage": "የAfilas መለያዎን ለመጠበቅ የማረጋገጫ ኮድ ልከናል። ለመቀጠል ኮዱን ያስገቡ።",
+  "privacyTitle": "ግላዊነትዎ ለእኛ ወሳኝ ነው",
+  "privacyDescription": "የመለያዎን ደህንነት እና የግል መረጃዎን በከፍተኛ ጥንቃቄ እንጠብቃለን።",
+  "title": "መለያዎን ያረጋግጡ",
+  "description": "የላክንልዎትን ባለ 6 አሃዝ የማረጋገጫ ኮድ ያስገቡ።",
+  "emailDescription": "ወደ ኢሜይል አድራሻዎ የላክንልዎትን ባለ 6 አሃዝ የማረጋገጫ ኮድ ያስገቡ።",
+  "smsDescription": "ወደ ስልክ ቁጥርዎ የላክንልዎትን ባለ 6 አሃዝ የማረጋገጫ ኮድ ያስገቡ።",
+  "verificationCode": "የማረጋገጫ ኮድ",
+  "codeExpires": "ኮዱ የሚያበቃው በ",
+  "codeExpired": "የማረጋገጫ ኮዱ ጊዜው አልፏል።",
+  "verifyCode": "ኮዱን አረጋግጥ",
+  "verifying": "በማረጋገጥ ላይ...",
+  "didNotReceive": "ኮዱ አልደረሰዎትም?",
+  "resendCode": "ኮዱን እንደገና ላክ",
+  "resending": "በመላክ ላይ...",
+  "invalidCode": "እባክዎ ሙሉ ባለ 6 አሃዝ የማረጋገጫ ኮድ ያስገቡ።",
+  "verificationSuccessful": "ማረጋገጫው ተሳክቷል",
+  "verificationDescription": "መለያዎ በተሳካ ሁኔታ ተረጋግጧል። አሁን አዲስ የይለፍ ቃል መፍጠር ይችላሉ።",
+  "continueToReset": "ወደ የይለፍ ቃል መቀየሪያ ቀጥል",
+  "backToForgotPassword": "ወደ የይለፍ ቃል መልሶ ማግኛ ተመለስ",
+  "securityNote": "የግል መረጃዎ የተጠበቀ ነው።"
+},
+"Blog": {
+  "title": "የአፊላስ ብሎግ እና ጽሑፎች",
+  "subtitle": "ከአፊላስ ግሩፕ የጤና መረጃ፣ የሕክምና ጽሑፎች፣ የምርመራ ዝመናዎች እና የመድኃኒት መረጃዎች።",
+  "all": "ሁሉም",
+  "hospital": "ሆስፒታል",
+  "diagnosis": "ምርመራ",
+  "manufacturing": "መድኃኒት ማምረት",
+  "readArticle": "ጽሑፉን ያንብቡ",
+  "latestArticles": "የቅርብ ጊዜ ጽሑፎች",
+  "noArticles": "እስካሁን ምንም ጽሑፍ የለም።",
+  "backToBlog": "ወደ ብሎግ ተመለስ",
+  "articleNotFound": "ጽሑፉ አልተገኘም",
+  "articleNotFoundDescription": "የሚፈልጉት ጽሑፍ አልተገኘም።"
+},
+"Search": {
+  "title": "አፊላስ ግሩፕ ይፈልጉ",
+  "titleWithQuery": "ለ\"{query}\" የፍለጋ ውጤቶች",
+  "description": "ስለ አፊላስ ግሩፕ የጤና አገልግሎቶች መረጃ ያግኙ።",
+  "descriptionWithQuery": "ከፍለጋዎ ጋር የሚዛመዱ ገጾች እነሆ።",
+  "viewPage": "ገጹን ይመልከቱ",
+  "noResults": "ምንም ውጤት አልተገኘም",
+  "tryAgain": "ሌላ ቃል ይፈልጉ፣ ለምሳሌ ሆስፒታል፣ ምርመራ፣ ቀጠሮ ወይም ፋርማሲ።",
+  "results": {
+    "hospital": {
+      "title": "አፊላስ ጠቅላላ ሆስፒታል",
+      "description": "በልምድ ባላቸው የሕክምና ባለሙያዎች የሚሰጡ የተሟላ የጤና አገልግሎቶች።"
+    },
+    "diagnosis": {
+      "title": "አፊላስ የምርመራ ማዕከል",
+      "description": "ትክክለኛና ፈጣን የሕክምና እንክብካቤን ለመደገፍ የምርመራና የላቦራቶሪ አገልግሎቶች።"
+    },
+    "manufacturing": {
+      "title": "የመድኃኒት ማምረቻ",
+      "description": "ስለ አፊላስ ግሩፕ የመድኃኒት ማምረቻና የጤና ምርቶች የበለጠ ይወቁ።"
+    },
+    "appointment": {
+      "title": "ቀጠሮ ይያዙ",
+      "description": "ከአፊላስ ግሩፕ የጤና አገልግሎቶች ጋር ቀጠሮ ይያዙ።"
+    },
+    "about": {
+      "title": "ስለ አፊላስ ግሩፕ",
+      "description": "ስለ አፊላስ ግሩፕ፣ ስለ ጤና፣ ምርመራ እና የመድኃኒት ማምረቻ አገልግሎቶች የበለጠ ይወቁ።"
+    },
+    "contact": {
+      "title": "አፊላስ ግሩፕን ያግኙ",
+      "description": "የአፊላስ ግሩፕ የመገኛ መረጃን እና እንዴት ሊያገኙን እንደሚችሉ ይመልከቱ።"
+    }
+  }
+}
 }

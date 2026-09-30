@@ -457,7 +457,7 @@ export default function WhyChooseUsSection() {
 
           {/* CTA */}
           <Link
-            href="/appointment"
+            href="/book"
             {...reveal(500)}
             className={`
               ${base}

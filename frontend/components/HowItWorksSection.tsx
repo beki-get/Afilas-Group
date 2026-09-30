@@ -700,7 +700,7 @@ export default function HowItWorksSection() {
 
             {/* CTA button */}
             <Link
-              href="/appointment"
+              href="/book"
               className="
                 group
                 inline-flex

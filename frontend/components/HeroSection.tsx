@@ -148,7 +148,7 @@ export default function HeroSection() {
           >
             {/* Book Appointment */}
             <Link
-              href="/appointment"
+              href="/book"
               className="
                 group
                 inline-flex w-full

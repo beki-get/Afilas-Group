@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useTheme } from "@/components/ThemeProvider";
 import Image from "next/image";
 import {
   Menu,
@@ -26,37 +28,11 @@ type NavLink = {
   shortLines?: [string, string];
 };
 
-const NAV_LINKS: NavLink[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "Afilas General Hospital",
-    href: "/hospital",
-    shortLines: ["Afilas General", "Hospital"],
-  },
-  {
-    label: "Afilas Diagnosis Center",
-    href: "/diagnosis",
-    shortLines: ["Afilas Diagnosis", "Center"],
-  },
-  {
-    label: "Afilas Drug Manufacturing",
-    href: "/pharma",
-    shortLines: ["Afilas Drug", "Manufacturing"],
-  },
-  {
-    label: "About Us",
-    href: "/about",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-  },
-];
-
 export default function Navbar() {
+  const t = useTranslations("Navbar");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -64,6 +40,54 @@ export default function Navbar() {
 
   const pathname = usePathname();
   const router = useRouter();
+
+  /*
+   * =========================================================
+   * TRANSLATED NAVIGATION LINKS
+   * =========================================================
+   */
+  const NAV_LINKS: NavLink[] = [
+    {
+      label: t("home"),
+      href: "/",
+    },
+    {
+      label: t("hospital"),
+      href: "/hospital",
+      shortLines: [
+        t("hospitalShort1"),
+        t("hospitalShort2"),
+      ],
+    },
+    {
+      label: t("diagnosis"),
+      href: "/diagnosis",
+      shortLines: [
+        t("diagnosisShort1"),
+        t("diagnosisShort2"),
+      ],
+    },
+    {
+      label: t("manufacturing"),
+      href: "/pharma",
+      shortLines: [
+        t("manufacturingShort1"),
+        t("manufacturingShort2"),
+      ],
+    },
+     {
+        label: t("blog"),
+        href: "/blog",
+    },
+    {
+      label: t("about"),
+      href: "/about",
+    },
+    {
+      label: t("contact"),
+      href: "/contact",
+    },
+  ];
 
   /* =========================================================
      SCROLL DETECTION
@@ -147,6 +171,7 @@ export default function Navbar() {
       ===================================================== */}
       <div className="bg-[#071f46] text-white dark:bg-[#041936]">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-6 py-1.5 text-xs sm:justify-end">
+
           <Phone
             className="h-3.5 w-3.5 shrink-0 text-[#35d0bd]"
             aria-hidden="true"
@@ -156,8 +181,9 @@ export default function Navbar() {
             href={EMERGENCY_TEL_HREF}
             className="tracking-wide transition-colors hover:text-[#35d0bd]"
           >
-            Emergency Line: {EMERGENCY_PHONE}
+            {t("emergencyLine")}: {EMERGENCY_PHONE}
           </a>
+
         </div>
       </div>
 
@@ -167,11 +193,13 @@ export default function Navbar() {
       <nav
         className={[
           "border-b transition-all duration-300",
+
           scrolled
             ? "border-slate-200/70 bg-white/95 shadow-[0_4px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-[#071f46]/95"
             : "border-transparent bg-white/90 backdrop-blur-md dark:bg-[#071f46]/90",
         ].join(" ")}
       >
+
         <div className="mx-auto flex max-w-[1600px] items-center gap-5 px-4 py-3 sm:px-6 xl:px-8">
 
           {/* =================================================
@@ -180,20 +208,24 @@ export default function Navbar() {
           <Link
             href="/"
             className="group flex shrink-0 items-center gap-2.5"
-            aria-label="Afilas Group Home"
+            aria-label={t("homeAriaLabel")}
           >
+
             <div className="relative h-11 w-11 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200/60 dark:ring-white/10">
+
               <Image
                 src="/afilas-logo.jpg"
-                alt="Afilas Group"
+                alt={t("logoAlt")}
                 fill
                 priority
                 sizes="44px"
                 className="object-cover"
               />
+
             </div>
 
             <div className="hidden sm:block">
+
               <div className="text-lg font-bold leading-none tracking-tight text-[#071f46] dark:text-white">
                 Afilas
               </div>
@@ -201,13 +233,16 @@ export default function Navbar() {
               <div className="mt-1 text-[9px] font-medium uppercase tracking-[0.18em] text-slate-500 dark:text-white/60">
                 Healthcare Group
               </div>
+
             </div>
+
           </Link>
 
           {/* =================================================
               DESKTOP NAVIGATION
           ================================================= */}
-          <ul className="hidden flex-1 items-center justify-center gap-4 xl:flex 2xl:gap-5">
+          <ul className="hidden flex-1 items-center justify-center gap-6 xl:flex 2xl:gap-7">
+
             {NAV_LINKS.map((link) => {
               const active = isActive(link.href);
 
@@ -216,10 +251,11 @@ export default function Navbar() {
                   key={link.href}
                   className="flex h-12 items-center"
                 >
+
                   <Link
                     href={link.href}
                     className={[
-                      "relative flex items-center justify-center text-center text-[0.82rem] font-medium leading-tight transition-colors duration-200",
+                      "relative flex items-center justify-center text-center text-[0.99rem] font-medium leading-tight transition-colors duration-200",
 
                       "after:absolute after:-bottom-1 after:left-1/2 after:h-0.5 after:-translate-x-1/2 after:rounded-full after:bg-[#18a999] after:transition-all after:duration-300",
 
@@ -228,6 +264,7 @@ export default function Navbar() {
                         : "text-slate-600 after:w-0 hover:text-[#12356b] hover:after:w-5 dark:text-white/75 dark:hover:text-white",
                     ].join(" ")}
                   >
+
                     {link.shortLines ? (
                       <>
                         {link.shortLines[0]}
@@ -237,10 +274,13 @@ export default function Navbar() {
                     ) : (
                       link.label
                     )}
+
                   </Link>
+
                 </li>
               );
             })}
+
           </ul>
 
           {/* =================================================
@@ -252,7 +292,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen((value) => !value)}
-              aria-label="Search"
+              aria-label={t("search")}
               aria-expanded={searchOpen}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[#12356b] transition-all hover:scale-105 hover:border-[#18a999] hover:bg-[#e9fffb] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
             >
@@ -265,6 +305,7 @@ export default function Navbar() {
 
             {/* LANGUAGE SWITCHER */}
             <div className="flex items-center rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-white/5">
+
               <Globe2 className="ml-2 h-4 w-4 text-[#18a999]" />
 
               <button
@@ -286,6 +327,7 @@ export default function Navbar() {
               >
                 አማ
               </button>
+
             </div>
 
             {/* DARK / LIGHT MODE */}
@@ -297,18 +339,19 @@ export default function Navbar() {
               className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-semibold text-[#12356b] transition-all hover:border-[#18a999] hover:bg-[#e9fffb] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
             >
               <LogIn className="h-4 w-4" />
-              Login
+              {t("login")}
             </Link>
 
             {/* BOOK APPOINTMENT */}
             <Link
-              href="/appointment"
-              className="group inline-flex h-10 items-center gap-2 rounded-full bg-[#18a999] px-5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(24,169,153,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#128f82] hover:shadow-[0_12px_25px_rgba(24,169,153,0.32)]"
+              href="/book"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#18a999] px-5 py-4 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#128f82]"
             >
-              <CalendarDays className="h-4 w-4 transition-transform group-hover:scale-110" />
-
-              Book Appointment
+              <CalendarDays className="h-5 w-5" />
+              {t("appointment")}
             </Link>
+
           </div>
 
           {/* =================================================
@@ -325,7 +368,9 @@ export default function Navbar() {
             <button
               type="button"
               aria-label={
-                mobileOpen ? "Close menu" : "Open menu"
+                mobileOpen
+                  ? t("closeMenu")
+                  : t("openMenu")
               }
               aria-expanded={mobileOpen}
               onClick={() =>
@@ -339,7 +384,9 @@ export default function Navbar() {
                 <Menu className="h-5 w-5" />
               )}
             </button>
+
           </div>
+
         </div>
 
         {/* =====================================================
@@ -348,17 +395,22 @@ export default function Navbar() {
         <div
           className={[
             "overflow-hidden border-t transition-all duration-300",
+
             searchOpen
               ? "max-h-24 opacity-100"
               : "pointer-events-none max-h-0 opacity-0",
+
             "border-slate-200/70 bg-white/95 dark:border-white/10 dark:bg-[#071f46]/95",
           ].join(" ")}
         >
+
           <div className="mx-auto max-w-3xl px-6 py-3">
+
             <form
               onSubmit={handleSearch}
               className="relative"
             >
+
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
               <input
@@ -367,13 +419,17 @@ export default function Navbar() {
                 onChange={(e) =>
                   setSearchQuery(e.target.value)
                 }
-                placeholder="Search Afilas Group..."
+                placeholder={t("desktopSearchPlaceholder")}
                 className="w-full rounded-full border border-slate-200 bg-slate-50 py-3 pl-11 pr-5 text-sm outline-none transition-all placeholder:text-slate-400 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 dark:focus:bg-white/10"
                 autoFocus={searchOpen}
               />
+
             </form>
+
           </div>
+
         </div>
+
       </nav>
 
       {/* =========================================================
@@ -383,17 +439,42 @@ export default function Navbar() {
         aria-hidden={!mobileOpen}
         className={[
           "fixed inset-0 z-40 xl:hidden",
-          "bg-[#071f46]/98 backdrop-blur-xl",
-          "transition-all duration-300",
+          "backdrop-blur-xl transition-all duration-300",
+
+          isDark
+            ? "bg-[#071f46]/98"
+            : "bg-[#FBFAF7]/98",
+
           mobileOpen
             ? "visible opacity-100"
             : "invisible pointer-events-none opacity-0",
         ].join(" ")}
       >
+
+        {/* MOBILE CLOSE BUTTON */}
+        <button
+          type="button"
+          onClick={() => setMobileOpen(false)}
+          aria-label={t("closeMenu")}
+          className={[
+            "absolute right-5 top-20 z-50 flex h-11 w-11",
+            "items-center justify-center rounded-full border shadow-lg",
+            "backdrop-blur-md transition-all duration-200",
+            "hover:scale-105",
+            isDark
+              ? "border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-[#35d0bd]"
+              : "border-slate-200 bg-white text-[#071f46] hover:border-[#18a999] hover:text-[#18a999]",
+          ].join(" ")}
+        >
+          <X className="h-6 w-6" />
+        </button>
+
         <div
           className={[
             "flex h-full flex-col overflow-y-auto px-6 pb-10 pt-28",
             "transition-all duration-300",
+            isDark ? "text-white" : "text-[#071f46]",
+
             mobileOpen
               ? "translate-y-0"
               : "-translate-y-4",
@@ -405,8 +486,15 @@ export default function Navbar() {
             onSubmit={handleSearch}
             className="mb-8"
           >
+
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/50" />
+
+              <Search
+                className={[
+                  "absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2",
+                  isDark ? "text-white/50" : "text-slate-400",
+                ].join(" ")}
+              />
 
               <input
                 type="search"
@@ -414,16 +502,26 @@ export default function Navbar() {
                 onChange={(e) =>
                   setSearchQuery(e.target.value)
                 }
-                placeholder="Search Afilas..."
-                className="w-full rounded-2xl border border-white/10 bg-white/10 py-3.5 pl-12 pr-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#35d0bd]"
+                placeholder={t("mobileSearchPlaceholder")}
+                className={[
+                  "w-full rounded-2xl border py-3.5 pl-12 pr-4 text-sm outline-none",
+                  "focus:border-[#18a999]",
+                  isDark
+                    ? "border-white/10 bg-white/10 text-white placeholder:text-white/40"
+                    : "border-slate-200 bg-white text-[#071f46] placeholder:text-slate-400",
+                ].join(" ")}
               />
+
             </div>
+
           </form>
 
           {/* MOBILE NAV LINKS */}
           <ul className="flex flex-col gap-1">
+
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
+
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
@@ -431,30 +529,66 @@ export default function Navbar() {
                     "block rounded-2xl px-5 py-3.5 text-lg font-medium transition-all",
 
                     isActive(link.href)
-                      ? "bg-[#18a999]/15 text-[#35d0bd]"
-                      : "text-white/85 hover:bg-white/5 hover:text-white",
+                      ? "bg-[#18a999]/15 text-[#18a999] dark:text-[#35d0bd]"
+                      : isDark
+                        ? "text-white/85 hover:bg-white/5 hover:text-white"
+                        : "text-[#071f46]/85 hover:bg-slate-200/60 hover:text-[#071f46]",
                   ].join(" ")}
                 >
                   {link.label}
                 </Link>
+
               </li>
             ))}
+
           </ul>
 
           {/* MOBILE CONTROLS */}
-          <div className="mt-8 space-y-4 border-t border-white/10 pt-7">
+          <div
+            className={[
+              "mt-8 space-y-4 border-t pt-7",
+              isDark
+                ? "border-white/10"
+                : "border-slate-200",
+            ].join(" ")}
+          >
 
             {/* LANGUAGE */}
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
-              <div className="flex items-center gap-3 text-white/80">
+            <div
+              className={[
+                "flex items-center justify-between rounded-2xl border px-5 py-4",
+                isDark
+                  ? "border-white/10 bg-white/5"
+                  : "border-slate-200 bg-white shadow-sm",
+              ].join(" ")}
+            >
+
+              <div
+                className={[
+                  "flex items-center gap-3",
+                  isDark
+                    ? "text-white/80"
+                    : "text-[#071f46]",
+                ].join(" ")}
+              >
+
                 <Globe2 className="h-5 w-5 text-[#35d0bd]" />
 
                 <span className="text-sm font-medium">
-                  Language
+                  {t("language")}
                 </span>
+
               </div>
 
-              <div className="flex items-center rounded-full bg-white/10 p-1">
+              <div
+                className={[
+                  "flex items-center rounded-full p-1",
+                  isDark
+                    ? "bg-white/10"
+                    : "bg-slate-100",
+                ].join(" ")}
+              >
+
                 <button
                   type="button"
                   onClick={() => switchLanguage("en")}
@@ -466,55 +600,85 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => switchLanguage("am")}
-                  className="rounded-full px-4 py-1.5 text-xs font-bold text-white/80 hover:text-white"
+                  className={[
+                    "rounded-full px-4 py-1.5 text-xs font-bold",
+                    isDark
+                      ? "text-white/80 hover:text-white"
+                      : "text-slate-600 hover:text-[#071f46]",
+                  ].join(" ")}
                 >
                   አማ
                 </button>
+
               </div>
+
             </div>
 
             {/* THEME */}
-            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
-              <span className="text-sm font-medium text-white/80">
-                Appearance
+            <div
+              className={[
+                "flex items-center justify-between rounded-2xl border px-5 py-4",
+                isDark
+                  ? "border-white/10 bg-white/5"
+                  : "border-slate-200 bg-white shadow-sm",
+              ].join(" ")}
+            >
+
+              <span
+                className={[
+                  "text-sm font-medium",
+                  isDark
+                    ? "text-white/80"
+                    : "text-[#071f46]",
+                ].join(" ")}
+              >
+                {t("appearance")}
               </span>
 
               <ThemeToggle />
+
             </div>
 
-            {/* LOGIN */}
+            {/* LOGIN
             <Link
               href="/login"
               onClick={() => setMobileOpen(false)}
               className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 py-3.5 text-sm font-semibold text-white transition-all hover:bg-white/10"
             >
               <LogIn className="h-4 w-4" />
-              Login
-            </Link>
+              {t("login")}
+            </Link> */}
 
             {/* BOOK APPOINTMENT */}
             <Link
-              href="/appointment"
-              onClick={() => setMobileOpen(false)}
+              href="/book"
               className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#18a999] px-5 py-4 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#128f82]"
             >
               <CalendarDays className="h-5 w-5" />
-
-              Book Appointment
+              {t("appointment")}
             </Link>
 
             {/* EMERGENCY */}
             <a
               href={EMERGENCY_TEL_HREF}
-              className="flex items-center justify-center gap-2 pt-3 text-sm text-white/60 transition-colors hover:text-[#35d0bd]"
+              className={[
+                "flex items-center justify-center gap-2 pt-3 text-sm transition-colors",
+                isDark
+                  ? "text-white/60 hover:text-[#35d0bd]"
+                  : "text-slate-600 hover:text-[#18a999]",
+              ].join(" ")}
             >
               <Phone className="h-4 w-4" />
 
-              Emergency: {EMERGENCY_PHONE}
+              {t("emergency")}: {EMERGENCY_PHONE}
             </a>
+
           </div>
+
         </div>
+
       </div>
+
     </header>
   );
 }

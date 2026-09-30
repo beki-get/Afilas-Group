@@ -46,29 +46,29 @@ const SERVICE_LINKS = [
   },
   {
     key: "appointment",
-    href: "/appointment",
+    href: "/book",
   },
 ];
 
 const SOCIALS = [
   {
     icon: FaFacebook,
-    href: "#",
+    href: "https://www.facebook.com/",
     label: "Facebook",
   },
   {
     icon: FaInstagram,
-    href: "#",
+    href: "http://www.instagram.com/",
     label: "Instagram",
   },
   {
     icon: FaTwitter,
-    href: "#",
+    href: "http://www.twitter.com/",
     label: "Twitter",
   },
   {
     icon: FaLinkedin,
-    href: "#",
+    href: "http://www.linkedin.com/",
     label: "LinkedIn",
   },
 ];

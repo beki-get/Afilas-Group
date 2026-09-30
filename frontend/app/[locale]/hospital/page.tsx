@@ -202,7 +202,7 @@ export default function GeneralHospitalPage() {
     {
       key: "appointments",
       icon: CalendarDays,
-      href: "/appointment",
+      href: "/book?service=hospital",
     },
     {
       key: "emergency",
@@ -281,7 +281,7 @@ export default function GeneralHospitalPage() {
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
 
                 <Link
-                  href="/appointment"
+                   href="/book?service=hospital"
                   className="group inline-flex items-center justify-center gap-3 rounded-full bg-[#18A999] px-7 py-4 font-semibold text-white shadow-lg shadow-[#18A999]/20 transition hover:-translate-y-1 hover:bg-[#159889]"
                 >
                   {t("hero.bookAppointment")}
@@ -346,7 +346,7 @@ export default function GeneralHospitalPage() {
               <button
                 key={index}
                 onClick={() => setCurrentHero(index)}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`${t("hero.goToSlide")} ${index + 1}`}
                 className={`h-2.5 rounded-full transition-all duration-500 ${
                   index === currentHero
                     ? "w-10 bg-[#64D6C5]"
@@ -950,9 +950,9 @@ export default function GeneralHospitalPage() {
         </div>
 
         <Link
-          href="/appointment"
-          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#071f46] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-teal-600 hover:shadow-xl dark:bg-teal-500 dark:text-[#071f46] dark:hover:bg-teal-400"
-        >
+              href="/book?service=hospital"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#071f46] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-teal-600 hover:shadow-xl dark:bg-teal-500 dark:text-[#071f46] dark:hover:bg-teal-400"
+ >
           {t("departments.bookAppointment")}
           <ArrowRight className="h-4 w-4" />
         </Link>
@@ -1226,9 +1226,9 @@ export default function GeneralHospitalPage() {
                 </Link>
 
                 <Link
-                  href="/appointment"
-                  className={`inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r ${doctor.gradient} px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
-                >
+                    href="/book?service=hospital"
+                    className={`inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r ${doctor.gradient} px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
+                 >
                   <CalendarDays className="h-4 w-4" />
                   {t("doctors.bookAppointment")}
                 </Link>
@@ -1263,7 +1263,7 @@ export default function GeneralHospitalPage() {
 
         {/* Button */}
         <Link
-          href="/appointment"
+          href="/book?service=hospital"
           className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#071f46] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-teal-600 hover:shadow-xl dark:bg-teal-500 dark:text-[#071f46] dark:hover:bg-teal-400"
         >
           {t("doctors.findCare")}
@@ -1364,7 +1364,7 @@ export default function GeneralHospitalPage() {
           </a>
 
           <Link
-            href="/appointment"
+             href="/book?service=hospital"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-[#071f46]/20 bg-white px-7 py-3.5 text-sm font-bold text-[#071f46] transition-all duration-300 hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500 hover:text-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-teal-500 dark:hover:bg-teal-500"
           >
             <CalendarDays className="h-5 w-5" />
@@ -1468,23 +1468,23 @@ export default function GeneralHospitalPage() {
     </div>
 
     <h2 className="mt-7 text-4xl font-extrabold leading-tight text-white md:text-5xl">
-      Your Health Deserves
+      {t("appointmentCta.titleLine1")}
       <span className="block text-[#64d6c5]">
-        The Right Care
+        {t("appointmentCta.titleLine2")}
       </span>
     </h2>
 
     <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-blue-100">
-      Schedule your appointment with our healthcare team and take
-      the next step toward better health.
+      {t("appointmentCta.description")}
     </p>
 
     <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
+
       <Link
-        href="/appointment"
+        href="/book?service=hospital"
         className="inline-flex items-center justify-center gap-3 rounded-full bg-[#18a999] px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-1 hover:bg-[#64d6c5]"
       >
-        Book an Appointment
+        {t("appointmentCta.appointmentButton")}
         <ArrowRight size={19} />
       </Link>
 
@@ -1493,25 +1493,28 @@ export default function GeneralHospitalPage() {
         className="inline-flex items-center justify-center gap-3 rounded-full border border-white/40 px-8 py-4 font-bold text-white transition-all hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
       >
         <Phone size={18} />
-        Contact Hospital
+        {t("appointmentCta.contactButton")}
       </a>
+
     </div>
 
     <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-blue-200">
+
       <span className="flex items-center gap-2">
         <ShieldCheck size={17} />
-        Patient-Centered Care
+        {t("appointmentCta.patientCare")}
       </span>
 
       <span className="flex items-center gap-2">
         <HeartPulse size={17} />
-        Professional Healthcare
+        {t("appointmentCta.professional")}
       </span>
 
       <span className="flex items-center gap-2">
         <Hospital size={17} />
-        Modern Facilities
+        {t("appointmentCta.facilities")}
       </span>
+
     </div>
 
   </div>

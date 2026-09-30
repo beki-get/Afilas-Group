@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Building2,
   Microscope,
@@ -62,6 +63,7 @@ export default function BookPage() {
 }
 
 function BookPageInner() {
+  const t = useTranslations("Booking");
   const searchParams = useSearchParams();
   const initial = (searchParams.get("service") as ServiceKey) || "hospital";
   const [active, setActive] = useState<ServiceKey>(
@@ -113,20 +115,20 @@ function BookPageInner() {
   };
 
   return (
-    <main className="min-h-screen bg-ivory pb-24 pt-32 lg:pt-40">
+    <main className="min-h-screen bg-[#FBFAF7] pb-24 pt-32 transition-colors duration-300 dark:!bg-[#071f46] lg:pt-40">
       <div className="mx-auto max-w-2xl px-6">
         <div className="mt-6 text-center">
-          <h1 className="text-3xl font-semibold text-ink sm:text-4xl">
-            Book an Appointment
+          <h1 className="text-3xl font-semibold text-ink transition-colors duration-300 dark:text-white sm:text-4xl">
+             {t("title")}
           </h1>
-          <p className="mt-3 text-base text-ink/65">
-            Choose a service below, then fill in your details — we'll confirm
-            within 24 hours.
+
+          <p className="mt-3 text-base text-ink/65 transition-colors duration-300 dark:text-white/70">
+            {t("description")}
           </p>
         </div>
 
         {/* Segmented toggle — all 3 always visible */}
-        <div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)]">
+        <div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)] transition-colors duration-300 dark:!bg-[#0b2b55] dark:shadow-black/20">
           {(Object.keys(SERVICE_META) as ServiceKey[]).map((key) => {
             const { label, icon: Icon } = SERVICE_META[key];
             const isActive = key === active;
@@ -139,11 +141,11 @@ function BookPageInner() {
                   "flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-colors duration-200 sm:text-sm",
                   isActive
                     ? "bg-sage-600 text-white"
-                    : "text-ink/60 hover:bg-sage-50 hover:text-ink",
+                    : "text-ink/60 hover:bg-sage-50 hover:text-ink dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white",
                 ].join(" ")}
               >
                 <Icon className="h-5 w-5" strokeWidth={1.75} />
-                {label}
+                {t(`services.${key}`)}
               </button>
             );
           })}
@@ -226,6 +228,7 @@ function HospitalForm({
   status: "idle" | "submitting" | "success" | "error";
   onSubmit: (payload: Record<string, string>) => void;
 }) {
+  const t = useTranslations("Booking");
   const [department, setDepartment] = useState("");
   const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
@@ -264,35 +267,35 @@ function HospitalForm({
       className="flex flex-col gap-5"
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Full Name">
+        <Field label={t("form.fullName")}>
           <input
             name="fullName"
             required
             className={inputClass}
-            placeholder="e.g. Selamawit Bekele"
+            placeholder={t("placeholders.fullNameHospital")}
           />
         </Field>
-        <Field label="Phone Number">
+        <Field label={t("form.phone")}>
           <input
             name="phone"
             type="tel"
             required
             className={inputClass}
-            placeholder="+251 9xx xxx xxx"
+            placeholder={t("placeholders.phone")}
           />
         </Field>
       </div>
-      <Field label="Email Address">
+      <Field label={t("form.email")}>
         <input
           name="email"
           type="email"
           required
           className={inputClass}
-          placeholder="you@example.com"
+          placeholder={t("placeholders.email")}
         />
       </Field>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Department">
+        <Field label={t("form.department")}>
           <select
             name="department"
             required
@@ -300,39 +303,40 @@ function HospitalForm({
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            <option value="">Select department</option>
-            <option>General Medicine</option>
-            <option>Cardiology</option>
-            <option>Pediatrics</option>
-            <option>Orthopedics</option>
-            <option>Maternity</option>
-            <option>Surgery</option>
+            <option value="">{t("options.selectDepartment")}</option>
+            <option value="General Medicine">{t("departments.generalMedicine")}</option>
+            <option value="Cardiology">{t("departments.cardiology")}</option>
+            <option value="Pediatrics">{t("departments.pediatrics")}</option>
+            <option value="Orthopedics">{t("departments.orthopedics")}</option>
+            <option value="Maternity">{t("departments.maternity")}</option>
+            <option value="Surgery">{t("departments.surgery")}</option>
           </select>
         </Field>
-        <Field label="Preferred Doctor">
+        <Field label={t("form.doctor")}>
           <select
-            name="doctorId"
-            required
-            disabled={!department || loadingDoctors}
-            className={inputClass}
-          >
-            <option value="">
-              {!department
-                ? "Select department first"
-                : loadingDoctors
-                  ? "Loading..."
-                  : "Select a doctor"}
-            </option>
-            {doctors.map((doc: { id: string; name: string }) => (
-              <option key={doc.id} value={doc.id}>
-                {doc.name}
-              </option>
-            ))}
-          </select>
-        </Field>
+              name="doctorId"
+                 required
+                 disabled={!department || loadingDoctors}
+                 className={inputClass}
+               >
+                 <option value="">
+                   {!department
+                     ? t("options.selectDepartmentFirst")
+                     : loadingDoctors
+                       ? t("options.loading")
+                       : t("options.selectDoctor")}
+                 </option>
+
+                 {doctors.map((doc: { id: string; name: string }) => (
+                   <option key={doc.id} value={doc.id}>
+                     {doc.name}
+                   </option>
+                 ))}
+               </select>
+         </Field>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Preferred Date">
+        <Field label={t("form.date")}>
           <input
             name="preferredDate"
             type="date"
@@ -340,21 +344,37 @@ function HospitalForm({
             className={inputClass}
           />
         </Field>
-        <Field label="Preferred Time">
-          <select name="preferredTime" required className={inputClass}>
-            <option value="">Select a time slot</option>
-            {TIME_SLOTS.map((slot) => (
-              <option key={slot}>{slot}</option>
-            ))}
-          </select>
-        </Field>
+        <Field label={t("form.time")}>
+            <select
+              name="preferredTime"
+              required
+              className={inputClass}
+           >
+            <option value="">{t("options.selectTime")}</option>
+
+           {TIME_SLOTS.map((slot) => {
+             const timeKey =
+              slot.startsWith("Morning")
+              ? "morning"
+              : slot.startsWith("Afternoon")
+                 ? "afternoon"
+                 : "evening";
+
+            return (
+                <option key={slot} value={slot}>
+                {t(`timeSlots.${timeKey}`)}
+                </option>
+              );
+                 })}
+           </select>
+         </Field>
       </div>
-      <Field label="Reason for Visit (optional)">
+      <Field label={t("form.reason")}>
         <textarea
           name="notes"
           rows={3}
           className={inputClass}
-          placeholder="Briefly describe your symptoms or reason for the visit"
+          placeholder={t("placeholders.reason")}
         />
       </Field>
       <SubmitButton status={status} />
@@ -370,6 +390,7 @@ function DiagnosisForm({
   status: "idle" | "submitting" | "success" | "error";
   onSubmit: (payload: Record<string, string>) => void;
 }) {
+  const t = useTranslations("Booking");
   return (
     <form
       onSubmit={(e) => {
@@ -380,46 +401,64 @@ function DiagnosisForm({
       className="flex flex-col gap-5"
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Full Name">
+        <Field label={t("form.fullName")}>
           <input
             name="fullName"
             required
             className={inputClass}
-            placeholder="e.g. Daniel Tesfaye"
+            placeholder={t("placeholders.fullNameDiagnosis")}
           />
         </Field>
-        <Field label="Phone Number">
+        <Field label={t("form.phone")}>
           <input
             name="phone"
             type="tel"
             required
             className={inputClass}
-            placeholder="+251 9xx xxx xxx"
+            placeholder={t("placeholders.phone")}
           />
         </Field>
       </div>
-      <Field label="Email Address">
+      <Field label={t("form.email")}>
         <input
           name="email"
           type="email"
           required
           className={inputClass}
-          placeholder="you@example.com"
+          placeholder={t("placeholders.email")}
         />
       </Field>
-      <Field label="Test / Scan Type">
-        <select name="testType" required className={inputClass}>
-          <option value="">Select a test</option>
-          <option>Blood Test</option>
-          <option>Digital X-Ray</option>
-          <option>CT Scan</option>
-          <option>MRI</option>
-          <option>Ultrasound</option>
-          <option>Other</option>
-        </select>
-      </Field>
+      <Field label={t("form.testType")}>
+          <select name="testType" required className={inputClass}>
+              <option value="">{t("options.selectTest")}</option>
+
+               <option value="Blood Test">
+                 {t("tests.bloodTest")}
+               </option>
+
+                <option value="Digital X-Ray">
+                  {t("tests.xray")}
+                </option>
+
+               <option value="CT Scan">
+                  {t("tests.ctScan")}
+              </option>
+
+              <option value="MRI">
+                {t("tests.mri")}
+              </option>
+
+              <option value="Ultrasound">
+                 {t("tests.ultrasound")}
+              </option>
+
+              <option value="Other">
+                   {t("tests.other")}
+             </option>
+           </select>
+        </Field>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Preferred Date">
+        <Field label={t("form.date")}>
           <input
             name="preferredDate"
             type="date"
@@ -427,21 +466,37 @@ function DiagnosisForm({
             className={inputClass}
           />
         </Field>
-        <Field label="Preferred Time">
-          <select name="preferredTime" required className={inputClass}>
-            <option value="">Select a time slot</option>
-            {TIME_SLOTS.map((slot) => (
-              <option key={slot}>{slot}</option>
-            ))}
-          </select>
-        </Field>
+        <Field label={t("form.time")}>
+  <select
+    name="preferredTime"
+    required
+    className={inputClass}
+  >
+    <option value="">{t("options.selectTime")}</option>
+
+    {TIME_SLOTS.map((slot) => {
+      const timeKey =
+        slot.startsWith("Morning")
+          ? "morning"
+          : slot.startsWith("Afternoon")
+            ? "afternoon"
+            : "evening";
+
+      return (
+        <option key={slot} value={slot}>
+          {t(`timeSlots.${timeKey}`)}
+        </option>
+      );
+    })}
+  </select>
+</Field>
       </div>
-      <Field label="Notes (optional)">
+      <Field label={t("form.notes")}>
         <textarea
           name="notes"
           rows={3}
           className={inputClass}
-          placeholder="Any relevant details for the lab team"
+          placeholder={t("placeholders.notes")}
         />
       </Field>
       <SubmitButton status={status} />
@@ -457,6 +512,7 @@ function PharmaForm({
   status: "idle" | "submitting" | "success" | "error";
   onSubmit: (payload: Record<string, string>) => void;
 }) {
+   const t = useTranslations("Booking");
   return (
     <form
       onSubmit={(e) => {
@@ -467,66 +523,78 @@ function PharmaForm({
       className="flex flex-col gap-5"
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Company Name">
+        <Field label={t("form.companyName")}>
           <input
             name="companyName"
             required
             className={inputClass}
-            placeholder="e.g. Nile Pharma Distributors"
+            placeholder={t("placeholders.companyName")}
           />
         </Field>
-        <Field label="Contact Person">
+        <Field label={t("form.contactPerson")}>
           <input
             name="contactPerson"
             required
             className={inputClass}
-            placeholder="Full name"
+            placeholder={t("placeholders.contactPerson")}
           />
         </Field>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Business Email">
+        <Field label={t("form.businessEmail")}>
           <input
             name="businessEmail"
             type="email"
             required
             className={inputClass}
-            placeholder="you@company.com"
+            placeholder={t("placeholders.businessEmail")}
           />
         </Field>
-        <Field label="Phone Number">
+        <Field label={t("form.phone")}>
           <input
             name="phone"
             type="tel"
             required
             className={inputClass}
-            placeholder="+251 9xx xxx xxx"
+            placeholder={t("placeholders.phone")}
           />
         </Field>
       </div>
-      <Field label="Area of Interest">
+      <Field label={t("form.interestArea")}>
         <select name="interestArea" required className={inputClass}>
-          <option value="">Select an option</option>
-          <option>Bulk / Wholesale Order</option>
-          <option>Distribution Partnership</option>
-          <option>Formulation Partnership</option>
-          <option>Other</option>
-        </select>
-      </Field>
-      <Field label="Estimated Quantity (optional)">
+               <option value="">{t("options.selectOption")}</option>
+
+               <option value="Bulk / Wholesale Order">
+                 {t("interests.bulk")}
+               </option>
+
+               <option value="Distribution Partnership">
+                 {t("interests.distribution")}
+               </option>
+
+               <option value="Formulation Partnership">
+                 {t("interests.formulation")}
+               </option>
+
+               <option value="Other">
+                 {t("interests.other")}
+               </option>
+         </select>
+       </Field>
+      <Field label={t("form.estimatedQuantity")}>
         <input
           name="estimatedQuantity"
           className={inputClass}
-          placeholder="e.g. 5,000 units / month"
+          placeholder={t("placeholders.estimatedQuantity")}
         />
       </Field>
-      <Field label="Message">
+      <Field label={t("form.message")}>
         <textarea
           name="message"
           required
           rows={4}
           className={inputClass}
-          placeholder="Tell us about your request"
+          placeholder={t("placeholders.message")}
         />
       </Field>
       <SubmitButton status={status} />

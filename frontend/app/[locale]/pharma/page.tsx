@@ -164,136 +164,151 @@ export default function ManufacturingPage() {
       <main className="manufacturing-page bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
 
         {/* =========================================================
-            SECTION 1 — HERO
-        ========================================================= */}
-        <section className="relative min-h-[720px] overflow-hidden bg-[#071f46] text-white">
+    SECTION 1 — HERO
+========================================================= */}
+<section className="relative min-h-[720px] overflow-hidden bg-[#071f46] text-white">
 
-          {/* Hero Image Slider */}
-          <div className="absolute inset-0">
-            {[
-              "/images/manufacturing/manufacture11.jpg",
-              "/images/manufacturing/manufacture22.jpg",
-              "/images/manufacturing/manufacture33.jpg",
-            ].map((src, index) => (
-              <Image
-                key={src}
-                src={src}
-                alt={t("hero.imageAlt")}
-                fill
-                priority={index === 0}
-                className={`object-cover transition-opacity duration-1000 ${
-                  currentSlide === index
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-              />
-            ))}
+  {/* Hero Image Slider */}
+  <div className="absolute inset-0">
+    {[
+      "/images/manufacturing/manufacture11.jpg",
+      "/images/manufacturing/manufacture22.jpg",
+      "/images/manufacturing/manufacture33.jpg",
+    ].map((src, index) => (
+      <Image
+        key={src}
+        src={src}
+        alt={t("hero.imageAlt")}
+        fill
+        priority={index === 0}
+        className={`object-cover transition-opacity duration-1000 ${
+          currentSlide === index
+            ? "opacity-100"
+            : "opacity-0"
+        }`}
+      />
+    ))}
 
-            {/* Overall overlay */}
-            <div className="absolute inset-0 bg-[#071f46]/35" />
+    {/* Overall overlay */}
+    <div className="absolute inset-0 bg-[#071f46]/35" />
 
-            {/* Darker left side for readable text */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071f46]/95 via-[#071f46]/55 to-transparent" />
+    {/* Darker left side for readable text */}
+    <div className="absolute inset-0 bg-gradient-to-r from-[#071f46]/95 via-[#071f46]/55 to-transparent" />
 
-            {/* Bottom gradient */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071f46]/70 to-transparent" />
-          </div>
+    {/* Bottom gradient */}
+    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071f46]/70 to-transparent" />
+  </div>
 
-          {/* Decorative Elements */}
-          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full border border-[#18a999]/20" />
-          <div className="absolute -right-32 bottom-10 h-96 w-96 rounded-full border border-white/10" />
+  {/* Decorative Elements */}
+  <div className="absolute -left-24 top-24 h-72 w-72 rounded-full border border-[#18a999]/20" />
+  <div className="absolute -right-32 bottom-10 h-96 w-96 rounded-full border border-white/10" />
 
-          <div className="relative z-10 mx-auto flex min-h-[720px] max-w-7xl items-center px-6 py-20 lg:px-8">
-            <div className="max-w-4xl">
+  <div className="relative z-10 mx-auto flex min-h-[720px] max-w-7xl items-center px-6 py-20 lg:px-8">
+    <div className="max-w-4xl">
 
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#18a999]/30 bg-[#18a999]/10 px-5 py-2.5 text-sm font-semibold text-[#62ddd1] backdrop-blur-md">
-                <Factory className="h-4 w-4" />
-                {t("hero.badge")}
-              </div>
+      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#18a999]/30 bg-[#18a999]/10 px-5 py-2.5 text-sm font-semibold text-[#62ddd1] backdrop-blur-md">
+        <Factory className="h-4 w-4" />
+        {t("hero.badge")}
+      </div>
 
-              <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
-                {t("hero.titleLine1")}{" "}
-                <span className="text-[#45cfc0]">
-                  {t("hero.titleLine2")}
-                </span>
-              </h1>
+      <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+        {t("hero.titleLine1")}{" "}
+        <span className="text-[#45cfc0]">
+          {t("hero.titleLine2")}
+        </span>
+      </h1>
 
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-white/80 sm:text-xl">
-                {t("hero.description")}
-              </p>
+      <p className="mt-7 max-w-2xl text-lg leading-8 text-white/80 sm:text-xl">
+        {t("hero.description")}
+      </p>
 
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="#products"
-                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#18a999] px-7 py-4 font-semibold text-white shadow-lg shadow-[#18a999]/20 transition hover:bg-[#14998e]"
-                >
-                  {t("hero.exploreProducts")}
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
+      <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+        <Link
+          href="#products"
+          className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#18a999] px-7 py-4 font-semibold text-white shadow-lg shadow-[#18a999]/20 transition hover:bg-[#14998e]"
+        >
+          {t("hero.exploreProducts")}
+          <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+        </Link>
 
-                <Link
-                  href="#about"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur-md transition hover:bg-white/15"
-                >
-                  {t("hero.learnMore")}
-                </Link>
-              </div>
+        <Link
+          href="#about"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur-md transition hover:bg-white/15"
+        >
+          {t("hero.learnMore")}
+        </Link>
+      </div>
 
-              {/* Trust Indicators */}
-              <div className="mt-14 grid max-w-2xl grid-cols-3 gap-5 border-t border-white/15 pt-8">
+      {/* Trust Indicators */}
+      <div className="mt-14 grid max-w-2xl grid-cols-3 gap-5 border-t border-white/15 pt-8">
 
-                <div>
-                  <ShieldCheck className="mb-3 h-6 w-6 text-[#45cfc0]" />
-                  <p className="text-sm font-semibold">
-                    {t("hero.trust.quality.title")}
-                  </p>
-                  <p className="mt-1 text-xs text-white/60">
-                    {t("hero.trust.quality.description")}
-                  </p>
-                </div>
+        <div>
+          <ShieldCheck className="mb-3 h-6 w-6 text-[#45cfc0]" />
+          <p className="text-sm font-semibold">
+            {t("hero.trust.quality.title")}
+          </p>
+          <p className="mt-1 text-xs text-white/60">
+            {t("hero.trust.quality.description")}
+          </p>
+        </div>
 
-                <div>
-                  <Factory className="mb-3 h-6 w-6 text-[#45cfc0]" />
-                  <p className="text-sm font-semibold">
-                    {t("hero.trust.modern.title")}
-                  </p>
-                  <p className="mt-1 text-xs text-white/60">
-                    {t("hero.trust.modern.description")}
-                  </p>
-                </div>
+        <div>
+          <Factory className="mb-3 h-6 w-6 text-[#45cfc0]" />
+          <p className="text-sm font-semibold">
+            {t("hero.trust.modern.title")}
+          </p>
+          <p className="mt-1 text-xs text-white/60">
+            {t("hero.trust.modern.description")}
+          </p>
+        </div>
 
-                <div>
-                  <HeartHandshake className="mb-3 h-6 w-6 text-[#45cfc0]" />
-                  <p className="text-sm font-semibold">
-                    {t("hero.trust.trusted.title")}
-                  </p>
-                  <p className="mt-1 text-xs text-white/60">
-                    {t("hero.trust.trusted.description")}
-                  </p>
-                </div>
+        <div>
+          <HeartHandshake className="mb-3 h-6 w-6 text-[#45cfc0]" />
+          <p className="text-sm font-semibold">
+            {t("hero.trust.trusted.title")}
+          </p>
+          <p className="mt-1 text-xs text-white/60">
+            {t("hero.trust.trusted.description")}
+          </p>
+        </div>
 
-              </div>
-            </div>
-          </div>
+      </div>
+    </div>
+  </div>
 
-          {/* Slide Indicators */}
-          <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-            {[0, 1, 2].map((index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                aria-label={t("hero.slide", {
-                  number: index + 1,
-                })}
-                className={`h-2 rounded-full transition-all ${
-                  currentSlide === index
-                    ? "w-10 bg-[#18a999]"
-                    : "w-2 bg-white/40"
-                }`}
-              />
-            ))}
-          </div>
-        </section>
+  {/* =========================================================
+      BOTTOM RIGHT — BOOK APPOINTMENT BUTTON
+  ========================================================= */}
+  <div className="absolute bottom-10 right-6 z-20 sm:right-10 lg:right-12">
+    <Link
+      href="/book?service=pharma"
+      className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-[#18a999]/90 px-6 py-3.5 font-semibold text-white shadow-xl shadow-black/20 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-[#14998e]"
+    >
+      <span>{t("hero.bookAppointment")}</span>
+
+      <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+    </Link>
+  </div>
+
+  {/* Slide Indicators */}
+  <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+    {[0, 1, 2].map((index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentSlide(index)}
+        aria-label={t("hero.slide", {
+          number: index + 1,
+        })}
+        className={`h-2 rounded-full transition-all ${
+          currentSlide === index
+            ? "w-10 bg-[#18a999]"
+            : "w-2 bg-white/40"
+        }`}
+      />
+    ))}
+  </div>
+
+</section>
 
         {/* =========================================================
             SECTION 2 — ABOUT MANUFACTURING
