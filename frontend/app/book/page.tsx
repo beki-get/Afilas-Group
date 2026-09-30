@@ -64,6 +64,8 @@ const TIME_SLOTS = [
   },
 ];
 
+type LookupOption = { id: string; name: string };
+
 async function getApiError(response: Response, fallback: string) {
   try {
     const body = (await response.json()) as { error?: string };
@@ -434,8 +436,32 @@ function HospitalForm({
 }) {
   const [department, setDepartment] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
+  const [departments, setDepartments] = useState<LookupOption[]>([]);
+  const [loadingDepartments, setLoadingDepartments] = useState(true);
   const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API_BASE}/api/departments`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load departments");
+        return response.json();
+      })
+      .then((json) => {
+        setDepartments(Array.isArray(json.data) ? json.data : []);
+      })
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setDepartments([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingDepartments(false);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     if (!department) return;
@@ -510,13 +536,18 @@ function HospitalForm({
               setDoctors([]);
             }}
           >
-            <option value="">Select department</option>
-            <option>General Medicine</option>
-            <option>Cardiology</option>
-            <option>Pediatrics</option>
-            <option>Orthopedics</option>
-            <option>Maternity</option>
-            <option>Surgery</option>
+            <option value="">
+              {loadingDepartments
+                ? "Loading..."
+                : departments.length
+                  ? "Select department"
+                  : "Select an option"}
+            </option>
+            {departments.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </Field>
         <Field label="Preferred Doctor">
@@ -596,6 +627,30 @@ function DiagnosisForm({
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   const [preferredDate, setPreferredDate] = useState("");
+  const [testTypes, setTestTypes] = useState<LookupOption[]>([]);
+  const [loadingTestTypes, setLoadingTestTypes] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API_BASE}/api/test-types`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load test types");
+        return response.json();
+      })
+      .then((json) => {
+        setTestTypes(Array.isArray(json.data) ? json.data : []);
+      })
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setTestTypes([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingTestTypes(false);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <form
@@ -636,13 +691,18 @@ function DiagnosisForm({
       </Field>
       <Field label="Test / Scan Type">
         <select name="testType" required className={inputClass}>
-          <option value="">Select a test</option>
-          <option>Blood Test</option>
-          <option>Digital X-Ray</option>
-          <option>CT Scan</option>
-          <option>MRI</option>
-          <option>Ultrasound</option>
-          <option>Other</option>
+          <option value="">
+            {loadingTestTypes
+              ? "Loading..."
+              : testTypes.length
+                ? "Select a test"
+                : "Select an option"}
+          </option>
+          {testTypes.map((item) => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          ))}
         </select>
       </Field>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -699,6 +759,31 @@ function PharmaForm({
   status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
+  const [interestAreas, setInterestAreas] = useState<LookupOption[]>([]);
+  const [loadingInterestAreas, setLoadingInterestAreas] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API_BASE}/api/interest-areas`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load interest areas");
+        return response.json();
+      })
+      .then((json) => {
+        setInterestAreas(Array.isArray(json.data) ? json.data : []);
+      })
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setInterestAreas([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingInterestAreas(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   return (
     <form
       onSubmit={(e) => {
@@ -748,11 +833,18 @@ function PharmaForm({
       </div>
       <Field label="Area of Interest">
         <select name="interestArea" required className={inputClass}>
-          <option value="">Select an option</option>
-          <option>Bulk / Wholesale Order</option>
-          <option>Distribution Partnership</option>
-          <option>Formulation Partnership</option>
-          <option>Other</option>
+          <option value="">
+            {loadingInterestAreas
+              ? "Loading..."
+              : interestAreas.length
+                ? "Select an option"
+                : "Select an option"}
+          </option>
+          {interestAreas.map((item) => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          ))}
         </select>
       </Field>
       <Field label="Estimated Quantity (optional)">
