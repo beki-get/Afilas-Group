@@ -3,6 +3,6 @@ import { Router } from "express";
 import { createHospitalBooking } from "../controllers/hospitalController.js";
 
 const router = Router();
-router.post("/", createHospitalBooking);
+router.post("/hospital", createHospitalBooking);
 
 export default router;

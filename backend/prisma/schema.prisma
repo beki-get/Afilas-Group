@@ -19,6 +19,7 @@ enum BookingStatus {
   PENDING
   CONFIRMED
   CANCELLED
+  ARRIVED
 }
 
 enum InquiryStatus {
@@ -31,6 +32,9 @@ model Doctor {
   id         String   @id @default(uuid())
   name       String
   department String
+  phone      String?
+  photoUrl   String?
+  workingHours Json?
   isActive   Boolean  @default(true)
   bookings   HospitalBooking[]
   createdAt  DateTime @default(now())
@@ -77,5 +81,68 @@ model PharmaInquiry {
   message           String
   status            InquiryStatus @default(NEW)
   idempotencyKey    String        @unique
+  referenceId       String        @unique
   createdAt         DateTime      @default(now())
+}
+
+model OtpVerification {
+  id        String   @id @default(uuid())
+  phone     String
+  code      String
+  purpose   String
+  verified  Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model TestType {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model InterestArea {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+enum BlogPillar {
+  HOSPITAL
+  DIAGNOSIS
+  PHARMA
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model BlogPost {
+  id            String     @id @default(uuid())
+  pillar        BlogPillar
+  title         String
+  slug          String     @unique
+  content       String     @db.Text
+  coverImageUrl String?
+  status        BlogStatus @default(DRAFT)
+  publishedAt   DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
