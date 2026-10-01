@@ -13,7 +13,15 @@ const getPagination = (query) => {
 };
 
 export const createDoctor = asyncHandler(async (req, res, next) => {
-  const { name, department, phone, photoUrl, workingHours } = req.body;
+  const {
+    name,
+    department,
+    phone,
+    photoUrl,
+    workingHours,
+    experienceYears,
+    bio,
+  } = req.body;
 
   if (!name || !department || !phone) {
     return next(new AppError("Name, department, and phone are required", 400));
@@ -28,6 +36,8 @@ export const createDoctor = asyncHandler(async (req, res, next) => {
       ...(workingHours !== undefined
         ? { workingHours: workingHours === null ? Prisma.DbNull : workingHours }
         : {}),
+      ...(experienceYears !== undefined ? { experienceYears } : {}),
+      ...(bio !== undefined ? { bio } : {}),
     },
   });
 
@@ -59,8 +69,16 @@ export const listDoctorsAdmin = asyncHandler(async (req, res) => {
 });
 
 export const updateDoctor = asyncHandler(async (req, res, next) => {
-  const { name, department, phone, isActive, photoUrl, workingHours } =
-    req.body;
+  const {
+    name,
+    department,
+    phone,
+    isActive,
+    photoUrl,
+    workingHours,
+    experienceYears,
+    bio,
+  } = req.body;
   const data = {};
 
   if (name !== undefined) data.name = name;
@@ -71,6 +89,8 @@ export const updateDoctor = asyncHandler(async (req, res, next) => {
   if (workingHours !== undefined) {
     data.workingHours = workingHours === null ? Prisma.DbNull : workingHours;
   }
+  if (experienceYears !== undefined) data.experienceYears = experienceYears;
+  if (bio !== undefined) data.bio = bio;
 
   if (!Object.keys(data).length) {
     return next(new AppError("At least one field is required", 400));

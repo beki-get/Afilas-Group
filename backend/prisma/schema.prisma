@@ -29,15 +29,17 @@ enum InquiryStatus {
 }
 
 model Doctor {
-  id         String   @id @default(uuid())
-  name       String
-  department String
-  phone      String?
-  photoUrl   String?
-  workingHours Json?
-  isActive   Boolean  @default(true)
-  bookings   HospitalBooking[]
-  createdAt  DateTime @default(now())
+  id              String   @id @default(uuid())
+  name            String
+  department      String
+  phone           String?
+  photoUrl        String?
+  workingHours    Json?
+  experienceYears Int?
+  bio             String?  @db.Text
+  isActive        Boolean  @default(true)
+  bookings        HospitalBooking[]
+  createdAt       DateTime @default(now())
 }
 
 model HospitalBooking {
@@ -103,24 +105,40 @@ model Admin {
 }
 
 model Department {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?   @db.Text
+  isActive    Boolean   @default(true)
+  services    Service[]
+  createdAt   DateTime  @default(now())
+}
+
+model Service {
+  id           String     @id @default(uuid())
+  name         String
+  description  String?    @db.Text
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+
+  @@unique([departmentId, name])
 }
 
 model TestType {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?  @db.Text
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
 }
 
 model InterestArea {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?  @db.Text
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
 }
 
 enum BlogPillar {

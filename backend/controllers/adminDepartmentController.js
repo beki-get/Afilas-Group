@@ -3,27 +3,30 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { prisma } from "../utils/prisma.js";
 
 export const createDepartment = asyncHandler(async (req, res, next) => {
-  const { name } = req.body;
+  const { name, description } = req.body;
   if (typeof name !== "string" || !name.trim()) {
     return next(new AppError("Department name is required", 400));
   }
 
   const department = await prisma.department.create({
-    data: { name: name.trim() },
+    data: {
+      name: name.trim(),
+      ...(description !== undefined ? { description } : {}),
+    },
   });
   res.status(201).json({ success: true, data: department });
 });
 
 export const listDepartmentsAdmin = asyncHandler(async (req, res) => {
   const departments = await prisma.department.findMany({
-    select: { id: true, name: true, isActive: true },
+    select: { id: true, name: true, description: true, isActive: true },
     orderBy: { name: "asc" },
   });
   res.status(200).json({ success: true, data: departments });
 });
 
 export const updateDepartment = asyncHandler(async (req, res, next) => {
-  const { name, isActive } = req.body;
+  const { name, description, isActive } = req.body;
   const data = {};
 
   if (name !== undefined) {
@@ -38,6 +41,7 @@ export const updateDepartment = asyncHandler(async (req, res, next) => {
     }
     data.isActive = isActive;
   }
+  if (description !== undefined) data.description = description;
   if (!Object.keys(data).length) {
     return next(new AppError("At least one field is required", 400));
   }

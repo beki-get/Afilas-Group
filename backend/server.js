@@ -4,6 +4,7 @@ dotenv.config();
 
 import AppError from "./utils/AppError.js";
 import hospitalRoutes from "./routes/hospitalRoutes.js";
+import availabilityRoutes from "./routes/availabilityRoutes.js";
 import diagnosisRoutes from "./routes/diagnosisRoutes.js";
 import pharmaRoutes from "./routes/pharmaRoutes.js";
 import doctorRoutes from "./routes/doctorRoutes.js";
@@ -15,12 +16,14 @@ import adminInquiryRoutes from "./routes/adminInquiryRoutes.js";
 import adminDepartmentRoutes from "./routes/adminDepartmentRoutes.js";
 import adminTestTypeRoutes from "./routes/adminTestTypeRoutes.js";
 import adminInterestAreaRoutes from "./routes/adminInterestAreaRoutes.js";
+import adminServiceRoutes from "./routes/adminServiceRoutes.js";
 import adminBlogRoutes from "./routes/adminBlogRoutes.js";
 import adminOverviewRoutes from "./routes/adminOverviewRoutes.js";
 import adminUsersRoutes from "./routes/adminUsersRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import testTypeRoutes from "./routes/testTypeRoutes.js";
 import interestAreaRoutes from "./routes/interestAreaRoutes.js";
+import serviceRoutes from "./routes/serviceRoutes.js";
 
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -33,6 +36,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/book", hospitalRoutes);
+app.use("/api/bookings", availabilityRoutes);
 app.use("/api/book", diagnosisRoutes);
 app.use("/api/book", pharmaRoutes);
 app.use("/api/doctors", doctorRoutes);
@@ -44,12 +48,14 @@ app.use("/api/admin/inquiries", adminInquiryRoutes);
 app.use("/api/admin/departments", adminDepartmentRoutes);
 app.use("/api/admin/test-types", adminTestTypeRoutes);
 app.use("/api/admin/interest-areas", adminInterestAreaRoutes);
+app.use("/api/admin/services", adminServiceRoutes);
 app.use("/api/admin/blog", adminBlogRoutes);
 app.use("/api/admin/overview", adminOverviewRoutes);
 app.use("/api/admin/users", adminUsersRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/test-types", testTypeRoutes);
 app.use("/api/interest-areas", interestAreaRoutes);
+app.use("/api/services", serviceRoutes);
 app.get("/", (req, res) => {
   res.send("Hello, World! Running beautifully with ES Modules.");
 });

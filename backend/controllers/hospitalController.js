@@ -13,6 +13,101 @@ const getEthiopianDate = (dateValue) => {
   return `${monthNames.english[ethiopianDate.month - 1]} ${ethiopianDate.day}, ${ethiopianDate.year} E.C.`;
 };
 
+export const checkDoctorAvailability = asyncHandler(async (req, res) => {
+  const { doctorId, date, time } = req.query;
+
+  if (!doctorId || !date || !time) {
+    return res.status(200).json({
+      success: true,
+      data: {
+        available: false,
+        reason: "Doctor, date, and time are required.",
+      },
+    });
+  }
+
+  const doctor = await prisma.doctor.findUnique({
+    where: { id: doctorId },
+  });
+
+  if (!doctor || !doctor.isActive) {
+    return res.status(200).json({
+      success: true,
+      data: {
+        available: false,
+        reason: "This doctor is no longer available.",
+      },
+    });
+  }
+
+  const requestedDate = new Date(`${date}T00:00:00.000Z`);
+  if (Number.isNaN(requestedDate.getTime())) {
+    return res.status(200).json({
+      success: true,
+      data: {
+        available: false,
+        reason: "A valid date is required.",
+      },
+    });
+  }
+
+  const workingHours = Array.isArray(doctor.workingHours)
+    ? doctor.workingHours
+    : [];
+
+  if (workingHours.length > 0) {
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const requestedWeekday = weekdays[requestedDate.getUTCDay()];
+    const worksOnRequestedDay = workingHours.some(
+      (entry) =>
+        typeof entry?.day === "string" &&
+        entry.day.toLowerCase() === requestedWeekday.toLowerCase(),
+    );
+
+    if (!worksOnRequestedDay) {
+      return res.status(200).json({
+        success: true,
+        data: {
+          available: false,
+          reason: `Dr. ${doctor.name} is not available on this day. Please choose another date.`,
+        },
+      });
+    }
+  }
+
+  const conflict = await prisma.hospitalBooking.findFirst({
+    where: {
+      doctorId,
+      preferredDate: requestedDate,
+      preferredTime: time,
+      status: { in: ["PENDING", "CONFIRMED"] },
+    },
+  });
+
+  if (conflict) {
+    return res.status(200).json({
+      success: true,
+      data: {
+        available: false,
+        reason: `This time slot is already booked for Dr. ${doctor.name}. Please choose a different time.`,
+      },
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: { available: true },
+  });
+});
+
 export const createHospitalBooking = asyncHandler(async (req, res, next) => {
   const {
     fullName,
