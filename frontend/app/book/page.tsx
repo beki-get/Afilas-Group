@@ -412,12 +412,18 @@ function Field({
 const inputClass =
   "w-full rounded-xl border border-sage-200 bg-ivory px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-sage-500 focus:bg-white";
 
-function SubmitButton({ status }: { status: Status }) {
+function SubmitButton({
+  status,
+  disabled = false,
+}: {
+  status: Status;
+  disabled?: boolean;
+}) {
   const busy = status === "sending-otp";
   return (
     <button
       type="submit"
-      disabled={busy}
+      disabled={busy || disabled}
       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sage-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-sage-700 disabled:cursor-not-allowed disabled:opacity-70"
     >
       {busy && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -435,11 +441,23 @@ function HospitalForm({
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   const [department, setDepartment] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
+  const [service, setService] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [departments, setDepartments] = useState<LookupOption[]>([]);
   const [loadingDepartments, setLoadingDepartments] = useState(true);
+  const [services, setServices] = useState<LookupOption[]>([]);
+  const [loadingServices, setLoadingServices] = useState(false);
   const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
+  const [doctorId, setDoctorId] = useState("");
+  const [preferredTime, setPreferredTime] = useState("");
+  const [availabilityChecking, setAvailabilityChecking] = useState(false);
+  const [slotUnavailable, setSlotUnavailable] = useState(false);
+  const [availabilityMessage, setAvailabilityMessage] = useState("");
+  const availabilityPending = Boolean(
+    doctorId && preferredDate && preferredTime && !availabilityMessage,
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -487,6 +505,85 @@ function HospitalForm({
     return () => controller.abort();
   }, [department]);
 
+  useEffect(() => {
+    if (!departmentId) return;
+
+    const controller = new AbortController();
+
+    fetch(
+      `${API_BASE}/api/services?departmentId=${encodeURIComponent(departmentId)}`,
+      { signal: controller.signal },
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to load services");
+        return response.json();
+      })
+      .then((json) => {
+        setServices(Array.isArray(json.data) ? json.data : []);
+      })
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setServices([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingServices(false);
+      });
+
+    return () => controller.abort();
+  }, [departmentId]);
+
+  useEffect(() => {
+    if (!doctorId || !preferredDate || !preferredTime) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(async () => {
+      setAvailabilityChecking(true);
+      setAvailabilityMessage("");
+
+      try {
+        const params = new URLSearchParams({
+          doctorId,
+          date: preferredDate,
+          time: preferredTime,
+        });
+        const response = await fetch(
+          `${API_BASE}/api/bookings/check-availability?${params.toString()}`,
+          { signal: controller.signal },
+        );
+        if (!response.ok) throw new Error("Failed to check availability");
+
+        const json = await response.json();
+        const result = json.data as {
+          available?: boolean;
+          reason?: string;
+        };
+        const available = result.available === true;
+
+        setSlotUnavailable(!available);
+        setAvailabilityMessage(
+          available
+            ? "This time slot is available"
+            : result.reason || "This time slot is not available.",
+        );
+      } catch (error: unknown) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setSlotUnavailable(false);
+          setAvailabilityMessage("Unable to check availability right now.");
+        }
+      } finally {
+        if (!controller.signal.aborted) setAvailabilityChecking(false);
+      }
+    }, 400);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      controller.abort();
+    };
+  }, [doctorId, preferredDate, preferredTime]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -533,7 +630,18 @@ function HospitalForm({
             value={department}
             onChange={(e) => {
               setDepartment(e.target.value);
+              setDepartmentId(
+                departments.find((item) => item.name === e.target.value)?.id ||
+                  "",
+              );
+              setService("");
+              setServices([]);
+              setLoadingServices(Boolean(e.target.value));
               setDoctors([]);
+              setDoctorId("");
+              setAvailabilityChecking(false);
+              setSlotUnavailable(false);
+              setAvailabilityMessage("");
             }}
           >
             <option value="">
@@ -550,11 +658,36 @@ function HospitalForm({
             ))}
           </select>
         </Field>
+        {departmentId && !loadingServices && services.length > 0 ? (
+          <Field label="Service">
+            <select
+              name="service"
+              required
+              value={service}
+              onChange={(event) => setService(event.target.value)}
+              className={inputClass}
+            >
+              <option value="">Select a service</option>
+              {services.map((item) => (
+                <option key={item.id} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </Field>
+        ) : null}
         <Field label="Preferred Doctor">
           <select
             name="doctorId"
             required
             disabled={!department || loadingDoctors}
+            value={doctorId}
+            onChange={(event) => {
+              setDoctorId(event.target.value);
+              setAvailabilityChecking(false);
+              setSlotUnavailable(false);
+              setAvailabilityMessage("");
+            }}
             className={inputClass}
           >
             <option value="">
@@ -580,7 +713,12 @@ function HospitalForm({
             required
             className={inputClass}
             value={preferredDate}
-            onChange={(event) => setPreferredDate(event.target.value)}
+            onChange={(event) => {
+              setPreferredDate(event.target.value);
+              setAvailabilityChecking(false);
+              setSlotUnavailable(false);
+              setAvailabilityMessage("");
+            }}
           />
           {preferredDate && (
             <span className="text-xs text-ink/55">
@@ -595,7 +733,18 @@ function HospitalForm({
           )}
         </Field>
         <Field label="Preferred Time">
-          <select name="preferredTime" required className={inputClass}>
+          <select
+            name="preferredTime"
+            required
+            value={preferredTime}
+            onChange={(event) => {
+              setPreferredTime(event.target.value);
+              setAvailabilityChecking(false);
+              setSlotUnavailable(false);
+              setAvailabilityMessage("");
+            }}
+            className={inputClass}
+          >
             <option value="">Select a time slot</option>
             {TIME_SLOTS.map((slot) => (
               <option key={slot.value} value={slot.value}>
@@ -603,6 +752,20 @@ function HospitalForm({
               </option>
             ))}
           </select>
+          <div className="min-h-5 text-xs" aria-live="polite">
+            {availabilityChecking ? (
+              <span className="text-ink/50">Checking availability...</span>
+            ) : availabilityMessage ? (
+              <span
+                className={
+                  slotUnavailable ? "text-red-700" : "text-emerald-700"
+                }
+              >
+                {slotUnavailable ? "! " : "✓ "}
+                {availabilityMessage}
+              </span>
+            ) : null}
+          </div>
         </Field>
       </div>
       <Field label="Reason for Visit (optional)">
@@ -613,7 +776,12 @@ function HospitalForm({
           placeholder="Briefly describe your symptoms or reason for the visit"
         />
       </Field>
-      <SubmitButton status={status} />
+      <SubmitButton
+        status={status}
+        disabled={
+          availabilityChecking || slotUnavailable || availabilityPending
+        }
+      />
     </form>
   );
 }

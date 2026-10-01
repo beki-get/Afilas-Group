@@ -3,19 +3,27 @@
 import { FormEvent, useEffect, useState } from "react";
 import { adminFetch } from "../../../lib/adminApi";
 
-type LookupItem = { id: string; name: string; isActive: boolean };
+type LookupItem = {
+  id: string;
+  name: string;
+  description?: string | null;
+  isActive: boolean;
+};
 
 export default function LookupManagement({
   endpoint,
   title,
   addLabel,
+  showDescription = false,
 }: {
   endpoint: string;
   title: string;
   addLabel: string;
+  showDescription?: boolean;
 }) {
   const [items, setItems] = useState<LookupItem[]>([]);
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [editing, setEditing] = useState<LookupItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -64,12 +72,14 @@ export default function LookupManagement({
   const openCreate = () => {
     setEditing(null);
     setName("");
+    setDescription("");
     setModalOpen(true);
   };
 
   const openEdit = (item: LookupItem) => {
     setEditing(item);
     setName(item.name);
+    setDescription(item.description || "");
     setModalOpen(true);
   };
 
@@ -82,7 +92,10 @@ export default function LookupManagement({
         editing ? `${endpoint}/${editing.id}` : endpoint,
         {
           method: editing ? "PATCH" : "POST",
-          body: JSON.stringify({ name: name.trim() }),
+          body: JSON.stringify({
+            name: name.trim(),
+            ...(showDescription ? { description: description.trim() } : {}),
+          }),
         },
       );
       setModalOpen(false);
@@ -142,6 +155,7 @@ export default function LookupManagement({
           <thead className="border-b border-[var(--admin-border)] bg-[var(--admin-bg)] text-xs uppercase tracking-wide text-[var(--admin-text-secondary)]">
             <tr>
               <th className="px-5 py-3">Name</th>
+              {showDescription && <th className="px-5 py-3">Description</th>}
               <th className="px-5 py-3">Status</th>
               <th className="px-5 py-3">Actions</th>
             </tr>
@@ -150,7 +164,7 @@ export default function LookupManagement({
             {loading ? (
               <tr>
                 <td
-                  colSpan={3}
+                  colSpan={showDescription ? 4 : 3}
                   className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                 >
                   Loading...
@@ -159,7 +173,7 @@ export default function LookupManagement({
             ) : items.length === 0 ? (
               <tr>
                 <td
-                  colSpan={3}
+                  colSpan={showDescription ? 4 : 3}
                   className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                 >
                   No items found.
@@ -171,6 +185,13 @@ export default function LookupManagement({
                   <td className="px-5 py-4 font-medium text-[var(--admin-text-primary)]">
                     {item.name}
                   </td>
+                  {showDescription && (
+                    <td className="max-w-xs px-5 py-4 text-[var(--admin-text-secondary)]">
+                      {item.description
+                        ? `${item.description.slice(0, 60)}${item.description.length > 60 ? "..." : ""}`
+                        : "—"}
+                    </td>
+                  )}
                   <td className="px-5 py-4">
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${
@@ -233,6 +254,17 @@ export default function LookupManagement({
                   className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
                 />
               </label>
+              {showDescription && (
+                <label className="block text-sm font-medium">
+                  Description
+                  <textarea
+                    rows={4}
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
+                    className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
+                  />
+                </label>
+              )}
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"

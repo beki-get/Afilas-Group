@@ -14,6 +14,7 @@ type HospitalBooking = {
   department: string;
   preferredDate: string;
   preferredTime: string;
+  notes: string | null;
   status: string;
   doctor: { name: string };
 };
@@ -173,6 +174,7 @@ export default function HospitalBookingsPage() {
                 <th className="px-5 py-3">Department</th>
                 <th className="px-5 py-3">Doctor</th>
                 <th className="px-5 py-3">Date / time</th>
+                <th className="px-5 py-3">Notes</th>
                 <th className="px-5 py-3">Status</th>
               </tr>
             </thead>
@@ -180,7 +182,7 @@ export default function HospitalBookingsPage() {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                   >
                     Loading bookings...
@@ -189,7 +191,7 @@ export default function HospitalBookingsPage() {
               ) : bookings.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                   >
                     No bookings found.
@@ -220,6 +222,9 @@ export default function HospitalBookingsPage() {
                           booking.preferredTime,
                         )}
                       </span>
+                    </td>
+                    <td className="max-w-xs px-5 py-4 text-[var(--admin-text-secondary)]">
+                      {booking.notes || "—"}
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">

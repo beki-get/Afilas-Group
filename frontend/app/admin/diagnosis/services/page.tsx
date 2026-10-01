@@ -6,6 +6,7 @@ export default function DiagnosisServicesPage() {
       endpoint="/api/admin/test-types"
       title="Services (Test Types)"
       addLabel="Add Test Type"
+      showDescription
     />
   );
 }

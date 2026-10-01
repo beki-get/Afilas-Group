@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Building2,
   CalendarDays,
+  ClipboardList,
   FlaskConical,
   Hospital,
   LayoutDashboard,
@@ -49,6 +50,11 @@ const pillars: {
         label: "Departments",
         href: "/admin/hospital/departments",
         icon: Building2,
+      },
+      {
+        label: "Services",
+        href: "/admin/hospital/services",
+        icon: ClipboardList,
       },
       {
         label: "Blog",
