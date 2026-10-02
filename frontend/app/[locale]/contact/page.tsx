@@ -27,7 +27,96 @@ export default function ContactPage() {
   const t = useTranslations("Contact");
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [inquiryType, setInquiryType] = useState("General Inquiry");
+
+const [inquiryType, setInquiryType] =
+  useState("General Inquiry");
+
+const [isSubmitting, setIsSubmitting] =
+  useState(false);
+
+const [formMessage, setFormMessage] =
+  useState("");
+
+const [formError, setFormError] =
+  useState("");
+
+  const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+});
+const handleInputChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement
+  >
+) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+const handleSubmit = async (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
+
+  setIsSubmitting(true);
+  setFormMessage("");
+  setFormError("");
+
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        inquiry_type: inquiryType,
+        subject: formData.subject,
+        message: formData.message,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.message || "Failed to send your message."
+      );
+    }
+
+    setFormMessage(
+      "Your message has been sent successfully."
+    );
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    });
+
+    setInquiryType("General Inquiry");
+  } catch (error) {
+    console.error("Contact form error:", error);
+
+    setFormError(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong. Please try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const faqs = [
     {
@@ -571,7 +660,7 @@ export default function ContactPage() {
               {/* Form card */}
 
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleSubmit}
                 className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_30px_100px_-25px_rgba(0,0,0,0.45)] transition-colors duration-300 dark:border-white/10 dark:bg-[#0d2d55] sm:p-9 lg:p-10"
               >
 
@@ -614,6 +703,9 @@ export default function ContactPage() {
 
                     <input
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       placeholder={t("form.fields.name.placeholder")}
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-[#071f46] outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-[#071f46] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/20 dark:focus:border-[#35d0bd] dark:focus:bg-[#0a274b] dark:focus:ring-[#18a999]/10"
                     />
@@ -631,6 +723,9 @@ export default function ContactPage() {
 
                     <input
                       type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder={t("form.fields.email.placeholder")}
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-[#071f46] outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-[#071f46] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/20 dark:focus:border-[#35d0bd] dark:focus:bg-[#0a274b] dark:focus:ring-[#18a999]/10"
                     />
@@ -648,6 +743,9 @@ export default function ContactPage() {
 
                     <input
                       type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
                       placeholder={t("form.fields.phone.placeholder")}
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-[#071f46] outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-[#071f46] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/20 dark:focus:border-[#35d0bd] dark:focus:bg-[#0a274b] dark:focus:ring-[#18a999]/10"
                     />
@@ -714,6 +812,9 @@ export default function ContactPage() {
 
                     <input
                       type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
                       placeholder={t("form.fields.subject.placeholder")}
                       className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-[#071f46] outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-[#071f46] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/20 dark:focus:border-[#35d0bd] dark:focus:bg-[#0a274b] dark:focus:ring-[#18a999]/10"
                     />
@@ -731,6 +832,9 @@ export default function ContactPage() {
 
                     <textarea
                       rows={7}
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       placeholder={t("form.fields.message.placeholder")}
                       className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-[#071f46] outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-[#18a999] focus:bg-white focus:ring-4 focus:ring-[#18a999]/10 dark:border-white/10 dark:bg-[#071f46] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/20 dark:focus:border-[#35d0bd] dark:focus:bg-[#0a274b] dark:focus:ring-[#18a999]/10"
                     />
@@ -774,16 +878,28 @@ export default function ContactPage() {
 
                 </div>
 
+             {formMessage && (
+                  <div className="mb-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                     {formMessage}
+                   </div>
+              )}
+
+           {formError && (
+                 <div className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:bg-red-500/10 dark:text-red-300">
+                 {formError}
+                 </div>
+            )}
 
                 {/* BUTTON */}
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="group mt-7 inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#071f46] px-6 py-4 font-semibold text-white shadow-lg shadow-[#071f46]/20 transition-all duration-300 hover:-translate-y-1 hover:bg-[#12356b] hover:shadow-xl dark:bg-[#18a999] dark:shadow-[#18a999]/20 dark:hover:bg-[#20bbaa]"
                 >
 
                   <span>
-                    {t("form.submit")}
+                     {isSubmitting ? "Sending..." : t("form.submit")}
                   </span>
 
                   <Send className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />

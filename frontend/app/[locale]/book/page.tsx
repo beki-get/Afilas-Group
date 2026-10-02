@@ -5,7 +5,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { toEthiopianDate } from "../../lib/ethiopianDate";
+import { toEthiopianDate } from "../../../lib/ethiopianDate";
 import {
   Building2,
   Microscope,
@@ -49,6 +49,7 @@ const SERVICE_META: Record<
     endpoint: "/api/book/pharma",
   },
 };
+const SERVICE_KEYS = Object.keys(SERVICE_META) as ServiceKey[];
 
 const TIME_SLOTS = [
   {
@@ -263,28 +264,30 @@ function BookPageInner() {
             {t("description")}
           </p>
         </div>
-       {/* Segmented toggle — all 3 always visible */}
+      {/* Segmented toggle — all 3 always visible */}
 <div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)] transition-colors duration-300 dark:!bg-[#0b2b55] dark:shadow-black/20">
-            const { label, icon: Icon } = SERVICE_META[key];
-            const isActive = key === active;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setActive(key)}
-                className={[
-                  "flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-colors duration-200 sm:text-sm",
-                  isActive
-                    ? "bg-sage-600 text-white"
-                    : "text-ink/60 hover:bg-sage-50 hover:text-ink dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white",
-                ].join(" ")}
-              >
-                <Icon className="h-5 w-5" strokeWidth={1.75} />
-                {t(`services.${key}`)}
-              </button>
-            );
-          })}
-        </div>
+  {SERVICE_KEYS.map((key) => {
+    const { icon: Icon } = SERVICE_META[key];
+    const isActive = key === active;
+
+    return (
+      <button
+        key={key}
+        type="button"
+        onClick={() => setActive(key)}
+        className={[
+          "flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-colors duration-200 sm:text-sm",
+          isActive
+            ? "bg-sage-600 text-white"
+            : "text-ink/60 hover:bg-sage-50 hover:text-ink dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white",
+        ].join(" ")}
+      >
+        <Icon className="h-5 w-5" strokeWidth={1.75} />
+        {t(`services.${key}`)}
+      </button>
+    );
+  })}
+</div>
 
         <div className="mt-6 rounded-3xl bg-white p-8 shadow-[0_2px_16px_rgba(15,23,18,0.06)] sm:p-10">
           {status === "success" ? (
