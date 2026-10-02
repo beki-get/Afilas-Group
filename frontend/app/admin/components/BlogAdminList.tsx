@@ -50,6 +50,7 @@ export default function BlogAdminList({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [totalPages, setTotalPages] = useState(1);
+  const [publishingId, setPublishingId] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -123,6 +124,35 @@ export default function BlogAdminList({
           ? deleteError.message
           : "Failed to delete blog post",
       );
+    }
+  };
+
+  const handlePublish = async (post: BlogPost) => {
+    setPublishingId(post.id);
+    setError("");
+
+    try {
+      const publishedPost = await adminFetch<BlogPost>(
+        `/api/admin/blog/${post.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ status: "PUBLISHED" }),
+        },
+      );
+
+      setPosts((current) =>
+        statusFilter === "DRAFT"
+          ? current.filter((item) => item.id !== post.id)
+          : current.map((item) => (item.id === post.id ? publishedPost : item)),
+      );
+    } catch (publishError) {
+      setError(
+        publishError instanceof Error
+          ? publishError.message
+          : "Failed to publish blog post",
+      );
+    } finally {
+      setPublishingId(null);
     }
   };
 
@@ -242,6 +272,18 @@ export default function BlogAdminList({
                     </td>
                     <td className="px-4 py-4 align-top">
                       <div className="flex justify-end gap-2">
+                        {post.status === "DRAFT" ? (
+                          <button
+                            type="button"
+                            onClick={() => void handlePublish(post)}
+                            disabled={publishingId === post.id}
+                            className="rounded-md border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-300 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {publishingId === post.id
+                              ? "Publishing..."
+                              : "Publish"}
+                          </button>
+                        ) : null}
                         <Link
                           href={`${newHref.replace(/\/new$/, "")}/${post.id}/edit`}
                           className="rounded-md border border-[var(--admin-border)] px-3 py-2 text-xs font-medium text-[var(--admin-text-primary)] transition hover:bg-[var(--admin-hover-bg)]"

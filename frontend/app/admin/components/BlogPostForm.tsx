@@ -35,6 +35,9 @@ export default function BlogPostForm({
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const willPublish =
+    form.status === "PUBLISHED" &&
+    (!isEdit || initialData?.status !== "PUBLISHED");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -101,12 +104,18 @@ export default function BlogPostForm({
             className="rounded-md bg-[var(--admin-accent-bg)] px-4 py-2 text-sm font-medium text-[var(--admin-accent-text)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving
-              ? isEdit
-                ? "Saving..."
-                : "Creating..."
-              : isEdit
-                ? "Save changes"
-                : "Create post"}
+              ? willPublish
+                ? "Publishing..."
+                : isEdit
+                  ? "Saving..."
+                  : "Creating..."
+              : willPublish
+                ? isEdit
+                  ? "Publish post"
+                  : "Create and publish"
+                : isEdit
+                  ? "Save changes"
+                  : "Create post"}
           </button>
         </div>
       </div>

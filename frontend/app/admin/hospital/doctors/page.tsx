@@ -26,6 +26,8 @@ type Doctor = {
   phone: string | null;
   photoUrl: string | null;
   workingHours: WorkingHour[] | null;
+  experienceYears: number | null;
+  bio: string | null;
   isActive: boolean;
 };
 
@@ -34,6 +36,8 @@ type DoctorForm = {
   department: string;
   phone: string;
   photoUrl: string;
+  experienceYears: string;
+  bio: string;
 };
 
 const emptyForm: DoctorForm = {
@@ -41,6 +45,8 @@ const emptyForm: DoctorForm = {
   department: "",
   phone: "",
   photoUrl: "",
+  experienceYears: "",
+  bio: "",
 };
 
 const formatWorkingHours = (hours: WorkingHour[] | null) =>
@@ -120,6 +126,9 @@ export default function DoctorsAdminPage() {
       department: doctor.department,
       phone: doctor.phone || "",
       photoUrl: doctor.photoUrl || "",
+      experienceYears:
+        doctor.experienceYears === null ? "" : String(doctor.experienceYears),
+      bio: doctor.bio || "",
     });
     setWorkingHours(doctor.workingHours || []);
     setModalOpen(true);
@@ -137,6 +146,10 @@ export default function DoctorsAdminPage() {
           body: JSON.stringify({
             ...form,
             photoUrl: form.photoUrl.trim() || null,
+            experienceYears: form.experienceYears
+              ? Number(form.experienceYears)
+              : null,
+            bio: form.bio.trim() || null,
             workingHours,
           }),
         },
@@ -228,6 +241,8 @@ export default function DoctorsAdminPage() {
                 <th className="px-5 py-3">Name</th>
                 <th className="px-5 py-3">Department</th>
                 <th className="px-5 py-3">Phone</th>
+                <th className="px-5 py-3">Experience</th>
+                <th className="px-5 py-3">Bio</th>
                 <th className="px-5 py-3">Working hours</th>
                 <th className="px-5 py-3">Status</th>
                 <th className="px-5 py-3">Actions</th>
@@ -237,7 +252,7 @@ export default function DoctorsAdminPage() {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={8}
                     className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                   >
                     Loading doctors...
@@ -246,7 +261,7 @@ export default function DoctorsAdminPage() {
               ) : doctors.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={8}
                     className="px-5 py-10 text-center text-[var(--admin-text-secondary)]"
                   >
                     No doctors found.
@@ -282,6 +297,16 @@ export default function DoctorsAdminPage() {
                     </td>
                     <td className="px-5 py-4 text-[var(--admin-text-secondary)]">
                       {doctor.phone || "-"}
+                    </td>
+                    <td className="px-5 py-4 text-[var(--admin-text-secondary)]">
+                      {doctor.experienceYears === null
+                        ? "—"
+                        : `${doctor.experienceYears} yrs`}
+                    </td>
+                    <td className="max-w-xs px-5 py-4 text-[var(--admin-text-secondary)]">
+                      {doctor.bio
+                        ? `${doctor.bio.slice(0, 60)}${doctor.bio.length > 60 ? "..." : ""}`
+                        : "—"}
                     </td>
                     <td className="px-5 py-4 text-[var(--admin-text-secondary)]">
                       {formatWorkingHours(doctor.workingHours)}
@@ -394,6 +419,29 @@ export default function DoctorsAdminPage() {
                   }
                   placeholder="https://example.com/photo.jpg"
                   className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)] placeholder:text-[var(--admin-text-secondary)]"
+                />
+              </label>
+              <label className="block text-sm font-medium text-[var(--admin-text-primary)]">
+                Years of Experience
+                <input
+                  type="number"
+                  min="0"
+                  value={form.experienceYears}
+                  onChange={(event) =>
+                    setForm({ ...form, experienceYears: event.target.value })
+                  }
+                  className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
+                />
+              </label>
+              <label className="block text-sm font-medium text-[var(--admin-text-primary)]">
+                Bio
+                <textarea
+                  rows={4}
+                  value={form.bio}
+                  onChange={(event) =>
+                    setForm({ ...form, bio: event.target.value })
+                  }
+                  className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
                 />
               </label>
               <section className="space-y-3">

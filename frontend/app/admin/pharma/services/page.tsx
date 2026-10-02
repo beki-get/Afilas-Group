@@ -6,6 +6,7 @@ export default function PharmaServicesPage() {
       endpoint="/api/admin/interest-areas"
       title="Services (Interest Areas)"
       addLabel="Add Interest Area"
+      showDescription
     />
   );
 }

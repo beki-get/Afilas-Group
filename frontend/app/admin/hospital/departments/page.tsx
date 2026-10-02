@@ -6,6 +6,7 @@ export default function HospitalDepartmentsPage() {
       endpoint="/api/admin/departments"
       title="Departments"
       addLabel="Add Department"
+      showDescription
     />
   );
 }
