@@ -4,16 +4,14 @@ import { routing } from "./routing";
 export default getRequestConfig(async ({ requestLocale }) => {
   const requestedLocale = await requestLocale;
 
-  const locale = routing.locales.includes(
-    requestedLocale as "en" | "am"
-  )
-    ? requestedLocale
-    : routing.defaultLocale;
+  const locale =
+    requestedLocale &&
+    routing.locales.includes(requestedLocale as "en" | "am")
+      ? requestedLocale
+      : routing.defaultLocale;
 
   return {
     locale,
-    messages: (
-      await import(`../messages/${locale}.json`)
-    ).default,
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

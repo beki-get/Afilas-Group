@@ -4,7 +4,10 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
 import Image from "next/image";
 import Pagination from "../../components/Pagination";
-import { adminFetch } from "../../../../lib/adminApi";
+import {
+  adminApiBase,
+  adminFetch,
+} from "../../../../lib/adminApi";
 
 const weekdays = [
   "Monday",
@@ -72,6 +75,7 @@ export default function DoctorsAdminPage() {
   const [editing, setEditing] = useState<Doctor | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   useEffect(() => {
     adminFetch<Department[]>("/api/departments")
@@ -116,6 +120,7 @@ export default function DoctorsAdminPage() {
     setEditing(null);
     setForm(emptyForm);
     setWorkingHours([]);
+     setSelectedImage(null);
     setModalOpen(true);
   };
 
@@ -132,40 +137,61 @@ export default function DoctorsAdminPage() {
     });
     setWorkingHours(doctor.workingHours || []);
     setModalOpen(true);
+    setSelectedImage(null);
   };
 
   const saveDoctor = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSaving(true);
-    setError("");
-    try {
-      await adminFetch<Doctor>(
-        editing ? `/api/admin/doctors/${editing.id}` : "/api/admin/doctors",
-        {
-          method: editing ? "PATCH" : "POST",
-          body: JSON.stringify({
-            ...form,
-            photoUrl: form.photoUrl.trim() || null,
-            experienceYears: form.experienceYears
-              ? Number(form.experienceYears)
-              : null,
-            bio: form.bio.trim() || null,
-            workingHours,
-          }),
-        },
-      );
-      setModalOpen(false);
-      await loadDoctors();
-    } catch (requestError) {
-      setError(
-        requestError instanceof Error
-          ? requestError.message
-          : "Failed to save doctor",
-      );
-    } finally {
-      setSaving(false);
+  event.preventDefault();
+  setSaving(true);
+  setError("");
+
+  try {
+    const formData = new FormData();
+
+    formData.append("name", form.name);
+    formData.append("department", form.department);
+    formData.append("phone", form.phone);
+
+    if (form.photoUrl.trim()) {
+      formData.append("photoUrl", form.photoUrl.trim());
     }
-  };
+
+    if (form.experienceYears) {
+      formData.append("experienceYears", form.experienceYears);
+    }
+
+    if (form.bio.trim()) {
+      formData.append("bio", form.bio.trim());
+    }
+
+    formData.append("workingHours", JSON.stringify(workingHours));
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+
+    await adminFetch<Doctor>(
+      editing
+        ? `/api/admin/doctors/${editing.id}`
+        : "/api/admin/doctors",
+      {
+        method: editing ? "PATCH" : "POST",
+        body: formData,
+      },
+    );
+
+    setModalOpen(false);
+    await loadDoctors();
+  } catch (requestError) {
+    setError(
+      requestError instanceof Error
+        ? requestError.message
+        : "Failed to save doctor",
+    );
+  } finally {
+    setSaving(false);
+  }
+};
 
   const toggleActive = async (doctor: Doctor) => {
     try {
@@ -273,15 +299,19 @@ export default function DoctorsAdminPage() {
                     <td className="px-5 py-4 font-medium text-[var(--admin-text-primary)]">
                       <div className="flex items-center gap-2.5">
                         {doctor.photoUrl ? (
-                          <Image
-                            src={doctor.photoUrl}
+                            <Image
+                            src={
+                              doctor.photoUrl.startsWith("/uploads/")
+                                ? `${adminApiBase}${doctor.photoUrl}`
+                                : doctor.photoUrl
+                            }
                             alt=""
                             width={32}
                             height={32}
                             unoptimized
                             className="size-8 rounded-full object-cover"
                           />
-                        ) : (
+                          ) : (
                           <span
                             aria-hidden="true"
                             className="flex size-8 items-center justify-center rounded-full bg-[var(--admin-hover-bg)] text-xs font-medium text-[var(--admin-text-secondary)]"
@@ -420,6 +450,23 @@ export default function DoctorsAdminPage() {
                   placeholder="https://example.com/photo.jpg"
                   className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)] placeholder:text-[var(--admin-text-secondary)]"
                 />
+              </label>
+              <label className="block text-sm font-medium text-[var(--admin-text-primary)]">
+               Upload Doctor Image
+              <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                 onChange={(event) =>
+                setSelectedImage(event.target.files?.[0] ?? null)
+                 }
+                className="mt-1.5 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
+                />
+
+                  {selectedImage && (
+                <p className="mt-1.5 text-xs text-[var(--admin-text-secondary)]">
+                 Selected: {selectedImage.name}
+                </p>
+               )}
               </label>
               <label className="block text-sm font-medium text-[var(--admin-text-primary)]">
                 Years of Experience

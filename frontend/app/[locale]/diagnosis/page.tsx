@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
@@ -29,6 +29,41 @@ import AfilasPageShell from "@/components/AfilasPageShell";
 
 export default function DiagnosisPage() {
   const t = useTranslations("Diagnosis");
+    type TestType = {
+    id: string;
+    name: string;
+    description: string | null;
+  };
+
+  const [testTypes, setTestTypes] = useState<TestType[]>([]);
+  const [loadingServices, setLoadingServices] = useState(true);
+
+  useEffect(() => {
+    const fetchTestTypes = async () => {
+      try {
+        const apiBase =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
+        const response = await fetch(`${apiBase}/api/test-types`);
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.error || "Failed to fetch diagnosis services"
+          );
+        }
+
+        setTestTypes(result.data);
+      } catch (error) {
+        console.error("Failed to fetch diagnosis services:", error);
+      } finally {
+        setLoadingServices(false);
+      }
+    };
+
+    fetchTestTypes();
+  }, []);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -36,38 +71,38 @@ export default function DiagnosisPage() {
   // SERVICES
   // =========================================================
 
-  const services = [
-    {
-      icon: TestTube2,
-      key: "laboratory",
-      color: "teal",
-    },
-    {
-      icon: ScanLine,
-      key: "radiology",
-      color: "blue",
-    },
-    {
-      icon: HeartPulse,
-      key: "cardiac",
-      color: "teal",
-    },
-    {
-      icon: Stethoscope,
-      key: "specialized",
-      color: "blue",
-    },
-    {
-      icon: Microscope,
-      key: "checkups",
-      color: "teal",
-    },
-    {
-      icon: FileCheck2,
-      key: "reports",
-      color: "blue",
-    },
-  ];
+  // const services = [
+  //   {
+  //     icon: TestTube2,
+  //     key: "laboratory",
+  //     color: "teal",
+  //   },
+  //   {
+  //     icon: ScanLine,
+  //     key: "radiology",
+  //     color: "blue",
+  //   },
+  //   {
+  //     icon: HeartPulse,
+  //     key: "cardiac",
+  //     color: "teal",
+  //   },
+  //   {
+  //     icon: Stethoscope,
+  //     key: "specialized",
+  //     color: "blue",
+  //   },
+  //   {
+  //     icon: Microscope,
+  //     key: "checkups",
+  //     color: "teal",
+  //   },
+  //   {
+  //     icon: FileCheck2,
+  //     key: "reports",
+  //     color: "blue",
+  //   },
+  // ];
 
   // =========================================================
   // PROCESS STEPS
@@ -540,91 +575,110 @@ export default function DiagnosisPage() {
 
             </div>
 
-            {/* Service Cards */}
+           {/* Service Cards */}
 
-            <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+<div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-              {services.map((service, index) => {
+  {loadingServices ? (
+    <div className="col-span-full flex min-h-[300px] items-center justify-center">
+      <p className="text-sm font-medium text-[var(--muted)]">
+        Loading diagnosis services...
+      </p>
+    </div>
+  ) : testTypes.length === 0 ? (
+    <div className="col-span-full flex min-h-[300px] items-center justify-center">
+      <p className="text-sm font-medium text-[var(--muted)]">
+        No diagnosis services available.
+      </p>
+    </div>
+  ) : (
+    testTypes.map((service, index) => {
 
-                const Icon = service.icon;
+      const icons = [
+        TestTube2,
+        ScanLine,
+        HeartPulse,
+        Stethoscope,
+        Microscope,
+        FileCheck2,
+      ];
 
-                return (
-                  <div
-                    key={service.key}
-                    className="group relative min-h-[390px] overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm transition-all duration-500 hover:-translate-y-3 hover:border-[#18a999]/30 hover:shadow-2xl"
-                  >
+      const Icon = icons[index % icons.length];
 
-                    {/* Large background number */}
+      return (
+        <div
+          key={service.id}
+          className="group relative min-h-[390px] overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm transition-all duration-500 hover:-translate-y-3 hover:border-[#18a999]/30 hover:shadow-2xl"
+        >
 
-                    <span className="pointer-events-none absolute -right-2 -top-7 select-none text-[150px] font-black leading-none text-slate-100 transition-all duration-500 group-hover:-translate-y-3 group-hover:text-[#18a999]/10 dark:text-white/5">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+          {/* Large background number */}
 
-                    {/* Top accent */}
+          <span className="pointer-events-none absolute -right-2 -top-7 select-none text-[150px] font-black leading-none text-slate-100 transition-all duration-500 group-hover:-translate-y-3 group-hover:text-[#18a999]/10 dark:text-white/5">
+            {String(index + 1).padStart(2, "0")}
+          </span>
 
-                    <div className="absolute left-0 right-0 top-0 h-1.5 origin-left scale-x-0 bg-gradient-to-r from-[#18a999] to-[#12356b] transition-transform duration-500 group-hover:scale-x-100" />
+          {/* Top accent */}
 
-                    {/* Icon */}
+          <div className="absolute left-0 right-0 top-0 h-1.5 origin-left scale-x-0 bg-gradient-to-r from-[#18a999] to-[#12356b] transition-transform duration-500 group-hover:scale-x-100" />
 
-                    <div className="relative">
+          {/* Icon */}
 
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#18a999]/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-[#18a999]">
+          <div className="relative">
 
-                        <Icon className="h-8 w-8 text-[#18a999] transition-colors duration-500 group-hover:text-white" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#18a999]/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-[#18a999]">
 
-                      </div>
-
-                    </div>
-
-                    {/* Category */}
-
-                    <div className="relative mt-7">
-
-                      <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#18a999]">
-                        {t("services.category")}
-                      </span>
-
-                      <h3 className="mt-3 text-2xl font-bold leading-tight text-[var(--foreground)] transition-colors duration-300 group-hover:text-[#18a999]">
-                        {t(`services.items.${service.key}.title`)}
-                      </h3>
-
-                      <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                        {t(`services.items.${service.key}.description`)}
-                      </p>
-
-                    </div>
-
-                    {/* Bottom action */}
-
-                    <div className="absolute bottom-8 left-8 right-8">
-
-                      <div className="flex items-center justify-between border-t border-[var(--border)] pt-5">
-
-                        <span className="text-sm font-semibold text-[var(--foreground)]">
-                          {t("services.explore")}
-                        </span>
-
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface-soft)] transition-all duration-300 group-hover:bg-[#18a999]">
-
-                          <ArrowRight className="h-4 w-4 text-[var(--muted)] transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-white" />
-
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    {/* Hover glow */}
-
-                    <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-[#18a999]/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
-
-                  </div>
-                );
-              })}
+              <Icon className="h-8 w-8 text-[#18a999] transition-colors duration-500 group-hover:text-white" />
 
             </div>
 
-            {/* Bottom service banner */}
+          </div>
+
+          {/* Category */}
+
+          <div className="relative mt-7">
+
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#18a999]">
+              {t("services.category")}
+            </span>
+
+            <h3 className="mt-3 text-2xl font-bold leading-tight text-[var(--foreground)] transition-colors duration-300 group-hover:text-[#18a999]">
+              {service.name}
+            </h3>
+
+            <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+              {service.description || "Professional diagnostic service."}
+            </p>
+
+          </div>
+
+          {/* Bottom action */}
+
+          <Link
+           href={`/diagnosis/service/${service.id}`}
+           className="absolute bottom-8 left-8 right-8"  
+         >
+  <div className="flex items-center justify-between border-t border-[var(--border)] pt-5">
+    <span className="text-sm font-semibold text-[var(--foreground)] transition-colors duration-300 group-hover:text-[#18a999]">
+      {t("services.explore")}
+    </span>
+
+    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface-soft)] transition-all duration-300 group-hover:bg-[#18a999]">
+      <ArrowRight className="h-4 w-4 text-[var(--muted)] transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-white" />
+    </div>
+  </div>
+</Link>
+
+          {/* Hover glow */}
+
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-[#18a999]/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+
+        </div>
+      );
+    })
+  )}
+</div>
+
+    {/* Bottom service banner */}
 
             <div className="relative mt-10 overflow-hidden rounded-3xl bg-[#071f46] p-7 sm:p-9">
 

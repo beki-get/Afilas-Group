@@ -12,14 +12,15 @@ import {
   FlaskConical,
   CheckCircle2,
   Loader2,
-  ArrowLeft,
   ShieldCheck,
 } from "lucide-react";
 
 const USE_MOCK_SUBMIT = false;
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 type ServiceKey = "hospital" | "diagnosis" | "pharma";
+
 type Status =
   | "idle"
   | "sending-otp"
@@ -31,7 +32,11 @@ type Status =
 
 const SERVICE_META: Record<
   ServiceKey,
-  { label: string; icon: React.ElementType; endpoint: string }
+  {
+    label: string;
+    icon: React.ElementType;
+    endpoint: string;
+  }
 > = {
   hospital: {
     label: "General Hospital",
@@ -49,6 +54,7 @@ const SERVICE_META: Record<
     endpoint: "/api/book/pharma",
   },
 };
+
 const SERVICE_KEYS = Object.keys(SERVICE_META) as ServiceKey[];
 
 const TIME_SLOTS = [
@@ -66,11 +72,20 @@ const TIME_SLOTS = [
   },
 ];
 
-type LookupOption = { id: string; name: string };
+type LookupOption = {
+  id: string;
+  name: string;
+};
 
-async function getApiError(response: Response, fallback: string) {
+async function getApiError(
+  response: Response,
+  fallback: string,
+) {
   try {
-    const body = (await response.json()) as { error?: string };
+    const body = (await response.json()) as {
+      error?: string;
+    };
+
     return body.error || fallback;
   } catch {
     return fallback;
@@ -85,6 +100,7 @@ function getErrorMessage(error: unknown) {
 
 function formatGregorianDate(dateValue: string) {
   const [year, month, day] = dateValue.split("-").map(Number);
+
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
     day: "numeric",
@@ -103,21 +119,26 @@ export default function BookPage() {
 function BookPageInner() {
   const t = useTranslations("Booking");
   const searchParams = useSearchParams();
-  const initial = (searchParams.get("service") as ServiceKey) || "hospital";
+
+  const initial =
+    (searchParams.get("service") as ServiceKey) || "hospital";
+
   const [active, setActive] = useState<ServiceKey>(
     initial in SERVICE_META ? initial : "hospital",
   );
+
   const [status, setStatus] = useState<Status>("idle");
   const [referenceId, setReferenceId] = useState("");
+
   const [idempotencyKey, setIdempotencyKey] = useState(() =>
     crypto.randomUUID(),
   );
 
   // OTP-related state
-  const [pendingPayload, setPendingPayload] = useState<Record<
-    string,
-    string
-  > | null>(null);
+  const [pendingPayload, setPendingPayload] = useState<
+    Record<string, string> | null
+  >(null);
+
   const [phone, setPhone] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [otpError, setOtpError] = useState("");
@@ -136,7 +157,9 @@ function BookPageInner() {
   }, [active]);
 
   // Step 1: form submitted → send OTP, hold the form data until verified
-  const handleFormSubmit = async (payload: Record<string, string>) => {
+  const handleFormSubmit = async (
+    payload: Record<string, string>,
+  ) => {
     setStatus("sending-otp");
     setPendingPayload(payload);
     setPhone(payload.phone);
@@ -148,14 +171,25 @@ function BookPageInner() {
       } else {
         const res = await fetch(`${API_BASE}/api/otp/send`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone: payload.phone, purpose: active }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: payload.phone,
+            purpose: active,
+          }),
         });
-        if (!res.ok)
+
+        if (!res.ok) {
           throw new Error(
-            await getApiError(res, "Failed to send verification code"),
+            await getApiError(
+              res,
+              "Failed to send verification code",
+            ),
           );
+        }
       }
+
       setStatus("otp-pending");
     } catch (error) {
       setFormError(getErrorMessage(error));
@@ -166,17 +200,28 @@ function BookPageInner() {
   // Step 2: user enters the code → verify, then create the actual booking
   const handleVerifyOtp = async () => {
     if (!pendingPayload) return;
+
     setStatus("verifying-otp");
     setOtpError("");
     setFormError("");
 
     try {
       if (!USE_MOCK_SUBMIT) {
-        const verifyRes = await fetch(`${API_BASE}/api/otp/verify`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, purpose: active, code: otpCode }),
-        });
+        const verifyRes = await fetch(
+          `${API_BASE}/api/otp/verify`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              phone,
+              purpose: active,
+              code: otpCode,
+            }),
+          },
+        );
+
         if (!verifyRes.ok) {
           setOtpError(
             await getApiError(
@@ -184,6 +229,7 @@ function BookPageInner() {
               "Invalid or expired code. Please try again.",
             ),
           );
+
           setStatus("otp-pending");
           return;
         }
@@ -191,28 +237,44 @@ function BookPageInner() {
 
       // OTP confirmed — now actually create the booking
       setStatus("submitting");
+
       if (USE_MOCK_SUBMIT) {
         await new Promise((res) => setTimeout(res, 1200));
       } else {
-        const res = await fetch(`${API_BASE}${SERVICE_META[active].endpoint}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Idempotency-Key": idempotencyKey,
+        const res = await fetch(
+          `${API_BASE}${SERVICE_META[active].endpoint}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Idempotency-Key": idempotencyKey,
+            },
+            body: JSON.stringify(pendingPayload),
           },
-          body: JSON.stringify(pendingPayload),
-        });
-        if (!res.ok)
-          throw new Error(await getApiError(res, "Booking request failed"));
+        );
+
+        if (!res.ok) {
+          throw new Error(
+            await getApiError(
+              res,
+              "Booking request failed",
+            ),
+          );
+        }
 
         const data = await res.json();
+
         if (active === "pharma") {
           setReferenceId(data.data.referenceId);
         }
       }
+
       if (active !== "pharma") {
-        setReferenceId(`AFL-${Date.now().toString(36).toUpperCase()}`);
+        setReferenceId(
+          `AFL-${Date.now().toString(36).toUpperCase()}`,
+        );
       }
+
       setStatus("success");
     } catch (error) {
       setFormError(getErrorMessage(error));
@@ -222,14 +284,22 @@ function BookPageInner() {
 
   const handleResendOtp = async () => {
     if (!pendingPayload) return;
+
     setOtpError("");
+
     try {
       if (!USE_MOCK_SUBMIT) {
         const res = await fetch(`${API_BASE}/api/otp/send`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, purpose: active }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone,
+            purpose: active,
+          }),
         });
+
         if (!res.ok) {
           throw new Error(
             await getApiError(
@@ -257,37 +327,42 @@ function BookPageInner() {
       <div className="mx-auto max-w-2xl px-6">
         <div className="mt-6 text-center">
           <h1 className="text-3xl font-semibold text-ink transition-colors duration-300 dark:text-white sm:text-4xl">
-             {t("title")}
+            {t("title")}
           </h1>
 
           <p className="mt-3 text-base text-ink/65 transition-colors duration-300 dark:text-white/70">
             {t("description")}
           </p>
         </div>
-      {/* Segmented toggle — all 3 always visible */}
-<div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)] transition-colors duration-300 dark:!bg-[#0b2b55] dark:shadow-black/20">
-  {SERVICE_KEYS.map((key) => {
-    const { icon: Icon } = SERVICE_META[key];
-    const isActive = key === active;
 
-    return (
-      <button
-        key={key}
-        type="button"
-        onClick={() => setActive(key)}
-        className={[
-          "flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-colors duration-200 sm:text-sm",
-          isActive
-            ? "bg-sage-600 text-white"
-            : "text-ink/60 hover:bg-sage-50 hover:text-ink dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white",
-        ].join(" ")}
-      >
-        <Icon className="h-5 w-5" strokeWidth={1.75} />
-        {t(`services.${key}`)}
-      </button>
-    );
-  })}
-</div>
+        {/* Segmented toggle — all 3 always visible */}
+        <div className="mt-8 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 shadow-[0_2px_12px_rgba(15,23,18,0.06)] transition-colors duration-300 dark:!bg-[#0b2b55] dark:shadow-black/20">
+          {SERVICE_KEYS.map((key) => {
+            const { icon: Icon } = SERVICE_META[key];
+            const isActive = key === active;
+
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setActive(key)}
+                className={[
+                  "flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-colors duration-200 sm:text-sm",
+                  isActive
+                    ? "bg-sage-600 text-white"
+                    : "text-ink/60 hover:bg-sage-50 hover:text-ink dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white",
+                ].join(" ")}
+              >
+                <Icon
+                  className="h-5 w-5"
+                  strokeWidth={1.75}
+                />
+
+                {t(`services.${key}`)}
+              </button>
+            );
+          })}
+        </div>
 
         <div className="mt-6 rounded-3xl bg-white p-8 shadow-[0_2px_16px_rgba(15,23,18,0.06)] sm:p-10">
           {status === "success" ? (
@@ -297,7 +372,8 @@ function BookPageInner() {
               showReferenceId={active === "pharma"}
               onBookAnother={onBookAnother}
             />
-          ) : status === "otp-pending" || status === "verifying-otp" ? (
+          ) : status === "otp-pending" ||
+            status === "verifying-otp" ? (
             <OtpPanel
               phone={phone}
               otpCode={otpCode}
@@ -310,19 +386,30 @@ function BookPageInner() {
           ) : (
             <>
               {active === "hospital" && (
-                <HospitalForm status={status} onSubmit={handleFormSubmit} />
+                <HospitalForm
+                  status={status}
+                  onSubmit={handleFormSubmit}
+                />
               )}
+
               {active === "diagnosis" && (
-                <DiagnosisForm status={status} onSubmit={handleFormSubmit} />
+                <DiagnosisForm
+                  status={status}
+                  onSubmit={handleFormSubmit}
+                />
               )}
+
               {active === "pharma" && (
-                <PharmaForm status={status} onSubmit={handleFormSubmit} />
+                <PharmaForm
+                  status={status}
+                  onSubmit={handleFormSubmit}
+                />
               )}
+
               {status === "error" && (
                 <p className="mt-4 text-center text-sm text-red-600">
                   {formError ||
                     "Something went wrong. Please try again, or contact us directly at +251 911 000 000."}
-                  at +251 911 000 000.
                 </p>
               )}
             </>
@@ -354,27 +441,38 @@ function OtpPanel({
   return (
     <div className="flex flex-col items-center py-4 text-center">
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-sage-50">
-        <ShieldCheck className="h-6 w-6 text-sage-600" strokeWidth={1.75} />
+        <ShieldCheck
+          className="h-6 w-6 text-sage-600"
+          strokeWidth={1.75}
+        />
       </span>
+
       <h2 className="mt-4 text-xl font-semibold text-ink">
         Verify Your Phone Number
       </h2>
+
       <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/65">
-        We sent a 6-digit code to <strong>{phone}</strong>. Enter it below to
-        confirm your booking.
+        We sent a 6-digit code to <strong>{phone}</strong>.
+        Enter it below to confirm your booking.
       </p>
 
       <input
         value={otpCode}
         onChange={(e) =>
-          setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+          setOtpCode(
+            e.target.value.replace(/\D/g, "").slice(0, 6),
+          )
         }
         inputMode="numeric"
         placeholder="000000"
         className="mt-6 w-40 rounded-xl border border-sage-200 bg-ivory px-4 py-3 text-center text-2xl tracking-[0.5em] text-ink outline-none focus:border-sage-500 focus:bg-white"
       />
 
-      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+      {error && (
+        <p className="mt-3 text-sm text-red-600">
+          {error}
+        </p>
+      )}
 
       <button
         type="button"
@@ -382,8 +480,13 @@ function OtpPanel({
         disabled={otpCode.length !== 6 || verifying}
         className="mt-6 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-sage-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-sage-700 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {verifying && <Loader2 className="h-4 w-4 animate-spin" />}
-        {verifying ? "Verifying..." : "Verify & Confirm Booking"}
+        {verifying && (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        )}
+
+        {verifying
+          ? "Verifying..."
+          : "Verify & Confirm Booking"}
       </button>
 
       <button
@@ -407,7 +510,10 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-sm font-medium text-ink">{label}</span>
+      <span className="text-sm font-medium text-ink">
+        {label}
+      </span>
+
       {children}
     </label>
   );
@@ -424,19 +530,23 @@ function SubmitButton({
   disabled?: boolean;
 }) {
   const busy = status === "sending-otp";
+
   return (
     <button
       type="submit"
       disabled={busy || disabled}
       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sage-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-transform duration-200 hover:scale-[1.02] hover:bg-sage-700 disabled:cursor-not-allowed disabled:opacity-70"
     >
-      {busy && <Loader2 className="h-4 w-4 animate-spin" />}
+      {busy && (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      )}
+
       {busy ? "Sending code..." : "Confirm Booking"}
     </button>
   );
 }
 
-// ── Hospital form ─────────────────────────────────────────────────────────
+// ── Hospital form ───────────────────────────────────────────────────────
 function HospitalForm({
   status,
   onSubmit,
@@ -445,42 +555,80 @@ function HospitalForm({
   onSubmit: (payload: Record<string, string>) => void;
 }) {
   const t = useTranslations("Booking");
+
   const [department, setDepartment] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [service, setService] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
-  const [departments, setDepartments] = useState<LookupOption[]>([]);
-  const [loadingDepartments, setLoadingDepartments] = useState(true);
+
+  const [departments, setDepartments] = useState<
+    LookupOption[]
+  >([]);
+
+  const [loadingDepartments, setLoadingDepartments] =
+    useState(true);
+
   const [services, setServices] = useState<LookupOption[]>([]);
   const [loadingServices, setLoadingServices] = useState(false);
-  const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
-  const [loadingDoctors, setLoadingDoctors] = useState(false);
+
+  const [doctors, setDoctors] = useState<
+    { id: string; name: string }[]
+  >([]);
+
+  const [loadingDoctors, setLoadingDoctors] =
+    useState(false);
+
   const [doctorId, setDoctorId] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
-  const [availabilityChecking, setAvailabilityChecking] = useState(false);
-  const [slotUnavailable, setSlotUnavailable] = useState(false);
-  const [availabilityMessage, setAvailabilityMessage] = useState("");
+
+  const [availabilityChecking, setAvailabilityChecking] =
+    useState(false);
+
+  const [slotUnavailable, setSlotUnavailable] =
+    useState(false);
+
+  const [availabilityMessage, setAvailabilityMessage] =
+    useState("");
+
   const availabilityPending = Boolean(
-    doctorId && preferredDate && preferredTime && !availabilityMessage,
+    doctorId &&
+      preferredDate &&
+      preferredTime &&
+      !availabilityMessage,
   );
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`${API_BASE}/api/departments`, { signal: controller.signal })
+
+    fetch(`${API_BASE}/api/departments`, {
+      signal: controller.signal,
+    })
       .then((response) => {
-        if (!response.ok) throw new Error("Failed to load departments");
+        if (!response.ok) {
+          throw new Error("Failed to load departments");
+        }
+
         return response.json();
       })
       .then((json) => {
-        setDepartments(Array.isArray(json.data) ? json.data : []);
+        setDepartments(
+          Array.isArray(json.data) ? json.data : [],
+        );
       })
       .catch((error: unknown) => {
-        if (!(error instanceof DOMException && error.name === "AbortError")) {
+        if (
+          !(
+            error instanceof DOMException &&
+            error.name === "AbortError"
+          )
+        ) {
           setDepartments([]);
         }
       })
       .finally(() => {
-        if (!controller.signal.aborted) setLoadingDepartments(false);
+        if (!controller.signal.aborted) {
+          setLoadingDepartments(false);
+        }
       });
 
     return () => controller.abort();
@@ -488,22 +636,31 @@ function HospitalForm({
 
   useEffect(() => {
     if (!department) return;
+
     setLoadingDoctors(true);
+
     const controller = new AbortController();
 
     fetch(
-      `${API_BASE}/api/doctors?department=${encodeURIComponent(department)}`,
+      `${API_BASE}/api/doctors?department=${encodeURIComponent(
+        department,
+      )}`,
       {
         signal: controller.signal,
       },
     )
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to load doctors");
+        if (!res.ok) {
+          throw new Error("Failed to load doctors");
+        }
+
         return res.json();
       })
       .then((json) => setDoctors(json.data))
       .catch((err) => {
-        if (err.name !== "AbortError") setDoctors([]);
+        if (err.name !== "AbortError") {
+          setDoctors([]);
+        }
       })
       .finally(() => setLoadingDoctors(false));
 
@@ -516,23 +673,39 @@ function HospitalForm({
     const controller = new AbortController();
 
     fetch(
-      `${API_BASE}/api/services?departmentId=${encodeURIComponent(departmentId)}`,
-      { signal: controller.signal },
+      `${API_BASE}/api/services?departmentId=${encodeURIComponent(
+        departmentId,
+      )}`,
+      {
+        signal: controller.signal,
+      },
     )
       .then((response) => {
-        if (!response.ok) throw new Error("Failed to load services");
+        if (!response.ok) {
+          throw new Error("Failed to load services");
+        }
+
         return response.json();
       })
       .then((json) => {
-        setServices(Array.isArray(json.data) ? json.data : []);
+        setServices(
+          Array.isArray(json.data) ? json.data : [],
+        );
       })
       .catch((error: unknown) => {
-        if (!(error instanceof DOMException && error.name === "AbortError")) {
+        if (
+          !(
+            error instanceof DOMException &&
+            error.name === "AbortError"
+          )
+        ) {
           setServices([]);
         }
       })
       .finally(() => {
-        if (!controller.signal.aborted) setLoadingServices(false);
+        if (!controller.signal.aborted) {
+          setLoadingServices(false);
+        }
       });
 
     return () => controller.abort();
@@ -544,6 +717,7 @@ function HospitalForm({
     }
 
     const controller = new AbortController();
+
     const timeoutId = window.setTimeout(async () => {
       setAvailabilityChecking(true);
       setAvailabilityMessage("");
@@ -554,32 +728,51 @@ function HospitalForm({
           date: preferredDate,
           time: preferredTime,
         });
+
         const response = await fetch(
           `${API_BASE}/api/bookings/check-availability?${params.toString()}`,
-          { signal: controller.signal },
+          {
+            signal: controller.signal,
+          },
         );
-        if (!response.ok) throw new Error("Failed to check availability");
+
+        if (!response.ok) {
+          throw new Error("Failed to check availability");
+        }
 
         const json = await response.json();
+
         const result = json.data as {
           available?: boolean;
           reason?: string;
         };
+
         const available = result.available === true;
 
         setSlotUnavailable(!available);
+
         setAvailabilityMessage(
           available
             ? "This time slot is available"
-            : result.reason || "This time slot is not available.",
+            : result.reason ||
+                "This time slot is not available.",
         );
       } catch (error: unknown) {
-        if (!(error instanceof DOMException && error.name === "AbortError")) {
+        if (
+          !(
+            error instanceof DOMException &&
+            error.name === "AbortError"
+          )
+        ) {
           setSlotUnavailable(false);
-          setAvailabilityMessage("Unable to check availability right now.");
+          setAvailabilityMessage(
+            "Unable to check availability right now.",
+          );
         }
       } finally {
-        if (!controller.signal.aborted) setAvailabilityChecking(false);
+        if (!controller.signal.aborted) {
+          setAvailabilityChecking(false);
+        }
       }
     }, 400);
 
@@ -593,8 +786,15 @@ function HospitalForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
         const fd = new FormData(e.currentTarget);
-        onSubmit(Object.fromEntries(fd.entries()) as Record<string, string>);
+
+        onSubmit(
+          Object.fromEntries(fd.entries()) as Record<
+            string,
+            string
+          >,
+        );
       }}
       className="flex flex-col gap-5"
     >
@@ -604,9 +804,12 @@ function HospitalForm({
             name="fullName"
             required
             className={inputClass}
-            placeholder={t("placeholders.fullNameHospital")}
+            placeholder={t(
+              "placeholders.fullNameHospital",
+            )}
           />
         </Field>
+
         <Field label={t("form.phone")}>
           <input
             name="phone"
@@ -617,6 +820,7 @@ function HospitalForm({
           />
         </Field>
       </div>
+
       <Field label={t("form.email")}>
         <input
           name="email"
@@ -626,6 +830,7 @@ function HospitalForm({
           placeholder={t("placeholders.email")}
         />
       </Field>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("form.department")}>
           <select
@@ -635,15 +840,22 @@ function HospitalForm({
             value={department}
             onChange={(e) => {
               setDepartment(e.target.value);
+
               setDepartmentId(
-                departments.find((item) => item.name === e.target.value)?.id ||
-                  "",
+                departments.find(
+                  (item) => item.name === e.target.value,
+                )?.id || "",
               );
+
               setService("");
               setServices([]);
-              setLoadingServices(Boolean(e.target.value));
+              setLoadingServices(
+                Boolean(e.target.value),
+              );
+
               setDoctors([]);
               setDoctorId("");
+
               setAvailabilityChecking(false);
               setSlotUnavailable(false);
               setAvailabilityMessage("");
@@ -656,6 +868,7 @@ function HospitalForm({
                   ? "Select department"
                   : "Select an option"}
             </option>
+
             {departments.map((item) => (
               <option key={item.id} value={item.name}>
                 {item.name}
@@ -664,17 +877,21 @@ function HospitalForm({
           </select>
         </Field>
 
-        <Field label={t("form.doctor")}>
-                 {departmentId && !loadingServices && services.length > 0 ? (
+        {departmentId &&
+        !loadingServices &&
+        services.length > 0 ? (
           <Field label="Service">
             <select
               name="service"
               required
               value={service}
-              onChange={(event) => setService(event.target.value)}
+              onChange={(event) =>
+                setService(event.target.value)
+              }
               className={inputClass}
             >
               <option value="">Select a service</option>
+
               {services.map((item) => (
                 <option key={item.id} value={item.name}>
                   {item.name}
@@ -685,7 +902,6 @@ function HospitalForm({
         ) : null}
 
         <Field label={t("form.doctor")}>
-
           <select
             name="doctorId"
             required
@@ -706,6 +922,7 @@ function HospitalForm({
                   ? "Loading..."
                   : "Select a doctor"}
             </option>
+
             {doctors.map((doc) => (
               <option key={doc.id} value={doc.id}>
                 {doc.name}
@@ -714,6 +931,7 @@ function HospitalForm({
           </select>
         </Field>
       </div>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("form.date")}>
           <input
@@ -729,6 +947,7 @@ function HospitalForm({
               setAvailabilityMessage("");
             }}
           />
+
           {preferredDate && (
             <span className="text-xs text-ink/55">
               Selected:{" "}
@@ -741,6 +960,7 @@ function HospitalForm({
             </span>
           )}
         </Field>
+
         <Field label={t("form.time")}>
           <select
             name="preferredTime"
@@ -766,14 +986,20 @@ function HospitalForm({
                   : "evening";
 
               return (
-                <option key={slot.value} value={slot.value}>
+                <option
+                  key={slot.value}
+                  value={slot.value}
+                >
                   {t(`timeSlots.${timeKey}`)}
                 </option>
               );
             })}
           </select>
 
-          <div className="min-h-5 text-xs" aria-live="polite">
+          <div
+            className="min-h-5 text-xs"
+            aria-live="polite"
+          >
             {availabilityChecking ? (
               <span className="text-ink/50">
                 Checking availability...
@@ -781,7 +1007,9 @@ function HospitalForm({
             ) : availabilityMessage ? (
               <span
                 className={
-                  slotUnavailable ? "text-red-700" : "text-emerald-700"
+                  slotUnavailable
+                    ? "text-red-700"
+                    : "text-emerald-700"
                 }
               >
                 {slotUnavailable ? "! " : "✓ "}
@@ -791,6 +1019,7 @@ function HospitalForm({
           </div>
         </Field>
       </div>
+
       <Field label={t("form.reason")}>
         <textarea
           name="notes"
@@ -799,10 +1028,13 @@ function HospitalForm({
           placeholder={t("placeholders.reason")}
         />
       </Field>
+
       <SubmitButton
         status={status}
         disabled={
-          availabilityChecking || slotUnavailable || availabilityPending
+          availabilityChecking ||
+          slotUnavailable ||
+          availabilityPending
         }
       />
     </form>
@@ -817,49 +1049,65 @@ function DiagnosisForm({
   status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
-const t = useTranslations("Booking");
+  const t = useTranslations("Booking");
 
-const [preferredDate, setPreferredDate] = useState("");
-const [testTypes, setTestTypes] = useState<LookupOption[]>([]);
-const [loadingTestTypes, setLoadingTestTypes] = useState(true);
+  const [preferredDate, setPreferredDate] = useState("");
+  const [testTypes, setTestTypes] = useState<LookupOption[]>(
+    [],
+  );
+  const [loadingTestTypes, setLoadingTestTypes] =
+    useState(true);
 
-useEffect(() => {
-  const controller = new AbortController();
+  useEffect(() => {
+    const controller = new AbortController();
 
-  fetch(`${API_BASE}/api/test-types`, {
-    signal: controller.signal,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to load test types");
-      }
-
-      return response.json();
+    fetch(`${API_BASE}/api/test-types`, {
+      signal: controller.signal,
     })
-    .then((json) => {
-      setTestTypes(Array.isArray(json.data) ? json.data : []);
-    })
-    .catch((error: unknown) => {
-      if (
-        !(error instanceof DOMException && error.name === "AbortError")
-      ) {
-        setTestTypes([]);
-      }
-    })
-    .finally(() => {
-      if (!controller.signal.aborted) {
-        setLoadingTestTypes(false);
-      }
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load test types");
+        }
 
-  return () => controller.abort();
-}, []);
+        return response.json();
+      })
+      .then((json) => {
+        setTestTypes(
+          Array.isArray(json.data) ? json.data : [],
+        );
+      })
+      .catch((error: unknown) => {
+        if (
+          !(
+            error instanceof DOMException &&
+            error.name === "AbortError"
+          )
+        ) {
+          setTestTypes([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoadingTestTypes(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, []);
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
         const fd = new FormData(e.currentTarget);
-        onSubmit(Object.fromEntries(fd.entries()) as Record<string, string>);
+
+        onSubmit(
+          Object.fromEntries(fd.entries()) as Record<
+            string,
+            string
+          >,
+        );
       }}
       className="flex flex-col gap-5"
     >
@@ -869,9 +1117,12 @@ useEffect(() => {
             name="fullName"
             required
             className={inputClass}
-            placeholder={t("placeholders.fullNameDiagnosis")}
+            placeholder={t(
+              "placeholders.fullNameDiagnosis",
+            )}
           />
         </Field>
+
         <Field label={t("form.phone")}>
           <input
             name="phone"
@@ -882,6 +1133,7 @@ useEffect(() => {
           />
         </Field>
       </div>
+
       <Field label={t("form.email")}>
         <input
           name="email"
@@ -891,25 +1143,27 @@ useEffect(() => {
           placeholder={t("placeholders.email")}
         />
       </Field>
-      <Field label={t("form.testType")}>
-  <select
-    name="testType"
-    required
-    className={inputClass}
-  >
-    <option value="">
-      {loadingTestTypes
-        ? t("options.loading")
-        : t("options.selectTest")}
-    </option>
 
-    {testTypes.map((item) => (
-      <option key={item.id} value={item.name}>
-        {item.name}
-      </option>
-    ))}
-  </select>
-</Field>
+      <Field label={t("form.testType")}>
+        <select
+          name="testType"
+          required
+          className={inputClass}
+        >
+          <option value="">
+            {loadingTestTypes
+              ? t("options.loading")
+              : t("options.selectTest")}
+          </option>
+
+          {testTypes.map((item) => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </Field>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("form.date")}>
           <input
@@ -918,8 +1172,11 @@ useEffect(() => {
             required
             className={inputClass}
             value={preferredDate}
-            onChange={(event) => setPreferredDate(event.target.value)}
+            onChange={(event) =>
+              setPreferredDate(event.target.value)
+            }
           />
+
           {preferredDate && (
             <span className="text-xs text-ink/55">
               Selected:{" "}
@@ -932,30 +1189,37 @@ useEffect(() => {
             </span>
           )}
         </Field>
-       <Field label={t("form.time")}>
-  <select
-    name="preferredTime"
-    required
-    className={inputClass}
-  >
-    <option value="">{t("options.selectTime")}</option>
 
-    {TIME_SLOTS.map((slot) => {
-      const timeKey = slot.value.startsWith("Morning")
-        ? "morning"
-        : slot.value.startsWith("Afternoon")
-          ? "afternoon"
-          : "evening";
+        <Field label={t("form.time")}>
+          <select
+            name="preferredTime"
+            required
+            className={inputClass}
+          >
+            <option value="">
+              {t("options.selectTime")}
+            </option>
 
-      return (
-        <option key={slot.value} value={slot.value}>
-          {t(`timeSlots.${timeKey}`)}
-        </option>
-      );
-    })}
-  </select>
-</Field>
+            {TIME_SLOTS.map((slot) => {
+              const timeKey = slot.value.startsWith("Morning")
+                ? "morning"
+                : slot.value.startsWith("Afternoon")
+                  ? "afternoon"
+                  : "evening";
+
+              return (
+                <option
+                  key={slot.value}
+                  value={slot.value}
+                >
+                  {t(`timeSlots.${timeKey}`)}
+                </option>
+              );
+            })}
+          </select>
+        </Field>
       </div>
+
       <Field label={t("form.notes")}>
         <textarea
           name="notes"
@@ -964,6 +1228,7 @@ useEffect(() => {
           placeholder={t("placeholders.notes")}
         />
       </Field>
+
       <SubmitButton status={status} />
     </form>
   );
@@ -977,50 +1242,65 @@ function PharmaForm({
   status: Status;
   onSubmit: (payload: Record<string, string>) => void;
 }) {
-   const t = useTranslations("Booking");
+  const t = useTranslations("Booking");
 
-const [interestAreas, setInterestAreas] = useState<LookupOption[]>([]);
-const [loadingInterestAreas, setLoadingInterestAreas] = useState(true);
+  const [interestAreas, setInterestAreas] = useState<
+    LookupOption[]
+  >([]);
 
-useEffect(() => {
-  const controller = new AbortController();
+  const [loadingInterestAreas, setLoadingInterestAreas] =
+    useState(true);
 
-  fetch(`${API_BASE}/api/interest-areas`, {
-    signal: controller.signal,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to load interest areas");
-      }
+  useEffect(() => {
+    const controller = new AbortController();
 
-      return response.json();
+    fetch(`${API_BASE}/api/interest-areas`, {
+      signal: controller.signal,
     })
-    .then((json) => {
-      setInterestAreas(
-        Array.isArray(json.data) ? json.data : [],
-      );
-    })
-    .catch((error: unknown) => {
-      if (
-        !(error instanceof DOMException && error.name === "AbortError")
-      ) {
-        setInterestAreas([]);
-      }
-    })
-    .finally(() => {
-      if (!controller.signal.aborted) {
-        setLoadingInterestAreas(false);
-      }
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load interest areas");
+        }
 
-  return () => controller.abort();
-}, []);
+        return response.json();
+      })
+      .then((json) => {
+        setInterestAreas(
+          Array.isArray(json.data) ? json.data : [],
+        );
+      })
+      .catch((error: unknown) => {
+        if (
+          !(
+            error instanceof DOMException &&
+            error.name === "AbortError"
+          )
+        ) {
+          setInterestAreas([]);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoadingInterestAreas(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, []);
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
         const fd = new FormData(e.currentTarget);
-        onSubmit(Object.fromEntries(fd.entries()) as Record<string, string>);
+
+        onSubmit(
+          Object.fromEntries(fd.entries()) as Record<
+            string,
+            string
+          >,
+        );
       }}
       className="flex flex-col gap-5"
     >
@@ -1030,18 +1310,24 @@ useEffect(() => {
             name="companyName"
             required
             className={inputClass}
-            placeholder={t("placeholders.companyName")}
+            placeholder={t(
+              "placeholders.companyName",
+            )}
           />
         </Field>
+
         <Field label={t("form.contactPerson")}>
           <input
             name="contactPerson"
             required
             className={inputClass}
-            placeholder={t("placeholders.contactPerson")}
+            placeholder={t(
+              "placeholders.contactPerson",
+            )}
           />
         </Field>
       </div>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label={t("form.businessEmail")}>
           <input
@@ -1049,9 +1335,12 @@ useEffect(() => {
             type="email"
             required
             className={inputClass}
-            placeholder={t("placeholders.businessEmail")}
+            placeholder={t(
+              "placeholders.businessEmail",
+            )}
           />
         </Field>
+
         <Field label={t("form.phone")}>
           <input
             name="phone"
@@ -1062,29 +1351,37 @@ useEffect(() => {
           />
         </Field>
       </div>
-      <Field label={t("form.interestArea")}>
-        <select name="interestArea" required className={inputClass}>
-               <option value="">
-                      {loadingInterestAreas
-                  ? t("options.loading")
-                     : t("options.selectOption")}
-                 </option>
 
-                 {interestAreas.map((item) => (
-                   <option key={item.id} value={item.name}>
-                     {item.name}
-                   </option>
-                 ))}
-               </select>
+      <Field label={t("form.interestArea")}>
+        <select
+          name="interestArea"
+          required
+          className={inputClass}
+        >
+          <option value="">
+            {loadingInterestAreas
+              ? t("options.loading")
+              : t("options.selectOption")}
+          </option>
+
+          {interestAreas.map((item) => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          ))}
+        </select>
       </Field>
 
-    <Field label={t("form.estimatedQuantity")}>
+      <Field label={t("form.estimatedQuantity")}>
         <input
           name="estimatedQuantity"
           className={inputClass}
-          placeholder={t("placeholders.estimatedQuantity")}
+          placeholder={t(
+            "placeholders.estimatedQuantity",
+          )}
         />
       </Field>
+
       <Field label={t("form.message")}>
         <textarea
           name="message"
@@ -1094,6 +1391,7 @@ useEffect(() => {
           placeholder={t("placeholders.message")}
         />
       </Field>
+
       <SubmitButton status={status} />
     </form>
   );
@@ -1114,18 +1412,28 @@ function ConfirmationPanel({
   return (
     <div className="flex flex-col items-center py-6 text-center">
       <span className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-50">
-        <CheckCircle2 className="h-8 w-8 text-sage-600" strokeWidth={1.75} />
+        <CheckCircle2
+          className="h-8 w-8 text-sage-600"
+          strokeWidth={1.75}
+        />
       </span>
-      <h2 className="mt-5 text-2xl font-semibold text-ink">Request Received</h2>
+
+      <h2 className="mt-5 text-2xl font-semibold text-ink">
+        Request Received
+      </h2>
+
       <p className="mt-2 max-w-sm text-base leading-relaxed text-ink/65">
-        Thank you for reaching out to <strong>{service}</strong>. Our team will
-        contact you within 24 hours to confirm the details.
+        Thank you for reaching out to{" "}
+        <strong>{service}</strong>. Our team will contact you
+        within 24 hours to confirm the details.
       </p>
+
       {showReferenceId && (
         <p className="mt-4 rounded-full bg-sage-50 px-4 py-1.5 text-sm font-medium text-sage-700">
           Reference ID: {referenceId}
         </p>
       )}
+
       <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
         <button
           type="button"
@@ -1134,6 +1442,7 @@ function ConfirmationPanel({
         >
           Book Another
         </button>
+
         <Link
           href="/"
           className="rounded-full bg-sage-600 px-6 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.03] hover:bg-sage-700"

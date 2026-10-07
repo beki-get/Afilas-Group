@@ -536,7 +536,18 @@
 
   "helpTitle": "Need help finding the right department?",
   "helpDescription": "Our team can help guide you toward the appropriate care.",
-  "bookAppointment": "Book Appointment"
+  "bookAppointment": "Book Appointment",
+"detail": {
+  "back": "Back to General Hospital",
+  "label": "Hospital Department",
+  "about": "About the Department",
+  "appointmentTitle": "Need an appointment?",
+  "appointmentDescription": "Book an appointment with Afilas General Hospital.",
+  "bookAppointment": "Book Appointment",
+  "notFound": "Department not found",
+  "loading": "Loading department...",
+  "noDescription": "No description is currently available for this department."
+}
 },
 
   "services": {
@@ -581,7 +592,20 @@
     "title": "Need Emergency Medical Care?",
     "description": "Contact our emergency team for urgent medical assistance. Do not delay seeking emergency care when needed.",
     "button": "Emergency Call"
-  }
+  },
+ "exploreAll": "Explore All Afilas General Hospital Services",
+
+"detail": {
+  "back": "Back to General Hospital",
+  "about": "About the Service",
+  "appointmentTitle": "Need an appointment?",
+  "appointmentDescription": "Book an appointment with Afilas General Hospital.",
+  "bookAppointment": "Book Appointment",
+  "notFound": "Service not found",
+  "loading": "Loading service...",
+  "noDescription": "No description is currently available for this service."
+}
+
 },
 
   "doctors": {
@@ -623,6 +647,17 @@
   },
 
   "viewProfile": "View Profile",
+  "viewProfile": "View Profile",
+  "loading": "Loading doctor profile...",
+  "notFound": "Doctor not found",
+  "backToHospital": "Back to General Hospital",
+  "profileDescription": "This doctor provides professional healthcare services through the",
+  "department": "department",
+  "departmentTitle": "Department",
+  "specialist": "Specialist",
+  "appointment": "Appointment",
+  "appointmentDescription": "Book an appointment with this doctor through Afilas General Hospital.",
+  "bookAppointment": "Book Appointment",
   "bookAppointment": "Book Appointment",
 
   "helpTitle": "Need Help Choosing a Specialist?",
@@ -859,7 +894,25 @@
     "description": "Explore available diagnostic services or start an appointment request through the Afilas healthcare platform.",
     "bookAppointment": "Book Appointment",
     "contact": "Contact Us"
-  }
+  },
+  "serviceDetail": {
+  "back": "Back to Diagnosis Center",
+  "badge": "Diagnosis Service",
+  "loading": "Loading service...",
+  "notFoundTitle": "Service Not Found",
+  "notFoundDescription": "This diagnosis service is not currently available.",
+  "about": "About",
+  "professionalService": "Professional diagnostic service",
+  "qualityCare": "Quality-focused patient care",
+  "convenientAccess": "Convenient access through Afilas Diagnosis Center",
+  "needService": "Need this service?",
+  "bookTitle": "Book an Appointment",
+  "bookDescription": "Schedule your diagnosis appointment with Afilas Diagnosis Center.",
+  "bookService": "Book This Service",
+  "allServices": "All Diagnosis Services",
+  "defaultDescription": "Professional diagnostic services provided by Afilas Diagnosis Center.",
+  "defaultAbout": "Afilas Diagnosis Center provides this service as part of its professional diagnostic care. Our team is committed to providing reliable and quality diagnostic services."
+}
 } ,
 "Pharma": {
   "hero": {

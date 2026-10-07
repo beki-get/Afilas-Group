@@ -348,15 +348,14 @@ const handleSubmit = async (
 
                 <div className="mt-7 space-y-3">
 
-                  {[
-                    [t("hero.card.divisions.hospital"), Hospital],
-                    [t("hero.card.divisions.diagnosis"), Microscope],
-                    [t("hero.card.divisions.manufacturing"), Factory],
-                  ].map(([label, Icon], index) => {
-
-                    const IconComponent = Icon as typeof Hospital;
-
-                    return (
+                  {(
+                    [
+                      [t("hero.card.divisions.hospital"), Hospital],
+                     [t("hero.card.divisions.diagnosis"), Microscope],
+                     [t("hero.card.divisions.manufacturing"), Factory],
+                   ] as Array<[string, typeof Hospital]>
+                 ).map(([label, IconComponent], index) => {
+                   return (
                       <div
                         key={index}
                         className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-[#18a999]/40 hover:bg-white/10"

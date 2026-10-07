@@ -18,30 +18,54 @@ export const createDoctor = asyncHandler(async (req, res, next) => {
     department,
     phone,
     photoUrl,
-    workingHours,
     experienceYears,
     bio,
   } = req.body;
+  const workingHours = req.body.workingHours
+    ? JSON.parse(req.body.workingHours)
+    : undefined;
 
   if (!name || !department || !phone) {
-    return next(new AppError("Name, department, and phone are required", 400));
+    return next(
+      new AppError("Name, department, and phone are required", 400)
+    );
   }
+
+  // If an image was uploaded, use its generated URL.
+  // Otherwise, keep using the existing photoUrl field.
+  const finalPhotoUrl = req.file
+    ? `/uploads/doctors/${req.file.filename}`
+    : photoUrl;
 
   const doctor = await prisma.doctor.create({
     data: {
       name,
       department,
       phone,
-      ...(photoUrl !== undefined ? { photoUrl } : {}),
-      ...(workingHours !== undefined
-        ? { workingHours: workingHours === null ? Prisma.DbNull : workingHours }
+
+      ...(finalPhotoUrl !== undefined
+        ? { photoUrl: finalPhotoUrl }
         : {}),
-      ...(experienceYears !== undefined ? { experienceYears } : {}),
+
+      ...(workingHours !== undefined
+        ? {
+            workingHours:
+              workingHours === null ? Prisma.DbNull : workingHours,
+          }
+        : {}),
+
+      ...(experienceYears !== undefined
+        ? { experienceYears: Number(experienceYears) }
+        : {}),
+
       ...(bio !== undefined ? { bio } : {}),
     },
   });
 
-  res.status(201).json({ success: true, data: doctor });
+  res.status(201).json({
+    success: true,
+    data: doctor,
+  });
 });
 
 export const listDoctorsAdmin = asyncHandler(async (req, res) => {
@@ -75,22 +99,39 @@ export const updateDoctor = asyncHandler(async (req, res, next) => {
     phone,
     isActive,
     photoUrl,
-    workingHours,
     experienceYears,
     bio,
   } = req.body;
+
   const data = {};
 
   if (name !== undefined) data.name = name;
   if (department !== undefined) data.department = department;
   if (phone !== undefined) data.phone = phone;
   if (isActive !== undefined) data.isActive = isActive;
-  if (photoUrl !== undefined) data.photoUrl = photoUrl;
-  if (workingHours !== undefined) {
-    data.workingHours = workingHours === null ? Prisma.DbNull : workingHours;
+
+  // Uploaded image takes priority over Photo URL.
+  if (req.file) {
+    data.photoUrl = `/uploads/doctors/${req.file.filename}`;
+  } else if (photoUrl !== undefined) {
+    data.photoUrl = photoUrl || null;
   }
-  if (experienceYears !== undefined) data.experienceYears = experienceYears;
-  if (bio !== undefined) data.bio = bio;
+
+  if (req.body.workingHours !== undefined) {
+    data.workingHours =
+      req.body.workingHours === ""
+        ? Prisma.DbNull
+        : JSON.parse(req.body.workingHours);
+  }
+
+  if (experienceYears !== undefined) {
+    data.experienceYears =
+      experienceYears === "" ? null : Number(experienceYears);
+  }
+
+  if (bio !== undefined) {
+    data.bio = bio || null;
+  }
 
   if (!Object.keys(data).length) {
     return next(new AppError("At least one field is required", 400));
@@ -100,7 +141,11 @@ export const updateDoctor = asyncHandler(async (req, res, next) => {
     where: { id: req.params.id },
     data,
   });
-  res.status(200).json({ success: true, data: doctor });
+
+  res.status(200).json({
+    success: true,
+    data: doctor,
+  });
 });
 
 export const deleteDoctor = asyncHandler(async (req, res) => {

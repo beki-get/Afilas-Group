@@ -76,7 +76,9 @@ export const createBlogPost = async (req, res, next) => {
     const content = normalizeString(req.body?.content);
     const status =
       parseValidation(req.body?.status, "status", VALID_STATUSES) ?? "DRAFT";
-    const coverImageUrl = normalizeString(req.body?.coverImageUrl);
+   const coverImageUrl = req.file
+  ? `/uploads/blogs/${req.file.filename}`
+  : normalizeString(req.body?.coverImageUrl);
 
     if (!pillar) {
       throw new AppError("pillar is required", 400);
@@ -202,10 +204,11 @@ export const updateBlogPost = async (req, res, next) => {
       req.body?.content !== undefined
         ? normalizeString(req.body.content)
         : existing.content;
-    const coverImageUrl =
-      req.body?.coverImageUrl !== undefined
-        ? normalizeString(req.body.coverImageUrl)
-        : existing.coverImageUrl;
+   const coverImageUrl = req.file
+          ? `/uploads/blogs/${req.file.filename}`
+          : req.body?.coverImageUrl !== undefined
+          ? normalizeString(req.body.coverImageUrl)
+           : existing.coverImageUrl;
     const status =
       req.body?.status !== undefined
         ? parseValidation(req.body.status, "status", VALID_STATUSES)

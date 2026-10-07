@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -13,10 +13,25 @@ import {
   BookOpen,
 } from "lucide-react";
 
-import { BLOG_POSTS } from "@/lib/blog";
-import type { BlogPost, BlogCategory } from "@/lib/blog";
+import type { BlogCategory, BlogPost } from "@/lib/blog";
 
 type Category = "all" | BlogCategory;
+
+type BackendBlogPost = {
+  id: string;
+  pillar: "HOSPITAL" | "DIAGNOSIS" | "PHARMA";
+  title: string;
+  slug: string;
+  content: string;
+  coverImageUrl: string | null;
+  status: "DRAFT" | "PUBLISHED";
+  publishedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 const CATEGORY_ICONS = {
   hospital: Building2,
@@ -24,21 +39,101 @@ const CATEGORY_ICONS = {
   manufacturing: Factory,
 };
 
+const DEFAULT_IMAGES: Record<BlogCategory, string> = {
+  hospital: "/images/hospital/hospital-hero1.jpg",
+  diagnosis: "/images/diagnosis/diagnosis-hero1.jpg",
+  manufacturing: "/images/manufacturing/manufacture11.jpg",
+};
+
+const mapPillarToCategory = (
+  pillar: BackendBlogPost["pillar"]
+): BlogCategory => {
+  switch (pillar) {
+    case "HOSPITAL":
+      return "hospital";
+
+    case "DIAGNOSIS":
+      return "diagnosis";
+
+    case "PHARMA":
+      return "manufacturing";
+  }
+};
+
+const mapBackendPost = (post: BackendBlogPost): BlogPost => {
+  const category = mapPillarToCategory(post.pillar);
+
+  const image = post.coverImageUrl
+    ? post.coverImageUrl.startsWith("/uploads/")
+      ? `${API_BASE}${post.coverImageUrl}`
+      : post.coverImageUrl
+    : DEFAULT_IMAGES[category];
+
+  return {
+    id: post.id as unknown as number,
+    title: post.title,
+    excerpt: post.content.slice(0, 180),
+    category,
+    date: post.publishedAt || post.createdAt,
+    image,
+    slug: post.slug,
+    content: [post.content],
+  };
+};
 export default function BlogPage() {
   const t = useTranslations("Blog");
 
   const [activeCategory, setActiveCategory] =
     useState<Category>("all");
 
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+
+        const response = await fetch(`${API_BASE}/api/blog`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch blog posts");
+        }
+
+        const result = await response.json();
+
+        if (!result.success || !Array.isArray(result.data)) {
+          throw new Error("Invalid blog response");
+        }
+
+        const mappedPosts = result.data.map(
+          (post: BackendBlogPost) => mapBackendPost(post)
+        );
+
+        setPosts(mappedPosts);
+      } catch (error) {
+        console.error("Failed to fetch blog posts:", error);
+        setError(true);
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   const filteredPosts = useMemo(() => {
     if (activeCategory === "all") {
-      return BLOG_POSTS;
+      return posts;
     }
 
-    return BLOG_POSTS.filter(
+    return posts.filter(
       (post: BlogPost) => post.category === activeCategory
     );
-  }, [activeCategory]);
+  }, [activeCategory, posts]);
 
   const categories: {
     key: Category;
@@ -107,9 +202,7 @@ export default function BlogPage() {
               <button
                 key={category.key}
                 type="button"
-                onClick={() =>
-                  setActiveCategory(category.key)
-                }
+                onClick={() => setActiveCategory(category.key)}
                 className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
                   active
                     ? "bg-[#18a999] text-white shadow-lg shadow-[#18a999]/20"
@@ -133,8 +226,26 @@ export default function BlogPage() {
           </h2>
         </div>
 
-        {/* POSTS */}
-        {filteredPosts.length > 0 ? (
+        {/* LOADING */}
+        {loading ? (
+          <div className="rounded-3xl border border-slate-200 bg-white px-6 py-20 text-center dark:border-white/10 dark:bg-white/5">
+            <BookOpen className="mx-auto h-12 w-12 animate-pulse text-[#18a999]" />
+
+            <p className="mt-4 text-lg font-semibold">
+              Loading articles...
+            </p>
+          </div>
+        ) : error ? (
+          /* ERROR */
+          <div className="rounded-3xl border border-dashed border-red-300 bg-white px-6 py-20 text-center dark:border-red-400/20 dark:bg-white/5">
+            <BookOpen className="mx-auto h-12 w-12 text-[#18a999]" />
+
+            <p className="mt-4 text-lg font-semibold">
+              Unable to load articles.
+            </p>
+          </div>
+        ) : filteredPosts.length > 0 ? (
+          /* POSTS */
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredPosts.map((post) => {
               const Icon = CATEGORY_ICONS[post.category];
@@ -150,6 +261,7 @@ export default function BlogPage() {
                       src={post.image}
                       alt={post.title}
                       fill
+                       unoptimized
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
 

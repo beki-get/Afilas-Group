@@ -567,7 +567,18 @@
     },
     "helpTitle": "ትክክለኛውን ክፍል ለማግኘት እገዛ ይፈልጋሉ?",
     "helpDescription": "ቡድናችን ወደ ተገቢው የጤና እንክብካቤ አቅጣጫ ሊመራዎት ይችላል።",
-    "bookAppointment": "ቀጠሮ ይያዙ"
+    "bookAppointment": "ቀጠሮ ይያዙ",
+    "detail": {
+  "back": "ወደ አጠቃላይ ሆስፒታል ተመለስ",
+  "label": "የሆስፒታል ክፍል",
+  "about": "ስለ ክፍሉ",
+  "appointmentTitle": "ቀጠሮ ያስፈልግዎታል?",
+  "appointmentDescription": "በአፊላስ አጠቃላይ ሆስፒታል ቀጠሮ ይያዙ።",
+  "bookAppointment": "ቀጠሮ ይያዙ",
+  "notFound": "የሆስፒታሉ ክፍል አልተገኘም",
+  "loading": "የክፍሉ መረጃ በመጫን ላይ...",
+  "noDescription": "ለዚህ ክፍል አሁን ምንም መግለጫ የለም።"
+}
   },
 
   "services": {
@@ -613,7 +624,18 @@
       "button": "የአደጋ ጊዜ ጥሪ"
     },
 
-    "exploreAll": "ሁሉንም የአፊላስ ሆስፒታል አገልግሎቶች ይመልከቱ"
+  "exploreAll": "ሁሉንም የአፊላስ ሆስፒታል አገልግሎቶች ይመልከቱ",
+
+"detail": {
+  "back": "ወደ አጠቃላይ ሆስፒታል ተመለስ",
+  "about": "ስለ አገልግሎቱ",
+  "appointmentTitle": "ቀጠሮ ያስፈልግዎታል?",
+  "appointmentDescription": "በአፊላስ አጠቃላይ ሆስፒታል ቀጠሮ ይያዙ።",
+  "bookAppointment": "ቀጠሮ ይያዙ",
+  "notFound": "አገልግሎቱ አልተገኘም",
+  "loading": "የአገልግሎቱ መረጃ በመጫን ላይ...",
+  "noDescription": "ለዚህ አገልግሎት አሁን ምንም መግለጫ የለም።"
+}
   },
 
   "doctors": {
@@ -655,11 +677,20 @@
     },
 
     "viewProfile": "መገለጫ ይመልከቱ",
+    "loading": "የሐኪሙ መገለጫ በመጫን ላይ...",
+    "notFound": "ሐኪሙ አልተገኘም",
+    "backToHospital": "ወደ አጠቃላይ ሆስፒታል ተመለስ",
+    "profileDescription": "ይህ ሐኪም በ",
+    "department": "ዲፓርትመንት በኩል የሙያ የጤና አገልግሎት ይሰጣል።",
+    "departmentTitle": "ዲፓርትመንት",
+    "specialist": "ስፔሻሊስት",
+    "appointment": "ቀጠሮ",
+    "appointmentDescription": "በአፊላስ አጠቃላይ ሆስፒታል ከዚህ ሐኪም ጋር ቀጠሮ ይያዙ።",
     "bookAppointment": "ቀጠሮ ይያዙ",
     "helpTitle": "ባለሙያ ሐኪም ለመምረጥ እገዛ ይፈልጋሉ?",
     "helpDescription": "ቡድናችን ወደ ተገቢው ክፍልና የቀጠሮ አገልግሎት ሊመራዎት ይችላል።",
     "findCare": "ትክክለኛውን እንክብካቤ ያግኙ"
-  },
+     },
 
   "emergencyCare": {
     "badge": "የአደጋ ጊዜ የሕክምና እንክብካቤ",
@@ -895,7 +926,25 @@
     "description": "የሚገኙ የምርመራ አገልግሎቶችን ያስሱ ወይም በአፊላስ የጤና መድረክ በኩል የቀጠሮ ጥያቄ ይጀምሩ።",
     "bookAppointment": "ቀጠሮ ይያዙ",
     "contact": "ያግኙን"
-  }
+  },
+  "serviceDetail": {
+  "back": "ወደ የምርመራ ማዕከል ተመለስ",
+  "badge": "የምርመራ አገልግሎት",
+  "loading": "አገልግሎቱ በመጫን ላይ...",
+  "notFoundTitle": "አገልግሎቱ አልተገኘም",
+  "notFoundDescription": "ይህ የምርመራ አገልግሎት በአሁኑ ጊዜ አይገኝም።",
+  "about": "ስለ",
+  "professionalService": "ሙያዊ የምርመራ አገልግሎት",
+  "qualityCare": "ጥራትን ያማከለ የታካሚ እንክብካቤ",
+  "convenientAccess": "በአፊላስ የምርመራ ማዕከል ቀላል የአገልግሎት ማግኛ",
+  "needService": "ይህን አገልግሎት ይፈልጋሉ?",
+  "bookTitle": "ቀጠሮ ይያዙ",
+  "bookDescription": "ከአፊላስ የምርመራ ማዕከል ጋር የምርመራ ቀጠሮዎን ይያዙ።",
+  "bookService": "ይህን አገልግሎት ይያዙ",
+  "allServices": "ሁሉንም የምርመራ አገልግሎቶች ይመልከቱ",
+  "defaultDescription": "በአፊላስ የምርመራ ማዕከል የሚሰጡ ሙያዊ የምርመራ አገልግሎቶች።",
+  "defaultAbout": "አፊላስ የምርመራ ማዕከል ይህን አገልግሎት እንደ ሙያዊ የምርመራ እንክብካቤ አካል ይሰጣል። ቡድናችን አስተማማኝና ጥራት ያለው የምርመራ አገልግሎት ለመስጠት ቁርጠኛ ነው።"
+}
 },
 "Pharma": {
   "hero": {

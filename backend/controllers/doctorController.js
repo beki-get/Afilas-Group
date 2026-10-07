@@ -10,7 +10,7 @@ const getDoctors = asyncHandler(async (req, res, next) => {
         isActive: true,
         ...(department ? { department } : {}),
       },
-      select: { id: true, name: true, department: true },
+      select: { id: true, name: true, department: true,  photoUrl: true,},
       orderBy: { name: "asc" },
     });
 

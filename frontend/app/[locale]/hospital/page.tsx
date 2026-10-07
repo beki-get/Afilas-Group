@@ -33,9 +33,32 @@ import {
 } from "lucide-react";
 
 import AfilasPageShell from "@/components/AfilasPageShell";
+type Department = {
+  id: string;
+  name: string;
+  description: string | null;
+};
+type Doctor = {
+  id: string;
+  name: string;
+  department: string;
+  photoUrl: string | null;
+};
+type HospitalService = {
+  id: string;
+  name: string;
+  description: string | null;
+  departmentId: string;
+  department: {
+    name: string;
+  };
+};
 
 export default function GeneralHospitalPage() {
   const t = useTranslations("Hospital");
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [doctorList, setDoctorList] = useState<Doctor[]>([]);
+  const [services, setServices] = useState<HospitalService[]>([]);
 
   const heroImages = [
     "/images/hospital/hospital-hero1.jpg",
@@ -46,58 +69,118 @@ export default function GeneralHospitalPage() {
 
   const [currentHero, setCurrentHero] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHero(
-        (previous) => (previous + 1) % heroImages.length
-      );
-    }, 5000);
+ useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentHero(
+      (previous) => (previous + 1) % heroImages.length
+    );
+  }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+}, []);
+
+useEffect(() => {
+  const fetchDepartments = async () => {
+    try {
+      const apiBase =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
+      const response = await fetch(`${apiBase}/api/departments`);
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || "Failed to fetch departments"
+        );
+      }
+
+      setDepartments(result.data);
+    } catch (error) {
+      console.error("Failed to fetch departments:", error);
+    }
+  };
+
+  fetchDepartments();
+}, []);
+
+useEffect(() => {
+  const fetchDoctors = async () => {
+    try {
+      const apiBase =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
+      const response = await fetch(`${apiBase}/api/doctors`);
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || "Failed to fetch doctors"
+        );
+      }
+
+      setDoctorList(result.data);
+    } catch (error) {
+      console.error("Failed to fetch doctors:", error);
+    }
+  };
+
+  fetchDoctors();
+}, []);
+
+useEffect(() => {
+  const fetchServices = async () => {
+    try {
+      const apiBase =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
+      const response = await fetch(`${apiBase}/api/services`);
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || "Failed to fetch services"
+        );
+      }
+
+      setServices(result.data);
+    } catch (error) {
+      console.error("Failed to fetch services:", error);
+    }
+  };
+
+  fetchServices();
+}, []);
 
   // =====================================================
   // DEPARTMENTS
   // =====================================================
 
-  const departments = [
-    {
-      key: "internalMedicine",
-      slug: "internal-medicine",
-      icon: Stethoscope,
-      gradient: "from-teal-500 to-emerald-600",
-    },
-    {
-      key: "surgery",
-      slug: "surgery",
-      icon: Syringe,
-      gradient: "from-blue-500 to-indigo-600",
-    },
-    {
-      key: "pediatrics",
-      slug: "pediatrics",
-      icon: Baby,
-      gradient: "from-pink-500 to-rose-500",
-    },
-    {
-      key: "gynecology",
-      slug: "gynecology-obstetrics",
-      icon: HeartPulse,
-      gradient: "from-purple-500 to-fuchsia-600",
-    },
-    {
-      key: "cardiology",
-      slug: "cardiology",
-      icon: Activity,
-      gradient: "from-red-500 to-orange-500",
-    },
-    {
-      key: "orthopedics",
-      slug: "orthopedics",
-      icon: Bone,
-      gradient: "from-amber-500 to-yellow-600",
-    },
-  ];
+  const departmentStyles = [
+  {
+    icon: Stethoscope,
+    gradient: "from-teal-500 to-emerald-600",
+  },
+  {
+    icon: Syringe,
+    gradient: "from-blue-500 to-indigo-600",
+  },
+  {
+    icon: Baby,
+    gradient: "from-pink-500 to-rose-500",
+  },
+  {
+    icon: HeartPulse,
+    gradient: "from-purple-500 to-fuchsia-600",
+  },
+  {
+    icon: Activity,
+    gradient: "from-red-500 to-orange-500",
+  },
+  {
+    icon: Bone,
+    gradient: "from-amber-500 to-yellow-600",
+  },
+];
 
   // =====================================================
   // MEDICAL SERVICES
@@ -152,32 +235,20 @@ export default function GeneralHospitalPage() {
   // DOCTORS
   // =====================================================
 
-  const doctors = [
-    {
-      key: "internalMedicine",
-      slug: "dr-abebe-kebede",
-      image: "/images/hospital/doctors/doctor-1.jpg",
-      gradient: "from-teal-500 to-emerald-600",
-    },
-    {
-      key: "pediatrics",
-      slug: "dr-hana-tesfaye",
-      image: "/images/hospital/doctors/doctor-2.jpg",
-      gradient: "from-pink-500 to-rose-600",
-    },
-    {
-      key: "cardiology",
-      slug: "dr-dawit-alemu",
-      image: "/images/hospital/doctors/doctor-3.jpg",
-      gradient: "from-blue-500 to-indigo-600",
-    },
-    {
-      key: "gynecology",
-      slug: "dr-selamawit-mekonnen",
-      image: "/images/hospital/doctors/doctor-4.jpg",
-      gradient: "from-purple-500 to-fuchsia-600",
-    },
-  ];
+  const doctorVisuals = [
+  {
+    image: "/images/hospital/doctors/doctor1.jpg",
+    gradient: "from-teal-500 to-emerald-600",
+  },
+  {
+    image: "/images/hospital/doctors/doctor2.jpg",
+    gradient: "from-blue-500 to-indigo-600",
+  },
+  {
+    image: "/images/hospital/doctors/doctor3.jpg",
+    gradient: "from-purple-500 to-fuchsia-600",
+  },
+];
 
   // =====================================================
   // QUICK LINKS
@@ -872,51 +943,54 @@ export default function GeneralHospitalPage() {
 
     {/* Department Cards */}
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {departments.map((department) => {
-        const Icon = department.icon;
+      {departments.map((department, index) => {
+           const style =
+           departmentStyles[index % departmentStyles.length];
+
+          const Icon = style.icon;
+
+          const slug = department.name
+             .toLowerCase()
+               .trim()
+               .replace(/\s+/g, "-")
+               .replace(/[^a-z0-9-]/g, "");
 
         return (
           <div
-            key={department.key}
+            key={department.id}
             className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-white/10 dark:bg-white/[0.06]"
           >
             {/* Hover gradient */}
             <div
-              className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${department.gradient}`}
+              className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${style.gradient}`}
             />
 
             {/* Decorative circle */}
             <div
-              className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${department.gradient} opacity-10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`}
+              className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${style.gradient} opacity-10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`}
             />
 
             <div className="relative">
 
               {/* Icon */}
               <div
-                className={`mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${department.gradient} text-white shadow-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
+                className={`mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${style.gradient} text-white shadow-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
               >
                 <Icon className="h-8 w-8" />
               </div>
 
-              {/* Specialty label */}
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
-                {t("departments.specialty")}
-              </p>
-
-              {/* Title */}
-              <h3 className="text-xl font-bold text-[#071f46] dark:text-white">
-                {t(`departments.items.${department.key}.title`)}
+              <h3 className="text-xl font-bold text-teal-600 dark:text-teal-400">
+                {department.name}
               </h3>
 
               {/* Description */}
               <p className="mt-3 min-h-[72px] text-sm leading-6 text-slate-600 dark:text-slate-300">
-                {t(`departments.items.${department.key}.description`)}
+                {department.description || ""}
               </p>
 
               {/* Link */}
               <Link
-                href={`/hospital/departments/${department.slug}`}
+                href={`/hospital/departments/${slug}`}
                 className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition-all duration-300 group-hover:gap-3 dark:text-teal-400"
               >
                 {t("departments.explore")}
@@ -1001,51 +1075,54 @@ export default function GeneralHospitalPage() {
 
     {/* Services Grid */}
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {medicalServices.map((service) => {
-        const Icon = service.icon;
+      {services.map((service, index) => {
+        const style =
+           medicalServices[index % medicalServices.length];
+
+         const Icon = style.icon;
 
         return (
           <div
-            key={service.key}
-            className={`group relative overflow-hidden rounded-3xl border border-slate-200 ${service.bg} p-7 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-white/10`}
+            key={service.id}
+            className={`group relative overflow-hidden rounded-3xl border border-slate-200 ${style.bg} p-7 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-white/10`}
           >
             {/* Top gradient line */}
             <div
-              className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${service.gradient}`}
+              className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${style.gradient}`}
             />
 
             {/* Decorative circle */}
             <div
-              className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${service.gradient} opacity-10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`}
+              className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${style.gradient} opacity-10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-20`}
             />
 
             <div className="relative">
 
               {/* Icon */}
               <div
-                className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-sm dark:bg-white/10 ${service.iconColor} transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}
+                className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-sm dark:bg-white/10 ${style.iconColor} transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}
               >
                 <Icon className="h-7 w-7" />
               </div>
 
               {/* Label */}
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-teal-600 dark:text-teal-400">
-                {t("services.coreServices")}
+                {service.department.name}
               </p>
 
               {/* Title */}
               <h3 className="text-xl font-bold text-[#071f46] dark:text-white">
-                {t(`services.items.${service.key}.title`)}
+                {service.name}
               </h3>
 
               {/* Description */}
               <p className="mt-3 min-h-[96px] text-sm leading-6 text-slate-600 dark:text-slate-300">
-                {t(`services.items.${service.key}.description`)}
+                  {service.description || ""}
               </p>
 
               {/* Link */}
               <Link
-                href={`/hospital/services/${service.key}`}
+                href={`/hospital/services/${service.id}`}
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 transition-all duration-300 group-hover:gap-3 dark:text-teal-400"
               >
                 {t("services.learnMore")}
@@ -1150,94 +1227,112 @@ export default function GeneralHospitalPage() {
     </div>
 
     {/* Doctors Grid */}
-    <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-      {doctors.map((doctor) => {
-        const doctorData = t.raw(
-          `doctors.specialists.${doctor.key}`
-        ) as {
-          name: string;
-          specialization: string;
-          experience: string;
-          description: string;
-          department: string;
-        };
+<div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+  {doctorList.map((doctor, index) => {
+    const doctorVisuals = [
+      {
+        gradient: "from-teal-500 to-emerald-600",
+        image: "/images/hospital/doctors/doctor1.jpg",
+      },
+      {
+        gradient: "from-blue-500 to-indigo-600",
+        image: "/images/hospital/doctors/doctor2.jpg",
+      },
+      {
+        gradient: "from-purple-500 to-fuchsia-600",
+        image: "/images/hospital/doctors/doctor3.jpg",
+      },
+      {
+        gradient: "from-orange-500 to-amber-600",
+        image: "/images/hospital/doctors/doctor4.jpg",
+      },
+    ];
 
-        return (
-          <div
-            key={doctor.key}
-            className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-white/10 dark:bg-white/[0.06]"
-          >
-            {/* Top gradient */}
-            <div
-              className={`absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r ${doctor.gradient}`}
-            />
+    const visual =
+      doctorVisuals[index % doctorVisuals.length];
+    const doctorImage = doctor.photoUrl
+  ? doctor.photoUrl.startsWith("/uploads/")
+    ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001"}${doctor.photoUrl}`
+    : doctor.photoUrl
+  : visual.image;
 
-            {/* Doctor image */}
-            <div className="relative h-72 overflow-hidden">
-              <Image
-                src={doctor.image}
-                alt={doctorData.name}
-                fill
-                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
+    return (
+      <div
+        key={doctor.id}
+        className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-white/10 dark:bg-white/[0.06]"
+      >
+        {/* Top gradient */}
+        <div
+          className={`absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r ${visual.gradient}`}
+        />
 
-              {/* Image overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#071f46]/90 via-[#071f46]/10 to-transparent" />
+        {/* Doctor image */}
+        <div className="relative h-72 overflow-hidden">
+          <Image
+            src={doctorImage}
+            alt={doctor.name}
+            fill
+            unoptimized
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          />
 
-              {/* Department badge */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
-                  {doctorData.department}
-                </span>
-              </div>
-            </div>
+          {/* Image overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#071f46]/90 via-[#071f46]/10 to-transparent" />
 
-            {/* Doctor information */}
-            <div className="p-6">
-
-              <h3 className="text-xl font-bold text-[#071f46] dark:text-white">
-                {doctorData.name}
-              </h3>
-
-              <p className="mt-1 text-sm font-semibold text-teal-600 dark:text-teal-400">
-                {doctorData.specialization}
-              </p>
-
-              {/* Experience */}
-              <div className="mt-4 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
-                <BriefcaseBusiness className="h-4 w-4 text-teal-500" />
-                {doctorData.experience}
-              </div>
-
-              {/* Description */}
-              <p className="mt-4 min-h-[72px] text-sm leading-6 text-slate-600 dark:text-slate-300">
-                {doctorData.description}
-              </p>
-
-              {/* Actions */}
-              <div className="mt-6 flex flex-col gap-2">
-                <Link
-                  href={`/hospital/doctors/${doctor.slug}`}
-                  className="group/link inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-4 py-2.5 text-sm font-semibold text-[#071f46] transition-all duration-300 hover:border-teal-500 hover:bg-teal-500 hover:text-white dark:border-white/10 dark:text-white dark:hover:border-teal-500 dark:hover:bg-teal-500"
-                >
-                  {t("doctors.viewProfile")}
-
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-                </Link>
-
-                <Link
-                    href="/book?service=hospital"
-                    className={`inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r ${doctor.gradient} px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
-                 >
-                  <CalendarDays className="h-4 w-4" />
-                  {t("doctors.bookAppointment")}
-                </Link>
-              </div>
-            </div>
+          {/* Department badge */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+              {doctor.department}
+            </span>
           </div>
-        );
-      })}
-    </div>
+        </div>
+
+        {/* Doctor information */}
+        <div className="p-6">
+          <h3 className="text-xl font-bold text-[#071f46] dark:text-white">
+            {doctor.name}
+          </h3>
+
+          <p className="mt-1 text-sm font-semibold text-teal-600 dark:text-teal-400">
+            {doctor.department}
+          </p>
+
+          {/* Doctor ID */}
+          <div className="mt-4 flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <BriefcaseBusiness className="h-4 w-4 text-teal-500" />
+            {doctor.id}
+          </div>
+
+          {/* Description */}
+          <p className="mt-4 min-h-[72px] text-sm leading-6 text-slate-600 dark:text-slate-300">
+            {doctor.name} provides healthcare services through the{" "}
+            {doctor.department} department.
+          </p>
+
+          {/* Actions */}
+          <div className="mt-6 flex flex-col gap-2">
+            <Link
+              href={`/hospital/doctors/${doctor.id}`}
+              className="group/link inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-4 py-2.5 text-sm font-semibold text-[#071f46] transition-all duration-300 hover:border-teal-500 hover:bg-teal-500 hover:text-white dark:border-white/10 dark:text-white dark:hover:border-teal-500 dark:hover:bg-teal-500"
+            >
+              {t("doctors.viewProfile")}
+
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+            </Link>
+
+            <Link
+              href="/book?service=hospital"
+              className={`inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r ${visual.gradient} px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
+            >
+              <CalendarDays className="h-4 w-4" />
+              {t("doctors.bookAppointment")}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
 
     {/* Specialist Help CTA */}
     <div className="mt-14 overflow-hidden rounded-3xl border border-teal-500/20 bg-white p-8 shadow-sm dark:bg-white/[0.05] sm:p-10">

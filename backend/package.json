@@ -24,7 +24,8 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.7.0",
     "jsonwebtoken": "^9.0.3",
-    "kenat": "^4.0.0"
+    "kenat": "^4.0.0",
+    "multer": "^2.4.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.2",

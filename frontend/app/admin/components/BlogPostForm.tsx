@@ -35,6 +35,7 @@ export default function BlogPostForm({
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const willPublish =
     form.status === "PUBLISHED" &&
     (!isEdit || initialData?.status !== "PUBLISHED");
@@ -45,23 +46,32 @@ export default function BlogPostForm({
     setError("");
 
     try {
-      const payload = {
-        ...form,
-        pillar,
-        coverImageUrl: form.coverImageUrl.trim() || null,
-      };
+      const formData = new FormData();
+
+formData.append("title", form.title);
+formData.append("content", form.content);
+formData.append("status", form.status);
+formData.append("pillar", pillar);
+
+if (form.coverImageUrl.trim()) {
+  formData.append("coverImageUrl", form.coverImageUrl.trim());
+}
+
+if (selectedImage) {
+  formData.append("image", selectedImage);
+}
 
       if (isEdit && blogId) {
-        await adminFetch(`/api/admin/blog/${blogId}`, {
-          method: "PATCH",
-          body: JSON.stringify(payload),
-        });
-      } else {
-        await adminFetch("/api/admin/blog", {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
-      }
+  await adminFetch(`/api/admin/blog/${blogId}`, {
+    method: "PATCH",
+    body: formData,
+  });
+} else {
+  await adminFetch("/api/admin/blog", {
+    method: "POST",
+    body: formData,
+  });
+}
 
       router.push(listHref);
       router.refresh();
@@ -158,6 +168,26 @@ export default function BlogPostForm({
             className="w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-sm text-[var(--admin-text-primary)] outline-none placeholder:text-[var(--admin-text-muted)] focus:border-[var(--admin-accent)]"
           />
         </label>
+        <label className="space-y-2 md:col-span-2">
+  <span className="text-sm font-medium text-[var(--admin-text-primary)]">
+    Upload Blog Image
+  </span>
+
+  <input
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    onChange={(event) =>
+      setSelectedImage(event.target.files?.[0] ?? null)
+    }
+    className="w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-sm text-[var(--admin-text-primary)]"
+  />
+
+  {selectedImage && (
+    <p className="text-xs text-[var(--admin-text-secondary)]">
+      Selected: {selectedImage.name}
+    </p>
+  )}
+</label>
 
         <label className="space-y-2">
           <span className="text-sm font-medium text-[var(--admin-text-primary)]">
