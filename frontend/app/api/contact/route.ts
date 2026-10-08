@@ -118,11 +118,72 @@ export async function POST(request: NextRequest) {
       message: message.trim(),
     });
 
-    // Send email
+    // =========================================================
+    // CREATE ADMIN NOTIFICATION
+    //
+    // This happens independently from email sending.
+    // If email fails, the admin notification will still exist.
+    // If notification fails, the email will still be attempted.
+    // =========================================================
+
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+
+    if (!apiBase) {
+      console.error("Missing NEXT_PUBLIC_API_URL");
+    } else {
+      try {
+        const notificationResponse = await fetch(
+          `${apiBase}/api/contact`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: name.trim(),
+              email: email.trim(),
+              phone:
+                typeof phone === "string"
+                  ? phone.trim()
+                  : null,
+              inquiry_type: inquiry_type.trim(),
+              subject: subject.trim(),
+              message: message.trim(),
+            }),
+
+            // Do not let a backend notification problem
+            // block the contact email for too long.
+            signal: AbortSignal.timeout(5000),
+          }
+        );
+
+        if (!notificationResponse.ok) {
+          const notificationError =
+            await notificationResponse.text();
+
+          console.error(
+            "Notification API error:",
+            notificationError
+          );
+        }
+      } catch (notificationError) {
+        console.error(
+          "Failed to create admin notification:",
+          notificationError
+        );
+      }
+    }
+
+    // =========================================================
+    // SEND EMAIL
+    //
+    // This is independent from the admin notification.
+    // =========================================================
+
     const { data, error } = await resend.emails.send({
       from: "Afilas Group <onboarding@resend.dev>",
       to: [notificationEmail],
-      //replyTo: email.trim(),
+      // replyTo: email.trim(),
       subject: `New Contact Message: ${subject.trim()}`,
       html,
     });
@@ -138,6 +199,10 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // =========================================================
+    // SUCCESS
+    // =========================================================
 
     return NextResponse.json(
       {

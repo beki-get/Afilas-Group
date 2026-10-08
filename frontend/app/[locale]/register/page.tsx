@@ -96,15 +96,47 @@ export default function RegisterPage() {
   setLoading(true);
 
   try {
-    // Backend registration will be connected here later.
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+  const apiBase =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
-    setSuccess(true);
-  } catch {
-    setError(t("registrationError"));
-  } finally {
-    setLoading(false);
+  const response = await fetch(`${apiBase}/api/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      name: fullName,
+      email,
+      phone,
+      password,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || t("registrationError"));
   }
+
+  setSuccess(true);
+
+  setFormData({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+} catch (error) {
+  setError(
+    error instanceof Error
+      ? error.message
+      : t("registrationError")
+  );
+} finally {
+  setLoading(false);
+}
 };
 
   return (

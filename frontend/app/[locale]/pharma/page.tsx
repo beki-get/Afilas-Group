@@ -25,11 +25,23 @@ import {
 } from "lucide-react";
 
 import AfilasPageShell from "@/components/AfilasPageShell";
+type InterestArea = {
+  id: string;
+  name: string;
+  description: string | null;
+};
 
 export default function ManufacturingPage() {
   const t = useTranslations("Pharma");
 
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const [interestAreas, setInterestAreas] = useState<InterestArea[]>([]);
+  const [interestAreasLoading, setInterestAreasLoading] = useState(true);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,63 +51,70 @@ export default function ManufacturingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const capabilities = [
-    {
-      number: "01",
-      key: "research",
-      icon: Microscope,
-    },
-    {
-      number: "02",
-      key: "production",
-      icon: Factory,
-    },
-    {
-      number: "03",
-      key: "quality",
-      icon: ShieldCheck,
-    },
-    {
-      number: "04",
-      key: "packaging",
-      icon: PackageCheck,
-    },
-    {
-      number: "05",
-      key: "improvement",
-      icon: Settings2,
-    },
-    {
-      number: "06",
-      key: "innovation",
-      icon: Lightbulb,
-    },
-  ];
+  useEffect(() => {
+  const fetchInterestAreas = async () => {
+    try {
+      const response = await fetch(
+  `${API_BASE}/api/interest-areas`
+);
 
-  const qualityPoints = [
-    {
-      key: "documentation",
-      icon: FileCheck2,
-    },
-    {
-      key: "inspection",
-      icon: Search,
-    },
-    {
-      key: "improvement",
-      icon: Settings2,
-    },
-    {
-      key: "responsibility",
-      icon: HeartHandshake,
-    },
-  ];
+      if (!response.ok) {
+        throw new Error("Failed to fetch interest areas");
+      }
 
-  const qualityPrinciples = [
-    "consistency",
-    "responsibility",
-    "continuous",
-  ];
+      const result = await response.json();
+
+      if (result.success) {
+        setInterestAreas(result.data);
+      } else {
+        console.error("Failed to fetch interest areas:", result);
+      }
+    } catch (error) {
+      console.error(
+        "Failed to fetch pharma interest areas:",
+        error
+      );
+    } finally {
+      setInterestAreasLoading(false);
+    }
+  };
+
+  fetchInterestAreas();
+}, []);
+
+  const capabilityIcons = [
+  Microscope,
+  Factory,
+  ShieldCheck,
+  PackageCheck,
+  Settings2,
+  Lightbulb,
+];
+
+ const qualityPoints = [
+  {
+    key: "documentation",
+    icon: FileCheck2,
+  },
+  {
+    key: "inspection",
+    icon: ShieldCheck,
+  },
+  {
+    key: "improvement",
+    icon: Settings2,
+  },
+  {
+    key: "responsibility",
+    icon: HeartHandshake,
+  },
+];
+
+const qualityPrinciples = [
+  "consistency",
+  "responsibility",
+  "continuous",
+];
 
   const productCategories = [
     "essential",
@@ -486,38 +505,75 @@ export default function ManufacturingPage() {
 
             <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-              {capabilities.map((item) => {
-                const Icon = item.icon;
+  {interestAreasLoading ? (
+    Array.from({ length: 6 }).map((_, index) => (
+      <div
+        key={index}
+        className="animate-pulse rounded-3xl border border-slate-200 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#0d2d55]"
+      >
+        <div className="h-14 w-14 rounded-2xl bg-slate-200 dark:bg-white/10" />
 
-                return (
-                  <div
-                    key={item.number}
-                    className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl dark:border-white/10 dark:bg-[#0d2d55] dark:hover:bg-[#12356b]"
-                  >
-                    <span className="absolute right-6 top-4 text-6xl font-black text-slate-100 dark:text-white/5">
-                      {item.number}
-                    </span>
+        <div className="mt-7 h-6 w-3/4 rounded bg-slate-200 dark:bg-white/10" />
 
-                    <div className="relative">
+        <div className="mt-4 h-4 w-full rounded bg-slate-200 dark:bg-white/10" />
+        <div className="mt-2 h-4 w-5/6 rounded bg-slate-200 dark:bg-white/10" />
+      </div>
+    ))
+  ) : interestAreas.length === 0 ? (
+    <div className="col-span-full py-12 text-center">
+      <p className="text-slate-500 dark:text-slate-400">
+        No services are currently available.
+      </p>
+    </div>
+  ) : (
+    interestAreas.map((area, index) => {
+  const Icon =
+    capabilityIcons[index % capabilityIcons.length];
 
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#18a999]/10 transition group-hover:bg-[#18a999]">
-                        <Icon className="h-7 w-7 text-[#18a999] transition group-hover:text-white" />
-                      </div>
+  return (
+    <div
+      key={area.id}
+      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#18a999]/30 hover:shadow-xl dark:border-white/10 dark:bg-[#0d2d55] dark:hover:bg-[#12356b]"
+    >
+      {/* Service number */}
+      <span className="absolute right-6 top-4 text-6xl font-black text-slate-100 dark:text-white/5">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
-                      <h3 className="mt-7 text-xl font-bold text-[#071f46] dark:text-white">
-                        {t(`capabilities.items.${item.key}.title`)}
-                      </h3>
+      <div className="relative">
+        {/* Service icon */}
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#18a999]/10 transition duration-300 group-hover:bg-[#18a999]">
+          <Icon className="h-7 w-7 text-[#18a999] transition duration-300 group-hover:text-white" />
+        </div>
 
-                      <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
-                        {t(`capabilities.items.${item.key}.description`)}
-                      </p>
+        {/* Service name */}
+        <h3 className="mt-7 text-xl font-bold text-[#071f46] dark:text-white">
+          {area.name}
+        </h3>
 
-                    </div>
-                  </div>
-                );
-              })}
+        {/* Service description */}
+        {area.description && (
+          <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
+            {area.description}
+          </p>
+        )}
 
-            </div>
+        {/* Learn more */}
+       <Link
+  href="/contact"
+  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#18a999] transition-colors hover:text-[#14998e]"
+>
+  <span>{t("capabilities.learnMore")}</span>
+
+  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+</Link>
+      </div>
+    </div>
+  );
+})
+  )}
+
+</div>
 
             {/* Commitment Banner */}
             <div className="mt-14 overflow-hidden rounded-3xl bg-[#071f46] p-8 text-white shadow-xl sm:p-10">
