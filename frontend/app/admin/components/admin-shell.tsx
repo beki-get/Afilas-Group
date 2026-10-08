@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Bell,
   Building2,
   CalendarDays,
   ClipboardList,
@@ -16,7 +17,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { adminFetch } from "../../../lib/adminApi";
 
 type AdminSection = { label: string; href: string; icon: LucideIcon };
@@ -45,7 +46,11 @@ const pillars: {
         href: "/admin/hospital/appointments",
         icon: CalendarDays,
       },
-      { label: "Doctors", href: "/admin/hospital/doctors", icon: Stethoscope },
+      {
+        label: "Doctors",
+        href: "/admin/hospital/doctors",
+        icon: Stethoscope,
+      },
       {
         label: "Departments",
         href: "/admin/hospital/departments",
@@ -133,31 +138,101 @@ const adminTheme = {
   "--admin-text-secondary": "#9A9DA3",
   "--admin-hover-bg": "#22252B",
 } as React.CSSProperties;
+
 export default function AdminShell({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
+
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+
   const isLogin = pathname === "/admin/login";
+
   const activePillar = pillars.find((pillar) =>
     pathname.startsWith(`/admin/${pillar.id}/`),
   );
 
   useEffect(() => {
     document.body.classList.add("admin-mode");
+
     return () => document.body.classList.remove("admin-mode");
   }, []);
 
   useEffect(() => {
     if (isLogin) return;
+
     adminFetch<{ email: string }>("/api/admin/auth/me")
       .then(() => undefined)
       .catch(() => router.replace("/admin/login"));
   }, [isLogin, router]);
 
+  // Fetch unread notification count
+  useEffect(() => {
+    if (isLogin) return;
+
+    const fetchUnreadNotifications = async () => {
+      try {
+        const response = await adminFetch<{ count: number }>(
+          "/api/admin/notifications/unread-count",
+        );
+
+        setUnreadNotifications(response.count);
+      } catch (error) {
+        console.error(
+          "Failed to fetch notification count:",
+          error,
+        );
+      }
+    };
+
+    fetchUnreadNotifications();
+
+    const interval = setInterval(
+      fetchUnreadNotifications,
+      30000,
+    );
+
+    return () => clearInterval(interval);
+  }, [isLogin]);
+
+  // Refresh notification count immediately after a notification is updated
+  useEffect(() => {
+    if (isLogin) return;
+
+    const handleNotificationUpdate = async () => {
+      try {
+        const response = await adminFetch<{ count: number }>(
+          "/api/admin/notifications/unread-count",
+        );
+
+        setUnreadNotifications(response.count);
+      } catch (error) {
+        console.error(
+          "Failed to refresh notification count:",
+          error,
+        );
+      }
+    };
+
+    window.addEventListener(
+      "notifications-updated",
+      handleNotificationUpdate,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "notifications-updated",
+        handleNotificationUpdate,
+      );
+    };
+  }, [isLogin]);
+
   const logout = async () => {
     try {
-      await adminFetch<unknown>("/api/admin/auth/logout", { method: "POST" });
+      await adminFetch<unknown>("/api/admin/auth/logout", {
+        method: "POST",
+      });
     } finally {
       router.replace("/admin/login");
     }
@@ -178,13 +253,21 @@ export default function AdminShell({
     >
       <header className="flex min-h-12 flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-[var(--admin-border)] bg-[var(--admin-bg)] px-3 py-1.5 sm:px-5">
         <div className="flex min-w-0 flex-wrap items-center gap-3">
-          <Link href="/admin" className="shrink-0 text-sm font-medium">
+          <Link
+            href="/admin"
+            className="shrink-0 text-sm font-medium"
+          >
             Afilas
           </Link>
-          <nav aria-label="Admin pillars" className="flex items-center gap-1">
+
+          <nav
+            aria-label="Admin pillars"
+            className="flex items-center gap-1"
+          >
             {pillars.map((pillar) => {
               const Icon = pillar.icon;
               const active = activePillar?.id === pillar.id;
+
               return (
                 <Link
                   key={pillar.id}
@@ -196,21 +279,49 @@ export default function AdminShell({
                       : "text-[var(--admin-text-secondary)] hover:bg-[var(--admin-hover-bg)]"
                   }`}
                 >
-                  <Icon aria-hidden="true" className="size-4" />
+                  <Icon
+                    aria-hidden="true"
+                    className="size-4"
+                  />
                   {pillar.label}
                 </Link>
               );
             })}
           </nav>
         </div>
+
         <div className="flex items-center gap-2">
+          <Link
+            href="/admin/notifications"
+            aria-label="Notifications"
+            title="Notifications"
+            className="relative inline-flex size-8 items-center justify-center rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-secondary)] transition-colors hover:bg-[var(--admin-hover-bg)] hover:text-[var(--admin-text-primary)]"
+          >
+            <Bell
+              aria-hidden="true"
+              className="size-4"
+            />
+
+            {unreadNotifications > 0 && (
+              <span className="absolute -right-1 -top-1 flex min-w-4 h-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
+                {unreadNotifications > 99
+                  ? "99+"
+                  : unreadNotifications}
+              </span>
+            )}
+          </Link>
+
           <Link
             href="/admin"
             className="inline-flex shrink-0 items-center gap-1.5 text-xs text-[var(--admin-text-secondary)] hover:text-[var(--admin-text-primary)] sm:text-sm"
           >
-            <LayoutDashboard aria-hidden="true" className="size-4" />
+            <LayoutDashboard
+              aria-hidden="true"
+              className="size-4"
+            />
             Group overview
           </Link>
+
           <button
             type="button"
             aria-label="Logout"
@@ -218,7 +329,10 @@ export default function AdminShell({
             onClick={logout}
             className="inline-flex size-8 items-center justify-center rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-secondary)] transition-colors hover:bg-[var(--admin-hover-bg)] hover:text-[var(--admin-text-primary)]"
           >
-            <LogOut aria-hidden="true" className="size-4" />
+            <LogOut
+              aria-hidden="true"
+              className="size-4"
+            />
           </button>
         </div>
       </header>
@@ -232,9 +346,11 @@ export default function AdminShell({
             >
               {activePillar.sections.map((section) => {
                 const Icon = section.icon;
+
                 const active =
                   pathname === section.href ||
                   pathname.startsWith(`${section.href}/`);
+
                 return (
                   <Link
                     key={section.href}
@@ -246,7 +362,10 @@ export default function AdminShell({
                         : "text-[var(--admin-text-secondary)] hover:bg-[var(--admin-hover-bg)]"
                     }`}
                   >
-                    <Icon aria-hidden="true" className="size-4 shrink-0" />
+                    <Icon
+                      aria-hidden="true"
+                      className="size-4 shrink-0"
+                    />
                     <span>{section.label}</span>
                   </Link>
                 );

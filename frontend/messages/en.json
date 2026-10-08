@@ -974,9 +974,10 @@
   },
 
   "capabilities": {
-    "badge": "Our Capabilities",
-    "title": "Manufacturing Built Around Quality",
-    "description": "Our capabilities bring together scientific research, manufacturing discipline, quality assurance, packaging, and continuous improvement.",
+    "badge": "Our Services",
+    "title": "Our Manufacturing Services",
+    "description": "We provide pharmaceutical manufacturing services focused on quality, consistency, safety, and responsible production.",
+     "learnMore": "Learn more",
     "items": {
       "research": {
         "title": "Research & Development",
@@ -1005,7 +1006,7 @@
     },
     "commitment": {
       "title": "Our Commitment to Healthcare",
-      "description": "Every capability is designed with quality, safety, responsibility, and healthcare impact in mind.",
+      "description": "Every services is designed with quality, safety, responsibility, and healthcare impact in mind.",
       "button": "Contact Us"
     }
   },
